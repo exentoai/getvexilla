@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vexilla AI — Execution Intelligence System</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    background: #050505;
+    color: #ffffff;
+    font-family: 'Courier New', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+  }
+
+  .grid-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: 
+      linear-gradient(rgba(184, 134, 11, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(184, 134, 11, 0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .red-stripe {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: #8B1A1A;
+    z-index: 10;
+  }
+
+  .glow {
+    position: fixed;
+    bottom: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(184, 134, 11, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 40px 24px;
+    max-width: 600px;
+    width: 100%;
+  }
+
+  .operative-label {
+    font-size: 10px;
+    letter-spacing: 6px;
+    color: #3D2E00;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  .logo-v {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 24px;
+  }
+
+  .logo-v img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .logo-placeholder {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    font-weight: 900;
+    color: #B8860B;
+    font-family: 'Courier New', monospace;
+    letter-spacing: -2px;
+  }
+
+  h1 {
+    font-size: clamp(32px, 8vw, 52px);
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: #B8860B;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    line-height: 1;
+  }
+
+  .divider {
+    width: 48px;
+    height: 1px;
+    background: #B8860B;
+    margin: 16px auto;
+  }
+
+  .tagline {
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: #666666;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+    font-style: italic;
+  }
+
+  .coming-soon {
+    display: inline-block;
+    border: 1px solid #3D3500;
+    padding: 8px 24px;
+    font-size: 10px;
+    letter-spacing: 6px;
+    color: #B8860B;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+  }
+
+  .features {
+    margin-bottom: 48px;
+  }
+
+  .feature-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: #888888;
+    letter-spacing: 1px;
+  }
+
+  .feature-line .arrow {
+    color: #B8860B;
+    font-size: 10px;
+  }
+
+  .waitlist-form {
+    display: flex;
+    gap: 0;
+    max-width: 400px;
+    margin: 0 auto 48px;
+  }
+
+  .waitlist-form input {
+    flex: 1;
+    background: #0D0D0D;
+    border: 1px solid #2A2A2A;
+    border-right: none;
+    color: #ffffff;
+    padding: 14px 16px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .waitlist-form input::placeholder {
+    color: #444444;
+    letter-spacing: 1px;
+  }
+
+  .waitlist-form input:focus {
+    border-color: #B8860B;
+  }
+
+  .waitlist-form button {
+    background: #B8860B;
+    border: none;
+    color: #050505;
+    padding: 14px 20px;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+
+  .waitlist-form button:hover {
+    background: #FFD700;
+  }
+
+  .success-msg {
+    display: none;
+    color: #B8860B;
+    font-size: 11px;
+    letter-spacing: 3px;
+    margin-bottom: 48px;
+    text-transform: uppercase;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
+
+  .social-links a {
+    color: #444444;
+    text-decoration: none;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .social-links a:hover {
+    color: #B8860B;
+  }
+
+  .footer {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #222222;
+    text-transform: uppercase;
+  }
+
+  .red-line {
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #8B1A1A, transparent);
+    margin: 0 auto 40px;
+  }
+
+  @media (max-width: 480px) {
+    .waitlist-form {
+      flex-direction: column;
+    }
+    .waitlist-form input {
+      border-right: 1px solid #2A2A2A;
+      border-bottom: none;
+    }
+    .waitlist-form input:focus {
+      border-color: #B8860B;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="red-stripe"></div>
+<div class="glow"></div>
+
+<div class="container">
+
+  <div class="operative-label">Operative System</div>
+
+  <div class="logo-placeholder">V</div>
+
+  <h1>Vexilla AI</h1>
+
+  <div class="divider"></div>
+
+  <p class="tagline">To be a star, you must burn</p>
+
+  <div class="coming-soon">— Coming Soon —</div>
+
+  <div class="features">
+    <div class="feature-line">
+      <span class="arrow">▸</span>
+      <span>AI diagnoses your execution profile</span>
+    </div>
+    <div class="feature-line">
+      <span class="arrow">▸</span>
+      <span>Proof required. No partial credit.</span>
+    </div>
+    <div class="feature-line">
+      <span class="arrow">▸</span>
+      <span>Miss a day. Streak resets. Start over.</span>
+    </div>
+  </div>
+
+  <div class="waitlist-form" id="form-container">
+    <input type="email" id="email-input" placeholder="Enter your email" />
+    <button onclick="joinWaitlist()">Notify Me</button>
+  </div>
+
+  <div class="success-msg" id="success-msg">
+    ✓ &nbsp; You're on the list. Execute accordingly.
+  </div>
+
+  <div class="red-line"></div>
+
+  <div class="social-links">
+    <a href="https://instagram.com/vexilla.ai" target="_blank">Instagram</a>
+    <a href="https://twitter.com/VexillaAI" target="_blank">Twitter / X</a>
+  </div>
+
+  <div class="footer">getvexilla.com &nbsp;·&nbsp; © 2026 Vexilla AI</div>
+
+</div>
+
+<script>
+function joinWaitlist() {
+  const email = document.getElementById('email-input').value;
+  if (!email || !email.includes('@')) {
+    document.getElementById('email-input').style.borderColor = '#8B1A1A';
+    return;
+  }
+  document.getElementById('form-container').style.display = 'none';
+  document.getElementById('success-msg').style.display = 'block';
+}
+
+document.getElementById('email-input').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') joinWaitlist();
+});
+</script>
+
+</body>
+</html>
