@@ -1,332 +1,1045 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vexilla AI — Execution Intelligence System</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  
-  body {
-    background: #050505;
-    color: #ffffff;
-    font-family: 'Courier New', monospace;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    overflow-x: hidden;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vexilla AI — Execution Intelligence</title>
+  <meta name="description" content="AI diagnoses your execution profile. Builds your personalised roadmap. Verifies your proof. Every day. To be a star, you must burn." />
+  <meta property="og:title" content="Vexilla AI — Execution Intelligence" />
+  <meta property="og:description" content="AI diagnoses your execution profile. Proof required. No partial credit. Miss a day. Streak resets. Start over." />
+  <meta property="og:url" content="https://getvexilla.com" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-  .grid-bg {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-image: 
-      linear-gradient(rgba(184, 134, 11, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(184, 134, 11, 0.04) 1px, transparent 1px);
-    background-size: 60px 60px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .red-stripe {
-    position: fixed;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    background: #8B1A1A;
-    z-index: 10;
-  }
-
-  .glow {
-    position: fixed;
-    bottom: -200px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(184, 134, 11, 0.08) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .container {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    padding: 40px 24px;
-    max-width: 600px;
-    width: 100%;
-  }
-
-  .operative-label {
-    font-size: 10px;
-    letter-spacing: 6px;
-    color: #8B6914;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-  }
-
-  .logo-v {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 24px;
-  }
-
-  .logo-v img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-
-  .logo-placeholder {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 48px;
-    font-weight: 900;
-    color: #B8860B;
-    font-family: 'Courier New', monospace;
-    letter-spacing: -2px;
-  }
-
-  h1 {
-    font-size: clamp(32px, 8vw, 52px);
-    font-weight: 900;
-    letter-spacing: 6px;
-    color: #B8860B;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    line-height: 1;
-  }
-
-  .divider {
-    width: 48px;
-    height: 1px;
-    background: #B8860B;
-    margin: 16px auto;
-  }
-
-  .tagline {
-    font-size: 11px;
-    letter-spacing: 4px;
-    color: #999999;
-    text-transform: uppercase;
-    margin-bottom: 48px;
-    font-style: italic;
-  }
-
-  .coming-soon {
-    display: inline-block;
-    border: 1px solid #3D3500;
-    padding: 8px 24px;
-    font-size: 10px;
-    letter-spacing: 6px;
-    color: #B8860B;
-    text-transform: uppercase;
-    margin-bottom: 48px;
-  }
-
-  .features {
-    margin-bottom: 48px;
-  }
-
-  .feature-line {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 12px;
-    font-size: 13px;
-    color: #AAAAAA;
-    letter-spacing: 1px;
-  }
-
-  .feature-line .arrow {
-    color: #B8860B;
-    font-size: 10px;
-  }
-
-  .waitlist-form {
-    display: flex;
-    gap: 0;
-    max-width: 400px;
-    margin: 0 auto 48px;
-  }
-
-  .waitlist-form input {
-    flex: 1;
-    background: #0D0D0D;
-    border: 1px solid #2A2A2A;
-    border-right: none;
-    color: #ffffff;
-    padding: 14px 16px;
-    font-family: 'Courier New', monospace;
-    font-size: 12px;
-    letter-spacing: 1px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .waitlist-form input::placeholder {
-    color: #444444;
-    letter-spacing: 1px;
-  }
-
-  .waitlist-form input:focus {
-    border-color: #B8860B;
-  }
-
-  .waitlist-form button {
-    background: #B8860B;
-    border: none;
-    color: #050505;
-    padding: 14px 20px;
-    font-family: 'Courier New', monospace;
-    font-size: 11px;
-    font-weight: 900;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background 0.2s;
-    white-space: nowrap;
-  }
-
-  .waitlist-form button:hover {
-    background: #FFD700;
-  }
-
-  .success-msg {
-    display: none;
-    color: #B8860B;
-    font-size: 11px;
-    letter-spacing: 3px;
-    margin-bottom: 48px;
-    text-transform: uppercase;
-  }
-
-  .social-links {
-    display: flex;
-    gap: 24px;
-    justify-content: center;
-    margin-bottom: 40px;
-  }
-
-  .social-links a {
-    color: #777777;
-    text-decoration: none;
-    font-size: 10px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-
-  .social-links a:hover {
-    color: #B8860B;
-  }
-
-  .footer {
-    font-size: 9px;
-    letter-spacing: 2px;
-   color: #555555;
-    text-transform: uppercase;
-  }
-
-  .red-line {
-    width: 200px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #8B1A1A, transparent);
-    margin: 0 auto 40px;
-  }
-
-  @media (max-width: 480px) {
-    .waitlist-form {
-      flex-direction: column;
+    :root {
+      --gold: #D4AF37;
+      --gold-dim: rgba(212,175,55,0.15);
+      --gold-faint: rgba(212,175,55,0.05);
+      --red: #c0392b;
+      --red-dark: #7b1d1d;
+      --white: #f0f0f0;
+      --white-40: rgba(255,255,255,0.40);
+      --white-30: rgba(255,255,255,0.30);
+      --white-20: rgba(255,255,255,0.20);
+      --white-10: rgba(255,255,255,0.08);
+      --white-05: rgba(255,255,255,0.04);
+      --bg: #0a0a0a;
+      --bg2: #0d0d0d;
+      --bg3: #111111;
+      --bg4: #1a1a1a;
+      --border: rgba(255,255,255,0.06);
     }
-    .waitlist-form input {
-      border-right: 1px solid #2A2A2A;
-      border-bottom: none;
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Space Mono', monospace;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
-    .waitlist-form input:focus {
-      border-color: #B8860B;
+
+    /* ── GRID BG ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 44px 44px;
+      pointer-events: none;
+      z-index: 0;
     }
-  }
-</style>
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 48px;
+      background: rgba(10,10,10,0.88);
+      border-bottom: 1px solid var(--gold-dim);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .nav-logo {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: var(--white-40);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: #000;
+      background: var(--gold);
+      padding: 10px 20px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 100px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    section:first-of-type { padding-top: 180px; }
+
+    /* ── GHOST NUMBER ── */
+    .ghost-num {
+      position: absolute;
+      top: 40px;
+      left: -16px;
+      font-size: 200px;
+      font-weight: 700;
+      color: var(--white-05);
+      line-height: 1;
+      letter-spacing: -0.05em;
+      user-select: none;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── SECTION TAG ── */
+    .section-tag {
+      font-size: 9px;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+    .section-tag::before { content: '—'; }
+
+    /* ── HEADLINE ── */
+    h1, h2 {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #fff;
+      position: relative;
+      z-index: 1;
+    }
+    h1 { font-size: clamp(40px, 6vw, 72px); }
+    h2 { font-size: clamp(28px, 4vw, 52px); }
+    .gold { color: var(--gold); }
+
+    .divider {
+      width: 56px;
+      height: 1px;
+      background: var(--gold);
+      margin: 28px 0;
+      position: relative;
+      z-index: 1;
+    }
+    .divider-center { margin: 28px auto; }
+
+    /* ── HERO ── */
+    .hero-sub {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--white-40);
+      line-height: 2.2;
+      margin-top: 8px;
+      max-width: 480px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-sub p::before { content: '► '; color: var(--gold); }
+
+    .cta-row {
+      display: flex;
+      gap: 16px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: #000;
+      border: none;
+      padding: 15px 36px;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--white-40);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 15px 36px;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+    .stat-row {
+      display: flex;
+      gap: 48px;
+      margin-top: 52px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+    .stat-num {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: -0.02em;
+    }
+    .stat-label {
+      font-size: 8px;
+      letter-spacing: 0.3em;
+      color: var(--white-30);
+      margin-top: 6px;
+    }
+
+    /* ── TWO COL ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── RULES LIST ── */
+    .rules-list { margin-top: 32px; }
+    .rule-item {
+      display: flex;
+      gap: 16px;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+    .rule-arrow {
+      color: var(--gold);
+      font-size: 10px;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+    .rule-strong {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: #fff;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .rule-body {
+      font-size: 10px;
+      color: var(--white-40);
+      letter-spacing: 0.08em;
+      line-height: 1.9;
+    }
+
+    /* ── DNA CARD ── */
+    .dna-card {
+      background: var(--bg3);
+      border: 1px solid rgba(212,175,55,0.2);
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      max-width: 340px;
+      margin: 0 auto;
+    }
+    .dna-watermark {
+      position: absolute;
+      font-size: 100px;
+      font-weight: 700;
+      color: rgba(212,175,55,0.035);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      user-select: none;
+      pointer-events: none;
+    }
+    .dna-corner-tl {
+      position: absolute;
+      top: 10px; left: 10px;
+      width: 18px; height: 18px;
+      border-top: 1px solid var(--gold);
+      border-left: 1px solid var(--gold);
+    }
+    .dna-corner-br {
+      position: absolute;
+      bottom: 10px; right: 10px;
+      width: 18px; height: 18px;
+      border-bottom: 1px solid var(--gold);
+      border-right: 1px solid var(--gold);
+    }
+    .dna-top-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 8px;
+      letter-spacing: 0.25em;
+      color: var(--white-30);
+      margin-bottom: 20px;
+    }
+    .eyes-stamp {
+      position: absolute;
+      top: 18px; right: -6px;
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      color: rgba(192,57,43,0.65);
+      border: 1px solid rgba(192,57,43,0.3);
+      padding: 3px 8px;
+      transform: rotate(12deg);
+      background: rgba(10,10,10,0.7);
+    }
+    .operative-label {
+      font-size: 8px;
+      letter-spacing: 0.35em;
+      color: var(--white-30);
+      margin-bottom: 6px;
+    }
+    .titan-id {
+      font-size: 38px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.02em;
+      border-bottom: 2px solid var(--red);
+      padding-bottom: 8px;
+      margin-bottom: 6px;
+    }
+    .archetype {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: #fff;
+      margin-bottom: 8px;
+      margin-top: 14px;
+    }
+    .phase-badge {
+      display: inline-block;
+      border: 1px solid var(--red);
+      color: var(--red);
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      padding: 4px 10px;
+      margin-bottom: 14px;
+    }
+    .archetype-quote {
+      font-size: 10px;
+      font-style: italic;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.05em;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .dna-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .dna-stat {
+      background: var(--bg4);
+      padding: 12px;
+    }
+    .dna-stat-label {
+      font-size: 7px;
+      letter-spacing: 0.25em;
+      color: var(--white-30);
+      margin-bottom: 6px;
+    }
+    .dna-stat-val {
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .c-green { color: #27ae60; }
+    .c-red   { color: var(--red); }
+    .war-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    .chip {
+      border: 1px solid rgba(192,57,43,0.35);
+      color: var(--white-40);
+      font-size: 7px;
+      letter-spacing: 0.2em;
+      padding: 4px 10px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .chip-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--red);
+      flex-shrink: 0;
+    }
+    .classified-bar {
+      background: var(--red-dark);
+      text-align: center;
+      padding: 8px;
+      font-size: 8px;
+      letter-spacing: 0.35em;
+      color: rgba(255,255,255,0.55);
+      margin-top: 16px;
+    }
+    .dna-date-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      color: var(--white-20);
+      margin-top: 12px;
+    }
+
+    /* ── PHASE STRIP ── */
+    .phase-strip {
+      background: var(--gold-faint);
+      border: 1px solid var(--gold-dim);
+      padding: 20px 32px;
+      margin-top: 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+    }
+    .phase-strip-text {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--white-40);
+    }
+    .phase-strip-text span { color: var(--gold); }
+    .phase-strip-badge {
+      font-size: 8px;
+      letter-spacing: 0.25em;
+      color: rgba(212,175,55,0.5);
+    }
+
+    /* ── FEATURE GRID ── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.05);
+      margin-top: 52px;
+      position: relative;
+      z-index: 1;
+    }
+    .feature-card {
+      background: var(--bg2);
+      padding: 36px 28px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.2s;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--gold);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .feature-card:hover { background: #111; }
+    .feature-card:hover::before { opacity: 1; }
+    .feat-num {
+      font-size: 8px;
+      letter-spacing: 0.3em;
+      color: rgba(212,175,55,0.35);
+      margin-bottom: 18px;
+    }
+    .feat-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+    .feat-desc {
+      font-size: 10px;
+      color: var(--white-40);
+      letter-spacing: 0.06em;
+      line-height: 1.9;
+    }
+
+    /* ── TRAJECTORY SECTION ── */
+    .traj-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.05);
+      margin-top: 52px;
+      position: relative;
+      z-index: 1;
+    }
+    .traj-card {
+      background: var(--bg2);
+      padding: 32px 24px;
+    }
+    .traj-label {
+      font-size: 8px;
+      letter-spacing: 0.3em;
+      color: var(--white-30);
+      margin-bottom: 12px;
+    }
+    .traj-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .traj-desc {
+      font-size: 10px;
+      color: var(--white-40);
+      letter-spacing: 0.06em;
+      line-height: 1.9;
+    }
+    .traj-card.highlighted {
+      background: rgba(212,175,55,0.06);
+      border: 1px solid var(--gold-dim);
+    }
+    .traj-card.highlighted .traj-title { color: var(--gold); }
+
+    /* ── CTA EMAIL ── */
+    .email-wrap {
+      display: flex;
+      max-width: 500px;
+      margin: 40px auto 0;
+    }
+    .email-input {
+      flex: 1;
+      background: var(--bg3);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-right: none;
+      color: #fff;
+      padding: 15px 20px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .email-input:focus { border-color: var(--gold-dim); }
+    .email-input::placeholder { color: var(--white-20); }
+    .email-btn {
+      background: var(--gold);
+      color: #000;
+      border: none;
+      padding: 15px 28px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity 0.2s;
+    }
+    .email-btn:hover { opacity: 0.85; }
+    .email-note {
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      color: var(--white-20);
+      text-align: center;
+      margin-top: 16px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 36px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-left {
+      font-size: 8px;
+      letter-spacing: 0.25em;
+      color: var(--white-20);
+    }
+    .footer-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .footer-links a {
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      color: var(--white-20);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ── TICKER ── */
+    .ticker-wrap {
+      overflow: hidden;
+      background: var(--gold);
+      padding: 10px 0;
+      position: relative;
+      z-index: 1;
+    }
+    .ticker-track {
+      display: flex;
+      gap: 0;
+      animation: ticker 20s linear infinite;
+      white-space: nowrap;
+    }
+    .ticker-item {
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: #000;
+      font-weight: 700;
+      padding: 0 32px;
+    }
+    .ticker-dot {
+      color: rgba(0,0,0,0.4);
+      padding: 0 8px;
+    }
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .container { padding: 0 24px; }
+      footer { padding: 28px 24px; }
+      .two-col { grid-template-columns: 1fr; gap: 48px; }
+      .feature-grid { grid-template-columns: 1fr 1fr; }
+      .traj-grid { grid-template-columns: 1fr; }
+      .ghost-num { font-size: 120px; }
+      section:first-of-type { padding-top: 140px; }
+    }
+    @media (max-width: 580px) {
+      .feature-grid { grid-template-columns: 1fr; }
+      .stat-row { gap: 28px; }
+      h1 { font-size: 34px; }
+      h2 { font-size: 26px; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="grid-bg"></div>
-<div class="red-stripe"></div>
-<div class="glow"></div>
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">VEXILLA AI</a>
+    <ul class="nav-links">
+      <li><a href="#system">SYSTEM</a></li>
+      <li><a href="#diagnosis">DIAGNOSIS</a></li>
+      <li><a href="#phase0">PHASE 0</a></li>
+      <li><a href="#trajectory">TRAJECTORY</a></li>
+    </ul>
+    <a class="nav-cta" href="#waitlist">GET EARLY ACCESS</a>
+  </nav>
 
-<div class="container">
-
-  <div class="operative-label">Operative System</div>
-
- <img src="logo.png" alt="Vexilla AI" style="width: 100px; height: 100px; object-fit: contain; margin: 0 auto 24px; display: block;">
-
-  <h1>Vexilla AI</h1>
-
-  <div class="divider"></div>
-
-  <p class="tagline">To be a star, you must burn</p>
-
-  <div class="coming-soon">— Coming Soon —</div>
-
-  <div class="features">
-    <div class="feature-line">
-      <span class="arrow">▸</span>
-      <span>AI diagnoses your execution profile</span>
-    </div>
-    <div class="feature-line">
-      <span class="arrow">▸</span>
-      <span>Proof required. No partial credit.</span>
-    </div>
-    <div class="feature-line">
-      <span class="arrow">▸</span>
-      <span>Miss a day. Streak resets. Start over.</span>
+  <!-- TICKER -->
+  <div class="ticker-wrap" style="margin-top: 61px; position: relative; z-index: 1;">
+    <div class="ticker-track">
+      <span class="ticker-item">EXECUTION INTELLIGENCE</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">PROOF REQUIRED</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">NO PARTIAL CREDIT</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">STREAK RESETS</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">START OVER</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">TO BE A STAR YOU MUST BURN</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">EXECUTION INTELLIGENCE</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">PROOF REQUIRED</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">NO PARTIAL CREDIT</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">STREAK RESETS</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">START OVER</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">TO BE A STAR YOU MUST BURN</span><span class="ticker-dot">·</span>
     </div>
   </div>
 
-  <div class="waitlist-form" id="form-container">
-    <input type="email" id="email-input" placeholder="Enter your email" />
-    <button onclick="joinWaitlist()">Notify Me</button>
-  </div>
+  <!-- HERO -->
+  <section id="hero">
+    <div class="container" style="position:relative;">
+      <div class="ghost-num">01</div>
+      <div class="section-tag">OPERATIVE SYSTEM</div>
+      <h1>
+        You have ambition.<br>
+        You lack <span class="gold">execution.</span>
+      </h1>
+      <div class="divider"></div>
+      <div class="hero-sub">
+        <p>AI diagnoses your execution profile</p>
+        <p>Proof required. No partial credit.</p>
+        <p>Miss a day. Streak resets. Start over.</p>
+      </div>
+      <div class="cta-row">
+        <a class="btn-primary" href="#waitlist">JOIN THE WAITLIST</a>
+        <a class="btn-ghost" href="#system">SEE HOW IT WORKS</a>
+      </div>
+      <div class="stat-row">
+        <div>
+          <div class="stat-num">7</div>
+          <div class="stat-label">DAYS. NO SHORTCUTS.</div>
+        </div>
+        <div>
+          <div class="stat-num">0</div>
+          <div class="stat-label">PARTIAL CREDIT GIVEN</div>
+        </div>
+        <div>
+          <div class="stat-num">4</div>
+          <div class="stat-label">AI DIAGNOSIS LAYERS</div>
+        </div>
+        <div>
+          <div class="stat-num">∞</div>
+          <div class="stat-label">EXCUSES REJECTED</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <div class="success-msg" id="success-msg">
-    ✓ &nbsp; You're on the list. Execute accordingly.
-  </div>
+  <!-- DIAGNOSIS -->
+  <section id="diagnosis">
+    <div class="container">
+      <div style="position:relative;">
+        <div class="ghost-num">02</div>
+        <div class="section-tag">THE DIAGNOSIS</div>
+        <h2>
+          A system that tells<br>
+          you exactly what<br>
+          <span class="gold">to do.</span>
+        </h2>
+        <div class="divider"></div>
+        <div class="two-col">
+          <div>
+            <div class="rules-list">
+              <div class="rule-item">
+                <div class="rule-arrow">►</div>
+                <div>
+                  <span class="rule-strong">AI EXECUTION PROFILE</span>
+                  <span class="rule-body">4-layer AI analysis covers your consistency score, path clarity, confidence level, and system pressure. Every answer you give is used to build your classified operative dossier.</span>
+                </div>
+              </div>
+              <div class="rule-item">
+                <div class="rule-arrow">►</div>
+                <div>
+                  <span class="rule-strong">YOUR TITAN ID</span>
+                  <span class="rule-body">A unique operative ID generated from your execution DNA. Your archetype, war badges, AI vulnerability index, and trajectory gap — all classified and shareable.</span>
+                </div>
+              </div>
+              <div class="rule-item">
+                <div class="rule-arrow">►</div>
+                <div>
+                  <span class="rule-strong">PERSONALISED ROADMAP</span>
+                  <span class="rule-body">Phase 0 is a 7-day system built around your specific failure patterns — not generic advice. Your system fix. Your exact tasks. Your daily proof requirement.</span>
+                </div>
+              </div>
+              <div class="rule-item">
+                <div class="rule-arrow">►</div>
+                <div>
+                  <span class="rule-strong">TRAJECTORY ANALYSIS</span>
+                  <span class="rule-body">See the gap between your current path and your Vexilla path. Real projections. Real consequences. No sugarcoating.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex; justify-content:center;">
+            <!-- DNA CARD PREVIEW -->
+            <div class="dna-card">
+              <div class="dna-watermark">V</div>
+              <div class="dna-corner-tl"></div>
+              <div class="dna-corner-br"></div>
+              <div class="eyes-stamp">EYES ONLY</div>
+              <div class="dna-top-row">
+                <span>VEXILLA AI</span>
+                <span>FILE REF: VX-2026-0416</span>
+              </div>
+              <div class="operative-label">OPERATIVE</div>
+              <div class="titan-id">TITAN-1479</div>
+              <div class="operative-label" style="margin-top:12px;">CLASSIFICATION</div>
+              <div class="archetype">THE DETERMINED INNOVATOR</div>
+              <div class="phase-badge">PHASE 0 OPERATIVE</div>
+              <div class="archetype-quote">The ambition shines, but the<br>temptations lurk in shadows.</div>
+              <div class="dna-stats">
+                <div class="dna-stat">
+                  <div class="dna-stat-label">CONSISTENCY</div>
+                  <div class="dna-stat-val c-green">90</div>
+                </div>
+                <div class="dna-stat">
+                  <div class="dna-stat-label">PATH CLARITY</div>
+                  <div class="dna-stat-val c-green">15</div>
+                </div>
+                <div class="dna-stat">
+                  <div class="dna-stat-label">CONFIDENCE</div>
+                  <div class="dna-stat-val c-green">85%</div>
+                </div>
+                <div class="dna-stat">
+                  <div class="dna-stat-label">PRESSURE</div>
+                  <div class="dna-stat-val c-red">70</div>
+                </div>
+              </div>
+              <div class="war-chips">
+                <div class="chip"><div class="chip-dot"></div>DOMINANT</div>
+                <div class="chip"><div class="chip-dot"></div>SIGNAL CLEAR</div>
+                <div class="chip"><div class="chip-dot"></div>PRESSURE TESTED</div>
+                <div class="chip"><div class="chip-dot"></div>SELF AWARE</div>
+              </div>
+              <div class="classified-bar">CONFIDENTIAL · EXECUTION INTELLIGENCE</div>
+              <div class="dna-date-row">
+                <span>DIAGNOSED 16 APR 2026</span>
+                <span>VEXILLA.AI</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <div class="red-line"></div>
+  <!-- PHASE 0 -->
+  <section id="phase0">
+    <div class="container">
+      <div style="position:relative;">
+        <div class="ghost-num">03</div>
+        <div class="section-tag">PHASE ZERO</div>
+        <h2>
+          7 days.<br>
+          No excuses. No<br>
+          <span class="gold">shortcuts.</span>
+        </h2>
+        <div class="divider"></div>
+        <p style="font-size:11px; color:var(--white-40); letter-spacing:0.12em; line-height:2.2; max-width:480px; position:relative; z-index:1;">
+          Miss a day. Streak resets. Start over.<br>
+          This is where operators are made.
+        </p>
+        <div class="phase-strip">
+          <div class="phase-strip-text">
+            PHASE 0 <span>→</span> PHASE 1 <span>→</span> PHASE 2 <span>→</span> OPERATIVE STATUS
+          </div>
+          <div class="phase-strip-badge">EARN YOUR RANK</div>
+        </div>
+        <div class="rules-list" style="margin-top: 0;">
+          <div class="rule-item">
+            <div class="rule-arrow">►</div>
+            <div>
+              <span class="rule-strong">DAY 1–7: DAILY TASKS ASSIGNED</span>
+              <span class="rule-body">Each day you receive specific tasks tied to your execution diagnosis. Not general habits — targeted operations designed to patch your exact failure pattern.</span>
+            </div>
+          </div>
+          <div class="rule-item">
+            <div class="rule-arrow">►</div>
+            <div>
+              <span class="rule-strong">SUBMIT PROOF. OR RESET.</span>
+              <span class="rule-body">Every task requires proof of completion. No proof = day not counted. Miss a day = streak resets to zero. This is the entire point. The system has no sympathy.</span>
+            </div>
+          </div>
+          <div class="rule-item">
+            <div class="rule-arrow">►</div>
+            <div>
+              <span class="rule-strong">COMPLETE PHASE 0. UNLOCK PHASE 1.</span>
+              <span class="rule-body">7 consecutive days of proof unlocks Phase 1. Each phase unlocks deeper capability, harder tasks, and greater autonomy. You earn your rank. It is not given.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <div class="social-links">
-    <a href="https://instagram.com/vexilla.ai" target="_blank">Instagram</a>
-    <a href="https://x.com/Vexilla_AI" target="_blank">Twitter / X</a>
-  </div>
+  <!-- SYSTEM -->
+  <section id="system">
+    <div class="container">
+      <div style="position:relative;">
+        <div class="ghost-num">04</div>
+        <div class="section-tag">THE SYSTEM</div>
+        <h2>Built different.<br><span class="gold">By design.</span></h2>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feat-num">01 / DIAGNOSIS</div>
+          <div class="feat-title">AI EXECUTION PROFILE</div>
+          <div class="feat-desc">4-layer AI analysis of your consistency score, path clarity, confidence level, and system pressure. Your execution DNA classified in minutes — not months of journaling.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-num">02 / IDENTITY</div>
+          <div class="feat-title">YOUR TITAN ID</div>
+          <div class="feat-desc">A classified operative dossier. Your archetype, war badges, AI vulnerability index, and trajectory gap — all in a shareable card built for those who are serious about their goals.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-num">03 / ROADMAP</div>
+          <div class="feat-title">7-DAY PHASE 0 SYSTEM</div>
+          <div class="feat-desc">Not a to-do list. A military-grade daily system tailored to your exact failure patterns. Built to rebuild your execution habits from zero — one proof at a time.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-num">04 / ACCOUNTABILITY</div>
+          <div class="feat-title">PROOF OR RESET</div>
+          <div class="feat-desc">Submit your daily proof. No proof = streak breaks. Streak breaks = start over. The system has no mercy because your goals deserve no excuses and no participation trophies.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-num">05 / ANALYTICS</div>
+          <div class="feat-title">TRAJECTORY ANALYSIS</div>
+          <div class="feat-desc">See the gap between your current path and your Vexilla path. AI vulnerability index, system pressure breakdown, and projection data shown in real time. The gap is the mission.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-num">06 / PROGRESSION</div>
+          <div class="feat-title">RANK SYSTEM</div>
+          <div class="feat-desc">Phase 0 → Phase 1 → Phase 2 → Operative. Each phase unlocks only when your proof is undeniable. No shortcuts. No participation trophies. No one is coming to save you.</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <div class="footer">getvexilla.com &nbsp;·&nbsp; © 2026 Vexilla AI</div>
+  <!-- TRAJECTORY -->
+  <section id="trajectory">
+    <div class="container">
+      <div style="position:relative;">
+        <div class="ghost-num">05</div>
+        <div class="section-tag">TRAJECTORY ANALYSIS</div>
+        <h2>
+          The gap between<br>where you are and<br>
+          <span class="gold">where you could be.</span>
+        </h2>
+        <div class="divider"></div>
+        <p style="font-size:11px; color:var(--white-40); letter-spacing:0.1em; line-height:2.2; max-width:520px; position:relative; z-index:1;">
+          Vexilla AI maps your current execution trajectory against your potential. The gap is not motivational — it is a classified intelligence briefing on what you are leaving on the table.
+        </p>
+      </div>
+      <div class="traj-grid">
+        <div class="traj-card">
+          <div class="traj-label">PATH A</div>
+          <div class="traj-title">CURRENT PATH</div>
+          <div class="traj-desc">Where your habits, consistency, and pressure patterns lead if nothing changes. No judgment. Just data. Most people never see this clearly.</div>
+        </div>
+        <div class="traj-card highlighted">
+          <div class="traj-label">THE GAP</div>
+          <div class="traj-title">VEXILLA PATH</div>
+          <div class="traj-desc">Where the same ambition, redirected through a proven execution system, takes you. The gap is the number you need to see. This is why you're here.</div>
+        </div>
+        <div class="traj-card">
+          <div class="traj-label">THE MISSION</div>
+          <div class="traj-title">CLOSE THE GAP</div>
+          <div class="traj-desc">Phase 0 exists to close the gap — 7 days at a time. Every proof submitted. Every streak maintained. Every day you don't reset is a day you close the distance.</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-</div>
+  <!-- WAITLIST CTA -->
+  <section id="waitlist" style="border-bottom: none;">
+    <div class="container" style="text-align:center;">
+      <div style="position:relative;">
+        <div class="ghost-num" style="left:50%; transform:translateX(-50%);">06</div>
+        <div class="section-tag" style="justify-content:center;">EARLY ACCESS</div>
+        <h2>
+          To be a star,<br>
+          you must <span class="gold">burn.</span>
+        </h2>
+        <div class="divider divider-center"></div>
+        <p style="font-size:10px; color:var(--white-40); letter-spacing:0.15em; line-height:2; position:relative; z-index:1;">
+          LIMITED SLOTS. FIRST OPERATIVES ONLY.<br>
+          THE APP IS IN FINAL BUILD. JOIN THE LIST.
+        </p>
+        <div class="email-wrap" id="emailForm">
+          <input class="email-input" type="email" id="emailInput" placeholder="ENTER YOUR EMAIL" autocomplete="email" />
+          <button class="email-btn" onclick="handleSubmit()">NOTIFY ME</button>
+        </div>
+        <p class="email-note" id="emailNote">NO SPAM. NO EXCUSES. JUST THE SYSTEM.</p>
+      </div>
+    </div>
+  </section>
 
-<script>
-function joinWaitlist() {
-  const email = document.getElementById('email-input').value;
-  if (!email || !email.includes('@')) {
-    document.getElementById('email-input').style.borderColor = '#8B1A1A';
-    return;
-  }
-  document.getElementById('form-container').style.display = 'none';
-  document.getElementById('success-msg').style.display = 'block';
-}
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">GETVEXILLA.COM &nbsp;·&nbsp; © 2026 VEXILLA AI</div>
+    <ul class="footer-links">
+      <li><a href="https://instagram.com" target="_blank" rel="noopener">INSTAGRAM</a></li>
+      <li><a href="https://x.com" target="_blank" rel="noopener">TWITTER / X</a></li>
+    </ul>
+  </footer>
 
-document.getElementById('email-input').addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') joinWaitlist();
-});
-</script>
+  <script>
+    function handleSubmit() {
+      const input = document.getElementById('emailInput');
+      const note  = document.getElementById('emailNote');
+      const email = input.value.trim();
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if (!valid) {
+        note.textContent = 'ENTER A VALID EMAIL TO JOIN THE LIST.';
+        note.style.color = '#c0392b';
+        return;
+      }
+      note.textContent = 'YOU\'RE ON THE LIST. STANDBY FOR DEPLOYMENT.';
+      note.style.color = '#D4AF37';
+      input.value = '';
+      input.disabled = true;
+      document.querySelector('.email-btn').disabled = true;
+      document.querySelector('.email-btn').style.opacity = '0.5';
+    }
+    document.getElementById('emailInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') handleSubmit();
+    });
 
+    // Smooth active nav highlight
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 120) current = s.id;
+      });
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + current
+          ? '#D4AF37' : '';
+      });
+    });
+  </script>
 </body>
 </html>
