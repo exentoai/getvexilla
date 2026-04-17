@@ -14,6 +14,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Formspree Ajax SDK -->
+  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -74,11 +78,22 @@
       -webkit-backdrop-filter: blur(10px);
     }
     .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    /* V logo image — swap src to your actual file path e.g. "assets/v-logo.png" */
+    .nav-logo img {
+      height: 28px;
+      width: auto;
+      display: block;
+    }
+    .nav-logo-text {
       font-size: 13px;
       font-weight: 700;
       letter-spacing: 0.35em;
       color: var(--gold);
-      text-decoration: none;
     }
     .nav-links {
       display: flex;
@@ -551,7 +566,7 @@
     }
     .traj-card.highlighted .traj-title { color: var(--gold); }
 
-    /* ── CTA EMAIL ── */
+    /* ── WAITLIST FORM ── */
     .email-wrap {
       display: flex;
       max-width: 500px;
@@ -572,6 +587,7 @@
     }
     .email-input:focus { border-color: var(--gold-dim); }
     .email-input::placeholder { color: var(--white-20); }
+    .email-input:disabled { opacity: 0.5; cursor: not-allowed; }
     .email-btn {
       background: var(--gold);
       color: #000;
@@ -585,13 +601,34 @@
       white-space: nowrap;
       transition: opacity 0.2s;
     }
-    .email-btn:hover { opacity: 0.85; }
+    .email-btn:hover:not(:disabled) { opacity: 0.85; }
+    .email-btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .email-note {
       font-size: 8px;
       letter-spacing: 0.2em;
       color: var(--white-20);
       text-align: center;
       margin-top: 16px;
+      min-height: 18px;
+      transition: color 0.2s;
+    }
+    /* Formspree success/error messages */
+    [data-fs-success] { display: none; }
+    [data-fs-success].fs-show {
+      display: block;
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-align: center;
+      margin-top: 16px;
+    }
+    [data-fs-error]:not(:empty) {
+      font-size: 8px;
+      letter-spacing: 0.15em;
+      color: var(--red);
+      margin-top: 8px;
+      text-align: center;
+      display: block;
     }
 
     /* ── FOOTER ── */
@@ -679,7 +716,18 @@
 
   <!-- NAV -->
   <nav>
-    <a class="nav-logo" href="#">VEXILLA AI</a>
+    <a class="nav-logo" href="#">
+      <!--
+        V LOGO: Replace the src below with your actual logo file path.
+        Examples:
+          - Same folder as index.html:  src="v-logo.png"
+          - In an assets folder:        src="assets/v-logo.png"
+        If you don't have the file ready yet, remove the <img> tag and
+        the nav-logo-text will show "VEXILLA AI" on its own.
+      -->
+      <img src="v-logo.png" alt="Vexilla AI Logo" onerror="this.style.display='none'" />
+      <span class="nav-logo-text">VEXILLA AI</span>
+    </a>
     <ul class="nav-links">
       <li><a href="#system">SYSTEM</a></li>
       <li><a href="#diagnosis">DIAGNOSIS</a></li>
@@ -987,11 +1035,36 @@
           LIMITED SLOTS. FIRST OPERATIVES ONLY.<br>
           THE APP IS IN FINAL BUILD. JOIN THE LIST.
         </p>
-        <div class="email-wrap" id="emailForm">
-          <input class="email-input" type="email" id="emailInput" placeholder="ENTER YOUR EMAIL" autocomplete="email" />
-          <button class="email-btn" onclick="handleSubmit()">NOTIFY ME</button>
+
+        <!--
+          FORMSPREE FORM
+          - Submits to your Formspree endpoint via Ajax (no page reload)
+          - data-fs-success: shown on success
+          - data-fs-error:   shows field/form-level errors
+          - data-fs-submit-btn: auto-disabled during submission
+        -->
+        <form id="waitlist-form" style="position:relative; z-index:1;">
+          <div data-fs-error style="font-size:8px; letter-spacing:0.15em; color:var(--red); margin-top:8px; min-height:14px;"></div>
+          <div class="email-wrap">
+            <input
+              class="email-input"
+              type="email"
+              name="email"
+              id="emailInput"
+              placeholder="ENTER YOUR EMAIL"
+              autocomplete="email"
+              required
+              data-fs-field
+            />
+            <button class="email-btn" type="submit" data-fs-submit-btn>NOTIFY ME</button>
+          </div>
+          <p class="email-note" id="emailNote">NO SPAM. NO EXCUSES. JUST THE SYSTEM.</p>
+        </form>
+
+        <div data-fs-success style="font-size:9px; letter-spacing:0.25em; color:var(--gold); margin-top:20px; position:relative; z-index:1;">
+          ► YOU'RE ON THE LIST. STANDBY FOR DEPLOYMENT.
         </div>
-        <p class="email-note" id="emailNote">NO SPAM. NO EXCUSES. JUST THE SYSTEM.</p>
+
       </div>
     </div>
   </section>
@@ -1000,34 +1073,17 @@
   <footer>
     <div class="footer-left">GETVEXILLA.COM &nbsp;·&nbsp; © 2026 VEXILLA AI</div>
     <ul class="footer-links">
-      <li><a href="https://instagram.com" target="_blank" rel="noopener">INSTAGRAM</a></li>
-      <li><a href="https://x.com" target="_blank" rel="noopener">TWITTER / X</a></li>
+      <li><a href="https://instagram.com/vexilla.ai" target="_blank" rel="noopener">INSTAGRAM</a></li>
+      <li><a href="https://x.com/Vexilla_AI" target="_blank" rel="noopener">TWITTER / X</a></li>
     </ul>
   </footer>
 
   <script>
-    function handleSubmit() {
-      const input = document.getElementById('emailInput');
-      const note  = document.getElementById('emailNote');
-      const email = input.value.trim();
-      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-      if (!valid) {
-        note.textContent = 'ENTER A VALID EMAIL TO JOIN THE LIST.';
-        note.style.color = '#c0392b';
-        return;
-      }
-      note.textContent = 'YOU\'RE ON THE LIST. STANDBY FOR DEPLOYMENT.';
-      note.style.color = '#D4AF37';
-      input.value = '';
-      input.disabled = true;
-      document.querySelector('.email-btn').disabled = true;
-      document.querySelector('.email-btn').style.opacity = '0.5';
-    }
-    document.getElementById('emailInput').addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') handleSubmit();
-    });
+    // ── FORMSPREE INIT ──
+    window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+    formspree('initForm', { formElement: '#waitlist-form', formId: 'meevgjgv' });
 
-    // Smooth active nav highlight
+    // ── SMOOTH ACTIVE NAV HIGHLIGHT ──
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-links a');
     window.addEventListener('scroll', () => {
@@ -1036,8 +1092,7 @@
         if (window.scrollY >= s.offsetTop - 120) current = s.id;
       });
       navLinks.forEach(a => {
-        a.style.color = a.getAttribute('href') === '#' + current
-          ? '#D4AF37' : '';
+        a.style.color = a.getAttribute('href') === '#' + current ? '#D4AF37' : '';
       });
     });
   </script>
