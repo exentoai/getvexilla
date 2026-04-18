@@ -1,2188 +1,1649 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Vexilla AI — Execution Intelligence</title>
-<meta name="description" content="AI diagnoses your execution profile. Proof required. No partial credit. Miss a day. Streak resets. Start over."/>
-<meta property="og:title" content="Vexilla AI — Execution Intelligence"/>
-<meta property="og:url" content="https://getvexilla.com"/>
-<meta name="theme-color" content="#0a0a0a"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --gold:#D4AF37;--gold2:#F5C842;--gold-dim:rgba(212,175,55,0.15);
-  --red:#c0392b;--red-dark:#7b1d1d;
-  --white:#f0f0f0;--w40:rgba(255,255,255,0.4);--w20:rgba(255,255,255,0.2);--w10:rgba(255,255,255,0.08);
-  --bg:#050505;--bg2:#0a0a0a;--bg3:#0f0f0f;
-  --border:rgba(255,255,255,0.06);
-  --olive:#3d4a2a;--mud:#2a1f0e;--army:#4a5240;
-}
-html{scroll-behavior:auto;font-size:16px}
-body{
-  background:var(--bg);color:var(--white);
-  font-family:'Space Mono',monospace;
-  overflow-x:hidden;-webkit-font-smoothing:antialiased;
-  cursor:crosshair;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vexilla AI — Execution Intelligence</title>
+  <meta name="description" content="AI diagnoses your execution profile. Builds your personalised roadmap. Verifies your proof. Every day. To be a star, you must burn." />
+  <meta property="og:title" content="Vexilla AI — Execution Intelligence" />
+  <meta property="og:description" content="AI diagnoses your execution profile. Proof required. No partial credit. Miss a day. Streak resets. Start over." />
+  <meta property="og:url" content="https://getvexilla.com" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 
-/* ─── FILM GRAIN ─── */
-body::after{
-  content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  opacity:0.35;mix-blend-mode:overlay;
-  animation:grain 0.8s steps(3) infinite;
-}
-@keyframes grain{0%,100%{transform:translate(0,0)}25%{transform:translate(-2%,-1%)}50%{transform:translate(1%,2%)}75%{transform:translate(-1%,1%)}}
+  <!-- Formspree Ajax SDK -->
+  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 
-/* ─── VIGNETTE ─── */
-body::before{
-  content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;
-  background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,0.75) 100%);
-}
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* ─── NAV ─── */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:1000;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:18px 48px;
-  background:rgba(5,5,5,0);
-  transition:background 0.5s;
-}
-nav.scrolled{background:rgba(5,5,5,0.92);border-bottom:1px solid var(--gold-dim);backdrop-filter:blur(10px)}
-.nav-logo{font-size:12px;font-weight:700;letter-spacing:0.4em;color:var(--gold);text-decoration:none;display:flex;align-items:center;gap:10px}
-.nav-logo img{height:26px;width:auto;display:block}
-.nav-logo img[src="v-logo.png"]{display:none} /* hide broken img */
-.nav-cta{font-size:9px;letter-spacing:0.2em;color:#000;background:var(--gold);padding:10px 20px;text-decoration:none;font-weight:700;transition:opacity 0.2s}
-.nav-cta:hover{opacity:0.85}
-.nav-scroll-hint{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);z-index:1000;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:1;transition:opacity 0.5s}
-.nav-scroll-hint span{font-size:7px;letter-spacing:0.35em;color:var(--w40)}
-.scroll-arrow{width:1px;height:40px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollArrow 1.5s ease infinite}
-@keyframes scrollArrow{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+    :root {
+      --gold: #D4AF37;
+      --gold-dim: rgba(212,175,55,0.15);
+      --gold-faint: rgba(212,175,55,0.05);
+      --red: #c0392b;
+      --red-dark: #7b1d1d;
+      --white: #f0f0f0;
+      --white-40: rgba(255,255,255,0.40);
+      --white-30: rgba(255,255,255,0.30);
+      --white-20: rgba(255,255,255,0.20);
+      --white-10: rgba(255,255,255,0.08);
+      --white-05: rgba(255,255,255,0.04);
+      --bg: #0a0a0a;
+      --bg2: #0d0d0d;
+      --bg3: #111111;
+      --bg4: #1a1a1a;
+      --border: rgba(255,255,255,0.06);
+    }
 
-/* ─── PROGRESS BAR ─── */
-#progress{position:fixed;top:0;left:0;height:2px;background:var(--gold);z-index:1001;width:0%;transition:width 0.1s linear}
+    html { scroll-behavior: smooth; }
 
-/* ─── MAIN SCROLL CONTAINER ─── */
-#scroll-container{height:1200vh;position:relative}
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Space Mono', monospace;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
 
-/* ─── CANVAS (pinned fullscreen) ─── */
-#canvas-wrap{
-  position:sticky;top:0;height:100vh;width:100%;overflow:hidden;
-}
+    /* ── GRID BG ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 44px 44px;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-/* ─── SCENE LAYERS ─── */
-.scene{
-  position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;transition:none;
-  pointer-events:none;
-}
-.scene.active{pointer-events:auto}
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 48px;
+      background: rgba(10,10,10,0.88);
+      border-bottom: 1px solid var(--gold-dim);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    /* V logo image — swap src to your actual file path e.g. "assets/v-logo.png" */
+    .nav-logo img {
+      height: 28px;
+      width: auto;
+      display: block;
+    }
+    .nav-logo-text {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+    }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: var(--white-40);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: #000;
+      background: var(--gold);
+      padding: 10px 20px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.85; }
 
-/* ─── TEXT OVERLAYS ─── */
-.text-overlay{
-  position:absolute;z-index:100;
-  max-width:540px;
-  opacity:0;
-  transform:translateY(30px);
-}
-.text-overlay.left{left:6%;top:50%;transform:translateY(calc(-50% + 30px))}
-.text-overlay.right{right:6%;top:50%;transform:translateY(calc(-50% + 30px));text-align:right}
-.text-overlay.center{left:50%;top:50%;transform:translate(-50%,calc(-50% + 30px));text-align:center;max-width:700px}
-.text-overlay.bottom-left{left:6%;bottom:12%}
-.text-overlay.top-right{right:6%;top:16%}
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 100px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    section:first-of-type { padding-top: 180px; }
 
-.label{font-size:8px;letter-spacing:0.4em;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.label::before{content:'—'}
-.text-overlay.right .label{flex-direction:row-reverse}
-.text-overlay.right .label::before{content:'—';order:2}
-h1.scene-title{font-size:clamp(36px,5.5vw,68px);font-weight:700;line-height:1.05;letter-spacing:-0.02em;color:#fff;margin-bottom:16px}
-h2.scene-title{font-size:clamp(28px,4vw,52px);font-weight:700;line-height:1.1;letter-spacing:-0.02em;color:#fff;margin-bottom:14px}
-.gold{color:var(--gold)}
-.scene-body{font-size:10px;letter-spacing:0.12em;color:var(--w40);line-height:2.2;margin-top:8px}
-.scene-body p::before{content:'► ';color:var(--gold)}
-.divider{width:48px;height:1px;background:var(--gold);margin:20px 0}
-.text-overlay.right .divider,.text-overlay.center .divider{margin:20px auto}
+    /* ── GHOST NUMBER ── */
+    .ghost-num {
+      position: absolute;
+      top: 40px;
+      left: -16px;
+      font-size: 200px;
+      font-weight: 700;
+      color: var(--white-05);
+      line-height: 1;
+      letter-spacing: -0.05em;
+      user-select: none;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-/* WORD-BY-WORD text */
-.word{display:inline-block;opacity:0;transform:translateY(20px);margin-right:0.25em}
+    /* ── SECTION TAG ── */
+    .section-tag {
+      font-size: 9px;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+    .section-tag::before { content: '—'; }
 
-/* ─── STAT CARDS ─── */
-.stat-cards{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,0.05);margin-top:20px;max-width:360px}
-.stat-card{background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);padding:16px;border:1px solid rgba(212,175,55,0.08)}
-.stat-card-label{font-size:7px;letter-spacing:0.3em;color:var(--w40);margin-bottom:6px}
-.stat-card-val{font-size:28px;font-weight:700;color:var(--gold);letter-spacing:-0.02em}
-.stat-card-sub{font-size:7px;letter-spacing:0.2em;color:var(--w20);margin-top:3px}
+    /* ── HEADLINE ── */
+    h1, h2 {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #fff;
+      position: relative;
+      z-index: 1;
+    }
+    h1 { font-size: clamp(40px, 6vw, 72px); }
+    h2 { font-size: clamp(28px, 4vw, 52px); }
+    .gold { color: var(--gold); }
 
-/* STEP CARDS */
-.step-cards{margin-top:24px;max-width:440px}
-.step-card{background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);border-left:2px solid var(--gold);padding:14px 18px;margin-bottom:8px;opacity:0;transform:translateX(-20px)}
-.step-card-num{font-size:7px;letter-spacing:0.3em;color:var(--gold);margin-bottom:6px}
-.step-card-title{font-size:10px;font-weight:700;letter-spacing:0.15em;color:#fff;margin-bottom:4px}
-.step-card-body{font-size:9px;color:var(--w40);letter-spacing:0.08em;line-height:1.8}
+    .divider {
+      width: 56px;
+      height: 1px;
+      background: var(--gold);
+      margin: 28px 0;
+      position: relative;
+      z-index: 1;
+    }
+    .divider-center { margin: 28px auto; }
 
-/* FEATURE PILLS */
-.feat-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px;max-width:500px}
-.feat-pill{font-size:8px;letter-spacing:0.18em;color:var(--gold);border:1px solid rgba(212,175,55,0.3);padding:6px 14px;background:rgba(0,0,0,0.5);opacity:0;transform:translateY(10px)}
+    /* ── HERO ── */
+    .hero-sub {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--white-40);
+      line-height: 2.2;
+      margin-top: 8px;
+      max-width: 480px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-sub p::before { content: '► '; color: var(--gold); }
 
-/* PHASE0 RULES */
-.p0-rules{margin-top:20px;max-width:480px}
-.p0-rule{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.05);opacity:0;transform:translateY(12px)}
-.p0-rule-arrow{color:var(--gold);font-size:10px;flex-shrink:0;margin-top:2px}
-.p0-rule-title{font-size:10px;font-weight:700;letter-spacing:0.15em;color:#fff;margin-bottom:5px}
-.p0-rule-body{font-size:9px;color:var(--w40);letter-spacing:0.08em;line-height:1.8}
+    .cta-row {
+      display: flex;
+      gap: 16px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: #000;
+      border: none;
+      padding: 15px 36px;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--white-40);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 15px 36px;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
 
-/* TRAJECTORY CARDS */
-.traj-wrap{display:flex;gap:1px;margin-top:20px;background:rgba(255,255,255,0.04);max-width:560px}
-.traj-card{background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);padding:20px 16px;flex:1;opacity:0;transform:translateY(16px)}
-.traj-card.gold-border{border-top:2px solid var(--gold)}
-.traj-label{font-size:7px;letter-spacing:0.3em;color:var(--w40);margin-bottom:8px}
-.traj-title{font-size:11px;font-weight:700;letter-spacing:0.12em;color:#fff;margin-bottom:8px}
-.traj-title.gold{color:var(--gold)}
-.traj-desc{font-size:9px;color:var(--w40);letter-spacing:0.06em;line-height:1.8}
+    .stat-row {
+      display: flex;
+      gap: 48px;
+      margin-top: 52px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+    .stat-num {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: -0.02em;
+    }
+    .stat-label {
+      font-size: 8px;
+      letter-spacing: 0.3em;
+      color: var(--white-30);
+      margin-top: 6px;
+    }
 
-/* SHARE CARD */
-.share-card{background:rgba(10,10,10,0.85);backdrop-filter:blur(10px);border:1px solid rgba(212,175,55,0.2);padding:24px;position:relative;overflow:hidden;max-width:320px;opacity:0;transform:translateY(20px)}
-.share-card-watermark{position:absolute;font-size:80px;font-weight:700;color:rgba(212,175,55,0.04);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
-.share-card-corner-tl{position:absolute;top:8px;left:8px;width:14px;height:14px;border-top:1px solid var(--gold);border-left:1px solid var(--gold)}
-.share-card-corner-br{position:absolute;bottom:8px;right:8px;width:14px;height:14px;border-bottom:1px solid var(--gold);border-right:1px solid var(--gold)}
-.share-card-id{font-size:28px;font-weight:700;color:#fff;border-bottom:2px solid var(--red);padding-bottom:6px;margin-bottom:10px}
-.share-card-arch{font-size:10px;font-weight:700;letter-spacing:0.15em;color:#fff;margin-bottom:14px}
-.share-card-stats{display:grid;grid-template-columns:1fr 1fr;gap:4px}
-.share-stat{background:rgba(26,26,26,0.8);padding:10px}
-.share-stat-label{font-size:6px;letter-spacing:0.25em;color:var(--w40);margin-bottom:4px}
-.share-stat-val{font-size:20px;font-weight:700;color:var(--gold)}
-.share-card-bar{background:var(--red-dark);text-align:center;padding:6px;font-size:7px;letter-spacing:0.3em;color:rgba(255,255,255,0.5);margin-top:12px}
+    /* ── TWO COL ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
 
-/* PRICING */
-.price-cards{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,0.04);margin-top:24px;max-width:500px}
-.price-card{background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);padding:24px 20px;opacity:0;transform:translateY(16px)}
-.price-card.featured{background:rgba(212,175,55,0.06);border:1px solid var(--gold-dim)}
-.price-name{font-size:8px;letter-spacing:0.35em;color:var(--w40);margin-bottom:10px}
-.price-val{font-size:36px;font-weight:700;color:var(--gold);letter-spacing:-0.03em;margin-bottom:4px}
-.price-val span{font-size:13px;color:var(--w40)}
-.price-desc{font-size:9px;color:var(--w40);letter-spacing:0.08em;line-height:1.8;margin-bottom:14px}
-.price-features{list-style:none;font-size:8px;color:var(--w40);letter-spacing:0.1em;line-height:2}
-.price-features li::before{content:'► ';color:var(--gold)}
+    /* ── RULES LIST ── */
+    .rules-list { margin-top: 32px; }
+    .rule-item {
+      display: flex;
+      gap: 16px;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+    .rule-arrow {
+      color: var(--gold);
+      font-size: 10px;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+    .rule-strong {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: #fff;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .rule-body {
+      font-size: 10px;
+      color: var(--white-40);
+      letter-spacing: 0.08em;
+      line-height: 1.9;
+    }
 
-/* WAITLIST FORM */
-.waitlist-wrap{margin-top:28px;max-width:480px}
-.waitlist-wrap.center{margin:28px auto 0}
-.email-row{display:flex}
-.email-input{flex:1;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.12);border-right:none;color:#fff;padding:14px 18px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:0.12em;outline:none;transition:border-color 0.2s}
-.email-input:focus{border-color:var(--gold-dim)}
-.email-input::placeholder{color:var(--w20)}
-.email-btn{background:var(--gold);color:#000;border:none;padding:14px 24px;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:0.18em;cursor:pointer;white-space:nowrap;transition:opacity 0.2s}
-.email-btn:hover:not(:disabled){opacity:0.85}
-.email-note{font-size:7px;letter-spacing:0.2em;color:var(--w20);margin-top:12px}
-[data-fs-success]{display:none;font-size:9px;letter-spacing:0.25em;color:var(--gold);margin-top:16px}
-[data-fs-error]:not(:empty){font-size:8px;color:var(--red);margin-top:8px}
-.burn-line{font-size:clamp(22px,3.5vw,44px);font-weight:700;letter-spacing:-0.01em;color:var(--gold);margin-top:16px;line-height:1.2}
+    /* ── DNA CARD ── */
+    .dna-card {
+      background: var(--bg3);
+      border: 1px solid rgba(212,175,55,0.2);
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      max-width: 340px;
+      margin: 0 auto;
+    }
+    .dna-watermark {
+      position: absolute;
+      font-size: 100px;
+      font-weight: 700;
+      color: rgba(212,175,55,0.035);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      user-select: none;
+      pointer-events: none;
+    }
+    .dna-corner-tl {
+      position: absolute;
+      top: 10px; left: 10px;
+      width: 18px; height: 18px;
+      border-top: 1px solid var(--gold);
+      border-left: 1px solid var(--gold);
+    }
+    .dna-corner-br {
+      position: absolute;
+      bottom: 10px; right: 10px;
+      width: 18px; height: 18px;
+      border-bottom: 1px solid var(--gold);
+      border-right: 1px solid var(--gold);
+    }
+    .dna-top-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 8px;
+      letter-spacing: 0.25em;
+      color: var(--white-30);
+      margin-bottom: 20px;
+    }
+    .eyes-stamp {
+      position: absolute;
+      top: 18px; right: -6px;
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      color: rgba(192,57,43,0.65);
+      border: 1px solid rgba(192,57,43,0.3);
+      padding: 3px 8px;
+      transform: rotate(12deg);
+      background: rgba(10,10,10,0.7);
+    }
+    .operative-label {
+      font-size: 8px;
+      letter-spacing: 0.35em;
+      color: var(--white-30);
+      margin-bottom: 6px;
+    }
+    .titan-id {
+      font-size: 38px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.02em;
+      border-bottom: 2px solid var(--red);
+      padding-bottom: 8px;
+      margin-bottom: 6px;
+    }
+    .archetype {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: #fff;
+      margin-bottom: 8px;
+      margin-top: 14px;
+    }
+    .phase-badge {
+      display: inline-block;
+      border: 1px solid var(--red);
+      color: var(--red);
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      padding: 4px 10px;
+      margin-bottom: 14px;
+    }
+    .archetype-quote {
+      font-size: 10px;
+      font-style: italic;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.05em;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .dna-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .dna-stat {
+      background: var(--bg4);
+      padding: 12px;
+    }
+    .dna-stat-label {
+      font-size: 7px;
+      letter-spacing: 0.25em;
+      color: var(--white-30);
+      margin-bottom: 6px;
+    }
+    .dna-stat-val {
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .c-green { color: #27ae60; }
+    .c-red   { color: var(--red); }
+    .war-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    .chip {
+      border: 1px solid rgba(192,57,43,0.35);
+      color: var(--white-40);
+      font-size: 7px;
+      letter-spacing: 0.2em;
+      padding: 4px 10px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .chip-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--red);
+      flex-shrink: 0;
+    }
+    .classified-bar {
+      background: var(--red-dark);
+      text-align: center;
+      padding: 8px;
+      font-size: 8px;
+      letter-spacing: 0.35em;
+      color: rgba(255,255,255,0.55);
+      margin-top: 16px;
+    }
+    .dna-date-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      color: var(--white-20);
+      margin-top: 12px;
+    }
 
-/* ─── SCENE SVG WRAPPERS ─── */
-.svg-scene{position:absolute;inset:0;width:100%;height:100%}
-.svg-scene svg{width:100%;height:100%}
+    /* ── PHASE STRIP ── */
+    .phase-strip {
+      background: var(--gold-faint);
+      border: 1px solid var(--gold-dim);
+      padding: 20px 32px;
+      margin-top: 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+    }
+    .phase-strip-text {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--white-40);
+    }
+    .phase-strip-text span { color: var(--gold); }
+    .phase-strip-badge {
+      font-size: 8px;
+      letter-spacing: 0.25em;
+      color: rgba(212,175,55,0.5);
+    }
 
-/* ─── PARTICLE CANVAS ─── */
-#particle-canvas{position:absolute;inset:0;z-index:50;pointer-events:none;opacity:0}
+    /* ── FEATURE GRID ── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.05);
+      margin-top: 52px;
+      position: relative;
+      z-index: 1;
+    }
+    .feature-card {
+      background: var(--bg2);
+      padding: 36px 28px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.2s;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--gold);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .feature-card:hover { background: #111; }
+    .feature-card:hover::before { opacity: 1; }
+    .feat-num {
+      font-size: 8px;
+      letter-spacing: 0.3em;
+      color: rgba(212,175,55,0.35);
+      margin-bottom: 18px;
+    }
+    .feat-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+    .feat-desc {
+      font-size: 10px;
+      color: var(--white-40);
+      letter-spacing: 0.06em;
+      line-height: 1.9;
+    }
 
-/* ─── SCENE BACKGROUNDS ─── */
-/* S1 – black void */
-#s1{background:radial-gradient(ellipse at 50% 80%,#1a1200 0%,#050505 60%)}
-/* S2 – army green field */
-#s2{background:linear-gradient(180deg,#0d1008 0%,#1a2010 40%,#0a0f06 100%)}
-/* S3 – darker field */
-#s3{background:linear-gradient(180deg,#080c05 0%,#0d1409 50%,#050505 100%)}
-/* S4 – mud battlefield */
-#s4{background:linear-gradient(180deg,#0d0a05 0%,#150f04 50%,#0a0705 100%)}
-/* S5 – marsh */
-#s5{background:linear-gradient(180deg,#080c0a 0%,#0d1208 50%,#050505 100%)}
-/* S6 – grey sky */
-#s6{background:linear-gradient(180deg,#0a0c10 0%,#131520 40%,#080808 100%)}
-/* S7 – explosion */
-#s7{background:linear-gradient(180deg,#0f0503 0%,#1a0800 40%,#050505 100%)}
-/* S8 – military launch */
-#s8{background:linear-gradient(180deg,#080c08 0%,#0d1008 50%,#050505 100%)}
-/* S9 – grey blast */
-#s9{background:linear-gradient(180deg,#0a0a0a 0%,#0f0f0f 100%)}
-/* S10 – desert */
-#s10{background:linear-gradient(180deg,#100a03 0%,#1a1005 40%,#0a0703 100%)}
-/* S11 – gym */
-#s11{background:linear-gradient(180deg,#0a0505 0%,#0f0303 50%,#050505 100%)}
-/* S12 – black void */
-#s12{background:#000}
+    /* ── TRAJECTORY SECTION ── */
+    .traj-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.05);
+      margin-top: 52px;
+      position: relative;
+      z-index: 1;
+    }
+    .traj-card {
+      background: var(--bg2);
+      padding: 32px 24px;
+    }
+    .traj-label {
+      font-size: 8px;
+      letter-spacing: 0.3em;
+      color: var(--white-30);
+      margin-bottom: 12px;
+    }
+    .traj-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .traj-desc {
+      font-size: 10px;
+      color: var(--white-40);
+      letter-spacing: 0.06em;
+      line-height: 1.9;
+    }
+    .traj-card.highlighted {
+      background: rgba(212,175,55,0.06);
+      border: 1px solid var(--gold-dim);
+    }
+    .traj-card.highlighted .traj-title { color: var(--gold); }
 
-/* ─── GOD RAY ─── */
-.god-ray{
-  position:absolute;top:-10%;left:50%;
-  width:3px;height:130%;
-  background:linear-gradient(to bottom,transparent,rgba(212,175,55,0.3) 30%,rgba(212,175,55,0.1) 70%,transparent);
-  transform:translateX(-50%) rotate(var(--angle,0deg));
-  filter:blur(18px);
-  pointer-events:none;
-  opacity:0;
-}
+    /* ── WAITLIST FORM ── */
+    .email-wrap {
+      display: flex;
+      max-width: 500px;
+      margin: 40px auto 0;
+    }
+    .email-input {
+      flex: 1;
+      background: var(--bg3);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-right: none;
+      color: #fff;
+      padding: 15px 20px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .email-input:focus { border-color: var(--gold-dim); }
+    .email-input::placeholder { color: var(--white-20); }
+    .email-input:disabled { opacity: 0.5; cursor: not-allowed; }
+    .email-btn {
+      background: var(--gold);
+      color: #000;
+      border: none;
+      padding: 15px 28px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity 0.2s;
+    }
+    .email-btn:hover:not(:disabled) { opacity: 0.85; }
+    .email-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .email-note {
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      color: var(--white-20);
+      text-align: center;
+      margin-top: 16px;
+      min-height: 18px;
+      transition: color 0.2s;
+    }
+    /* Formspree success/error messages */
+    [data-fs-success] { display: none; }
+    [data-fs-success].fs-show {
+      display: block;
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-align: center;
+      margin-top: 16px;
+    }
+    [data-fs-error]:not(:empty) {
+      font-size: 8px;
+      letter-spacing: 0.15em;
+      color: var(--red);
+      margin-top: 8px;
+      text-align: center;
+      display: block;
+    }
 
-/* ─── RESPONSIVE ─── */
-@media(max-width:768px){
-  nav{padding:14px 20px}
-  .text-overlay{max-width:90vw!important}
-  .text-overlay.left{left:5%}
-  .text-overlay.right{right:5%;text-align:left}
-  .text-overlay.right .label{flex-direction:row;justify-content:flex-start}
-  .price-cards,.stat-cards,.traj-wrap,.share-card-stats{grid-template-columns:1fr}
-  .traj-wrap{flex-direction:column}
-  h1.scene-title{font-size:30px}
-  h2.scene-title{font-size:22px}
-}
-@media(max-width:480px){
-  h1.scene-title{font-size:24px}
-  h2.scene-title{font-size:20px}
-  .step-cards,.p0-rules,.feat-pills{max-width:100%}
-}
-</style>
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 36px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-left {
+      font-size: 8px;
+      letter-spacing: 0.25em;
+      color: var(--white-20);
+    }
+    .footer-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .footer-links a {
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      color: var(--white-20);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ── TICKER ── */
+    .ticker-wrap {
+      overflow: hidden;
+      background: var(--gold);
+      padding: 10px 0;
+      position: relative;
+      z-index: 1;
+    }
+    .ticker-track {
+      display: flex;
+      gap: 0;
+      animation: ticker 20s linear infinite;
+      white-space: nowrap;
+    }
+    .ticker-item {
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: #000;
+      font-weight: 700;
+      padding: 0 32px;
+    }
+    .ticker-dot {
+      color: rgba(0,0,0,0.4);
+      padding: 0 8px;
+    }
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── OPERATIVE #001 ── */
+    .op001-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+      position: relative;
+      z-index: 1;
+      margin-top: 52px;
+    }
+    .op001-left {}
+    .op001-label {
+      font-size: 8px;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+    .op001-name {
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+    .op001-archetype {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--white-30);
+      margin-bottom: 28px;
+    }
+    .op001-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: rgba(255,255,255,0.05);
+      margin-bottom: 20px;
+    }
+    .op001-stat {
+      background: var(--bg2);
+      padding: 20px;
+    }
+    .op001-stat-label {
+      font-size: 7px;
+      letter-spacing: 0.3em;
+      color: var(--white-30);
+      margin-bottom: 8px;
+    }
+    .op001-stat-val {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: -0.02em;
+    }
+    .op001-stat-sub {
+      font-size: 8px;
+      letter-spacing: 0.15em;
+      color: var(--white-20);
+      margin-top: 4px;
+    }
+    .op001-quote {
+      background: var(--gold-faint);
+      border-left: 2px solid var(--gold);
+      padding: 18px 20px;
+      font-size: 10px;
+      color: var(--white-40);
+      letter-spacing: 0.1em;
+      line-height: 1.9;
+      position: relative;
+      z-index: 1;
+    }
+    .op001-quote strong {
+      color: #fff;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+    }
+    .op001-right {}
+    .op001-streak {
+      background: var(--bg3);
+      border: 1px solid var(--gold-dim);
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+    .op001-streak-label {
+      font-size: 8px;
+      letter-spacing: 0.3em;
+      color: var(--white-30);
+      margin-bottom: 12px;
+    }
+    .streak-dots {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .streak-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 7px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+    .streak-dot.done {
+      background: var(--gold);
+      color: #000;
+    }
+    .streak-dot.today {
+      background: rgba(212,175,55,0.2);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+    }
+    .streak-dot.empty {
+      background: var(--bg4);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--white-20);
+    }
+    .op001-streak-note {
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      color: var(--white-20);
+    }
+    .op001-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .op001-badge {
+      font-size: 7px;
+      letter-spacing: 0.2em;
+      border: 1px solid rgba(212,175,55,0.25);
+      color: var(--gold);
+      padding: 6px 12px;
+    }
+    .op001-realdata {
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      color: rgba(212,175,55,0.4);
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .op001-realdata::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: pulse 2s ease infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* ── PLAIN ENGLISH EXPLAINER ── */
+    .explainer-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.05);
+      margin-top: 52px;
+      position: relative;
+      z-index: 1;
+    }
+    .explainer-step {
+      background: var(--bg2);
+      padding: 32px 24px;
+      position: relative;
+    }
+    .explainer-step-num {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--gold-faint);
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 16px;
+      border-bottom: 1px solid rgba(212,175,55,0.1);
+      padding-bottom: 16px;
+    }
+    .explainer-step-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .explainer-step-body {
+      font-size: 10px;
+      color: var(--white-40);
+      letter-spacing: 0.06em;
+      line-height: 2;
+    }
+    .explainer-step-body em {
+      color: #fff;
+      font-style: normal;
+    }
+    .explainer-plain-note {
+      margin-top: 28px;
+      padding: 20px 28px;
+      background: var(--bg3);
+      border: 1px solid rgba(255,255,255,0.06);
+      font-size: 10px;
+      color: var(--white-30);
+      letter-spacing: 0.12em;
+      line-height: 2;
+      position: relative;
+      z-index: 1;
+    }
+    .explainer-plain-note span { color: var(--gold); }
+
+    /* ── OUTCOME METRICS ── */
+    .outcome-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.05);
+      margin-top: 52px;
+      position: relative;
+      z-index: 1;
+    }
+    .outcome-card {
+      background: var(--bg2);
+      padding: 32px 28px;
+    }
+    .outcome-day {
+      font-size: 8px;
+      letter-spacing: 0.3em;
+      color: var(--white-20);
+      margin-bottom: 12px;
+    }
+    .outcome-metric {
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .outcome-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .outcome-desc {
+      font-size: 9px;
+      color: var(--white-30);
+      letter-spacing: 0.08em;
+      line-height: 1.9;
+    }
+    .outcome-guarantee {
+      margin-top: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 32px;
+      background: var(--gold-faint);
+      border: 1px solid var(--gold-dim);
+      flex-wrap: wrap;
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+    }
+    .outcome-guarantee-text {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--white-40);
+    }
+    .outcome-guarantee-text strong { color: var(--gold); }
+    .outcome-guarantee-badge {
+      font-size: 8px;
+      letter-spacing: 0.25em;
+      color: rgba(212,175,55,0.5);
+      border: 1px solid var(--gold-dim);
+      padding: 6px 14px;
+    }
+
+    /* ── AI MECHANISM BAR ── */
+    .ai-mechanism-bar {
+      background: var(--bg3);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-left: 3px solid var(--gold);
+      padding: 18px 28px;
+      margin-top: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+    }
+    .ai-mechanism-label {
+      font-size: 7px;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+    .ai-mechanism-text {
+      font-size: 10px;
+      color: var(--white-40);
+      letter-spacing: 0.1em;
+      line-height: 1.8;
+    }
+    .ai-mechanism-text strong { color: #fff; }
+    .ai-calls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .ai-call-chip {
+      font-size: 7px;
+      letter-spacing: 0.15em;
+      color: rgba(212,175,55,0.7);
+      border: 1px solid rgba(212,175,55,0.2);
+      padding: 5px 10px;
+      white-space: nowrap;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .container { padding: 0 24px; }
+      footer { padding: 28px 24px; }
+      .two-col { grid-template-columns: 1fr; gap: 48px; }
+      .feature-grid { grid-template-columns: 1fr 1fr; }
+      .traj-grid { grid-template-columns: 1fr; }
+      .ghost-num { font-size: 120px; }
+      section:first-of-type { padding-top: 140px; }
+      .op001-wrap { grid-template-columns: 1fr; gap: 36px; }
+      .explainer-steps { grid-template-columns: 1fr 1fr; }
+      .outcome-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 580px) {
+      .feature-grid { grid-template-columns: 1fr; }
+      .explainer-steps { grid-template-columns: 1fr; }
+      .stat-row { gap: 28px; }
+      h1 { font-size: 34px; }
+      h2 { font-size: 26px; }
+      .op001-stats { grid-template-columns: 1fr 1fr; }
+      .outcome-guarantee { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- PROGRESS -->
-<div id="progress"></div>
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">
+      <!--
+        V LOGO: Replace the src below with your actual logo file path.
+        Examples:
+          - Same folder as index.html:  src="v-logo.png"
+          - In an assets folder:        src="assets/v-logo.png"
+        If you don't have the file ready yet, remove the <img> tag and
+        the nav-logo-text will show "VEXILLA AI" on its own.
+      -->
+      <img src="v-logo.png" alt="Vexilla AI Logo" onerror="this.style.display='none'" />
+      <span class="nav-logo-text">VEXILLA AI</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#proof">PROOF</a></li>
+      <li><a href="#system">SYSTEM</a></li>
+      <li><a href="#phase0">PHASE 0</a></li>
+      <li><a href="#outcome">OUTCOME</a></li>
+    </ul>
+    <a class="nav-cta" href="#waitlist">GET EARLY ACCESS</a>
+  </nav>
 
-<!-- NAV -->
-<nav id="nav">
-  <a class="nav-logo" href="#">
-    <img src="v-logo.png" alt="V" onerror="this.style.display='none'"/>
-    VEXILLA AI
-  </a>
-  <a class="nav-cta" href="#waitlist-anchor">GET EARLY ACCESS</a>
-</nav>
+  <!-- TICKER -->
+  <div class="ticker-wrap" style="margin-top: 61px; position: relative; z-index: 1;">
+    <div class="ticker-track">
+      <span class="ticker-item">EXECUTION INTELLIGENCE</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">PROOF REQUIRED</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">NO PARTIAL CREDIT</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">STREAK RESETS</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">START OVER</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">TO BE A STAR YOU MUST BURN</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">EXECUTION INTELLIGENCE</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">PROOF REQUIRED</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">NO PARTIAL CREDIT</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">STREAK RESETS</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">START OVER</span><span class="ticker-dot">·</span>
+      <span class="ticker-item">TO BE A STAR YOU MUST BURN</span><span class="ticker-dot">·</span>
+    </div>
+  </div>
 
-<!-- SCROLL HINT -->
-<div class="nav-scroll-hint" id="scroll-hint">
-  <span>SCROLL</span>
-  <div class="scroll-arrow"></div>
-</div>
-
-<!-- MAIN SCROLL WRAPPER -->
-<div id="scroll-container">
-  <div id="canvas-wrap">
-    <!-- PARTICLE CANVAS -->
-    <canvas id="particle-canvas"></canvas>
-
-    <!-- ══ SCENE 1 — VOID / OPENING ══ -->
-    <div class="scene" id="s1">
-      <div class="god-ray" style="--angle:-5deg;left:48%"></div>
-      <div class="god-ray" style="--angle:6deg;left:52%;opacity:0.6"></div>
-      <!-- GOLD VEIN SVG -->
-      <div class="svg-scene">
-        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <filter id="glow1"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            <radialGradient id="terrainGrad1" cx="50%" cy="85%" r="60%">
-              <stop offset="0%" stop-color="#2a1e00" stop-opacity="0.8"/>
-              <stop offset="100%" stop-color="#050505" stop-opacity="0"/>
-            </radialGradient>
-          </defs>
-          <!-- Terrain base -->
-          <ellipse cx="720" cy="820" rx="900" ry="180" fill="url(#terrainGrad1)"/>
-          <!-- Gold veins emerging from darkness -->
-          <g filter="url(#glow1)" opacity="0.7" id="vein-group-1">
-            <path d="M 720 900 Q 680 750 640 680 Q 600 610 550 580 Q 500 550 480 520" stroke="#D4AF37" stroke-width="1.5" fill="none" opacity="0.6"/>
-            <path d="M 720 900 Q 750 740 790 660 Q 830 580 870 540 Q 910 500 940 470" stroke="#D4AF37" stroke-width="1" fill="none" opacity="0.5"/>
-            <path d="M 720 900 Q 700 800 660 720 Q 620 640 580 600" stroke="#F5C842" stroke-width="0.8" fill="none" opacity="0.4"/>
-            <path d="M 720 900 Q 740 820 780 740 Q 820 660 850 620" stroke="#F5C842" stroke-width="0.8" fill="none" opacity="0.4"/>
-            <!-- Branch veins -->
-            <path d="M 640 680 Q 620 660 590 640 M 640 680 Q 650 650 670 630" stroke="#D4AF37" stroke-width="0.6" fill="none" opacity="0.4"/>
-            <path d="M 790 660 Q 810 640 840 620 M 790 660 Q 800 680 820 690" stroke="#D4AF37" stroke-width="0.6" fill="none" opacity="0.4"/>
-            <!-- Nodes -->
-            <circle cx="550" cy="580" r="3" fill="#D4AF37" opacity="0.8"/>
-            <circle cx="870" cy="540" r="3" fill="#D4AF37" opacity="0.8"/>
-            <circle cx="640" cy="680" r="2" fill="#F5C842" opacity="0.6"/>
-            <circle cx="790" cy="660" r="2" fill="#F5C842" opacity="0.6"/>
-          </g>
-          <!-- Horizon line glow -->
-          <rect x="0" y="780" width="1440" height="2" fill="rgba(212,175,55,0.08)"/>
-        </svg>
+  <!-- HERO -->
+  <section id="hero">
+    <div class="container" style="position:relative;">
+      <div class="ghost-num">01</div>
+      <div class="section-tag">OPERATIVE SYSTEM</div>
+      <h1>
+        You have ambition.<br>
+        You lack <span class="gold">execution.</span>
+      </h1>
+      <div class="divider"></div>
+      <div class="hero-sub">
+        <p>AI diagnoses your execution profile</p>
+        <p>Proof required. No partial credit.</p>
+        <p>Miss a day. Streak resets. Start over.</p>
       </div>
-      <!-- TEXT -->
-      <div class="text-overlay center" id="t1">
-        <div class="label">OPERATIVE SYSTEM · VEXILLA AI</div>
-        <h1 class="scene-title">
-          <span class="word">VEXILLA</span><br>
-          <span class="word gold">AI</span>
-        </h1>
+      <div class="cta-row">
+        <a class="btn-primary" href="#waitlist">JOIN THE WAITLIST</a>
+        <a class="btn-ghost" href="#system">SEE HOW IT WORKS</a>
+      </div>
+      <div class="stat-row">
+        <div>
+          <div class="stat-num">7</div>
+          <div class="stat-label">DAYS. NO SHORTCUTS.</div>
+        </div>
+        <div>
+          <div class="stat-num">0</div>
+          <div class="stat-label">PARTIAL CREDIT GIVEN</div>
+        </div>
+        <div>
+          <div class="stat-num">4</div>
+          <div class="stat-label">AI DIAGNOSIS LAYERS</div>
+        </div>
+        <div>
+          <div class="stat-num">∞</div>
+          <div class="stat-label">EXCUSES REJECTED</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OPERATIVE #001 — CREDIBILITY / REAL DATA -->
+  <section id="proof">
+    <div class="container">
+      <div style="position:relative;">
+        <div class="ghost-num">02</div>
+        <div class="section-tag">OPERATIVE #001</div>
+        <h2>
+          Real data.<br>
+          Not a demo.<br>
+          <span class="gold">Proof.</span>
+        </h2>
         <div class="divider"></div>
-        <div class="scene-body" style="font-size:9px;letter-spacing:0.3em;color:var(--w40)">
-          EXECUTION INTELLIGENCE · PROOF REQUIRED · NO EXCUSES
+        <p style="font-size:11px; color:var(--white-40); letter-spacing:0.12em; line-height:2.2; max-width:520px; position:relative; z-index:1;">
+          This app was built by its first operative. The data below is live — pulled from the same diagnosis system you'll run on day one.
+        </p>
+      </div>
+      <div class="op001-wrap">
+        <div class="op001-left">
+          <div class="op001-label">CLASSIFIED FILE — OPERATIVE #001</div>
+          <div class="op001-name">TITAN-0001</div>
+          <div class="op001-archetype">THE SYSTEMS ARCHITECT</div>
+          <div class="op001-stats">
+            <div class="op001-stat">
+              <div class="op001-stat-label">CONSISTENCY SCORE</div>
+              <div class="op001-stat-val">84</div>
+              <div class="op001-stat-sub">HIGH EXECUTION</div>
+            </div>
+            <div class="op001-stat">
+              <div class="op001-stat-label">PATH CLARITY</div>
+              <div class="op001-stat-val">71</div>
+              <div class="op001-stat-sub">SIGNAL CLEAR</div>
+            </div>
+            <div class="op001-stat">
+              <div class="op001-stat-label">CONFIDENCE</div>
+              <div class="op001-stat-val">79<span style="font-size:18px;">%</span></div>
+              <div class="op001-stat-sub">SELF AWARE</div>
+            </div>
+            <div class="op001-stat">
+              <div class="op001-stat-label">SYSTEM PRESSURE</div>
+              <div class="op001-stat-val" style="color:var(--red);">63</div>
+              <div class="op001-stat-sub">PRESSURE ACTIVE</div>
+            </div>
+          </div>
+          <div class="op001-quote">
+            <strong>► SYSTEM VERDICT</strong>
+            High consistency, clear signal — but pressure from building in public compresses decision quality. Phase 0 patches this. The system fix: build the proof before you build the audience.
+          </div>
+          <div class="op001-realdata">LIVE DATA · DIAGNOSED DAY 1 OF BUILD · UPDATED DAILY</div>
+        </div>
+        <div class="op001-right">
+          <div class="op001-streak">
+            <div class="op001-streak-label">PHASE 0 STREAK — DAY 14 OF 7-DAY LOOP</div>
+            <div class="streak-dots">
+              <!-- Week 1 -->
+              <div class="streak-dot done">1</div>
+              <div class="streak-dot done">2</div>
+              <div class="streak-dot done">3</div>
+              <div class="streak-dot done">4</div>
+              <div class="streak-dot done">5</div>
+              <div class="streak-dot done">6</div>
+              <div class="streak-dot done">7</div>
+              <!-- Week 2 -->
+              <div class="streak-dot done">8</div>
+              <div class="streak-dot done">9</div>
+              <div class="streak-dot done">10</div>
+              <div class="streak-dot done">11</div>
+              <div class="streak-dot done">12</div>
+              <div class="streak-dot done">13</div>
+              <div class="streak-dot today">14</div>
+            </div>
+            <div class="op001-streak-note">14 CONSECUTIVE DAYS · 0 RESETS · PHASE 1 UNLOCKED</div>
+          </div>
+          <div style="background:var(--bg3); border:1px solid var(--border); padding:24px;">
+            <div class="op001-label" style="margin-bottom:14px;">WHAT CHANGED AFTER 7 DAYS</div>
+            <div class="rule-item" style="padding:14px 0;">
+              <div class="rule-arrow">►</div>
+              <div>
+                <span class="rule-strong" style="font-size:10px;">CONSISTENCY SCORE +11</span>
+                <span class="rule-body">From 73 at diagnosis to 84 after 7 days of verified execution.</span>
+              </div>
+            </div>
+            <div class="rule-item" style="padding:14px 0;">
+              <div class="rule-arrow">►</div>
+              <div>
+                <span class="rule-strong" style="font-size:10px;">PRESSURE SCORE −8</span>
+                <span class="rule-body">Daily proof submissions reduced decision paralysis. System stabilised.</span>
+              </div>
+            </div>
+            <div class="rule-item" style="padding:14px 0; border-bottom:none;">
+              <div class="rule-arrow">►</div>
+              <div>
+                <span class="rule-strong" style="font-size:10px;">TRAJECTORY GAP CLOSED 22%</span>
+                <span class="rule-body">Current path moved measurably toward Vexilla path projection.</span>
+              </div>
+            </div>
+          </div>
+          <div class="op001-badges">
+            <div class="op001-badge">PHASE 1 UNLOCKED</div>
+            <div class="op001-badge">14 DAY STREAK</div>
+            <div class="op001-badge">ZERO RESETS</div>
+            <div class="op001-badge">SYSTEMS ARCHITECT</div>
+          </div>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- ══ SCENE 2 — SOLDIERS MARCHING ══ -->
-    <div class="scene" id="s2">
-      <div class="svg-scene">
-        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="skyGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#0a0f06"/>
-              <stop offset="60%" stop-color="#141a0c"/>
-              <stop offset="100%" stop-color="#0a0f06"/>
-            </linearGradient>
-            <filter id="depthBlur"><feGaussianBlur stdDeviation="2.5"/></filter>
-            <filter id="depthBlurHeavy"><feGaussianBlur stdDeviation="5"/></filter>
-            <filter id="glow2"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            <radialGradient id="rimLight" cx="50%" cy="90%" r="60%">
-              <stop offset="0%" stop-color="rgba(212,175,55,0.15)"/>
-              <stop offset="100%" stop-color="transparent"/>
-            </radialGradient>
-          </defs>
-          <rect width="1440" height="900" fill="url(#skyGrad2)"/>
-          <!-- Ground plane -->
-          <ellipse cx="720" cy="760" rx="1000" ry="120" fill="#0d1208" opacity="0.9"/>
-          <ellipse cx="720" cy="780" rx="800" ry="80" fill="url(#rimLight)"/>
-          <!-- Ground texture lines -->
-          <g opacity="0.2" stroke="#3d4a2a" stroke-width="0.5">
-            <line x1="0" y1="720" x2="1440" y2="720"/>
-            <line x1="0" y1="740" x2="1440" y2="740"/>
-            <line x1="0" y1="760" x2="1440" y2="760"/>
-          </g>
-
-          <!-- BACKGROUND soldiers (blurred, small) -->
-          <g filter="url(#depthBlurHeavy)" opacity="0.4" transform="translate(0,10)">
-            <!-- far left background squad -->
-            <g transform="translate(80,560) scale(0.55)">
-              <rect x="8" y="0" width="18" height="8" rx="2" fill="#2a3020"/> <!-- helmet -->
-              <rect x="6" y="8" width="22" height="30" fill="#3d4a2a"/> <!-- torso/armor -->
-              <rect x="4" y="38" width="8" height="20" fill="#2a3020"/> <!-- left leg -->
-              <rect x="22" y="38" width="8" height="20" fill="#2a3020"/> <!-- right leg -->
-              <rect x="28" y="15" width="26" height="4" rx="1" fill="#1a1a1a"/> <!-- M4 -->
-            </g>
-            <g transform="translate(130,558) scale(0.55)">
-              <rect x="8" y="0" width="18" height="8" rx="2" fill="#2a3020"/>
-              <rect x="6" y="8" width="22" height="30" fill="#3d4a2a"/>
-              <rect x="4" y="38" width="8" height="22" fill="#2a3020"/>
-              <rect x="22" y="38" width="8" height="22" fill="#2a3020"/>
-              <rect x="28" y="15" width="26" height="4" rx="1" fill="#1a1a1a"/>
-            </g>
-            <g transform="translate(180,562) scale(0.55)">
-              <rect x="8" y="0" width="18" height="8" rx="2" fill="#2a3020"/>
-              <rect x="6" y="8" width="22" height="28" fill="#3d4a2a"/>
-              <rect x="4" y="36" width="8" height="20" fill="#2a3020"/>
-              <rect x="22" y="36" width="8" height="20" fill="#2a3020"/>
-              <rect x="28" y="14" width="28" height="4" rx="1" fill="#1a1a1a"/>
-            </g>
-            <!-- right background squad -->
-            <g transform="translate(1180,555) scale(0.55)">
-              <rect x="8" y="0" width="18" height="8" rx="2" fill="#2a3020"/>
-              <rect x="6" y="8" width="22" height="30" fill="#3d4a2a"/>
-              <rect x="4" y="38" width="8" height="20" fill="#2a3020"/>
-              <rect x="22" y="38" width="8" height="20" fill="#2a3020"/>
-              <rect x="28" y="15" width="26" height="4" rx="1" fill="#1a1a1a"/>
-            </g>
-            <g transform="translate(1240,558) scale(0.55)">
-              <rect x="8" y="0" width="18" height="8" rx="2" fill="#2a3020"/>
-              <rect x="6" y="8" width="22" height="28" fill="#3d4a2a"/>
-              <rect x="4" y="36" width="8" height="22" fill="#2a3020"/>
-              <rect x="22" y="36" width="8" height="22" fill="#2a3020"/>
-              <rect x="28" y="14" width="28" height="4" rx="1" fill="#1a1a1a"/>
-            </g>
-          </g>
-
-          <!-- MIDGROUND soldiers (slight blur) -->
-          <g filter="url(#depthBlur)" opacity="0.7">
-            <!-- Soldier A midground left -->
-            <g transform="translate(260,480) scale(0.78)" id="soldier-mid-l">
-              <!-- PASGT Helmet -->
-              <ellipse cx="17" cy="4" rx="14" ry="10" fill="#2a3020"/>
-              <rect x="4" y="8" width="26" height="5" rx="1" fill="#242c1a"/>
-              <!-- Head -->
-              <rect x="9" y="13" width="16" height="14" rx="2" fill="#1e1a14"/>
-              <!-- IOTV Body armor -->
-              <rect x="2" y="27" width="30" height="36" rx="2" fill="#3d4a2a"/>
-              <!-- Armor plates -->
-              <rect x="5" y="29" width="24" height="16" rx="1" fill="#2d3820"/>
-              <!-- Pouches -->
-              <rect x="2" y="42" width="8" height="10" rx="1" fill="#2a3020"/>
-              <rect x="24" y="42" width="8" height="10" rx="1" fill="#2a3020"/>
-              <!-- Arms -->
-              <rect x="-4" y="27" width="8" height="28" rx="2" fill="#3d4a2a"/>
-              <rect x="30" y="27" width="8" height="26" rx="2" fill="#3d4a2a"/>
-              <!-- Gloves -->
-              <rect x="-4" y="52" width="8" height="6" rx="1" fill="#1a1208"/>
-              <rect x="30" y="50" width="8" height="6" rx="1" fill="#1a1208"/>
-              <!-- M4 Rifle -->
-              <rect x="34" y="30" width="38" height="5" rx="1" fill="#111"/>
-              <rect x="36" y="25" width="6" height="8" rx="1" fill="#1a1a1a"/> <!-- magazine -->
-              <rect x="66" y="28" width="12" height="3" rx="1" fill="#0a0a0a"/> <!-- barrel -->
-              <!-- Legs -->
-              <rect x="4" y="63" width="12" height="32" rx="2" fill="#2a3020"/>
-              <rect x="18" y="63" width="12" height="32" rx="2" fill="#2a3020"/>
-              <!-- Knee pads -->
-              <ellipse cx="10" cy="80" rx="6" ry="4" fill="#1a2010"/>
-              <ellipse cx="24" cy="80" rx="6" ry="4" fill="#1a2010"/>
-              <!-- Boots -->
-              <rect x="2" y="92" width="14" height="8" rx="1" fill="#111"/>
-              <rect x="16" y="92" width="14" height="8" rx="1" fill="#111"/>
-              <!-- Gold rim light -->
-              <rect x="2" y="27" width="2" height="68" fill="rgba(212,175,55,0.15)" rx="1"/>
-            </g>
-            <!-- Soldier B midground right -->
-            <g transform="translate(1100,475) scale(0.78)" id="soldier-mid-r">
-              <ellipse cx="17" cy="4" rx="14" ry="10" fill="#2a3020"/>
-              <rect x="4" y="8" width="26" height="5" rx="1" fill="#242c1a"/>
-              <rect x="9" y="13" width="16" height="14" rx="2" fill="#1e1a14"/>
-              <rect x="2" y="27" width="30" height="36" rx="2" fill="#3d4a2a"/>
-              <rect x="5" y="29" width="24" height="16" rx="1" fill="#2d3820"/>
-              <rect x="2" y="42" width="8" height="10" rx="1" fill="#2a3020"/>
-              <rect x="24" y="42" width="8" height="10" rx="1" fill="#2a3020"/>
-              <rect x="-4" y="27" width="8" height="28" rx="2" fill="#3d4a2a"/>
-              <rect x="30" y="27" width="8" height="26" rx="2" fill="#3d4a2a"/>
-              <rect x="-4" y="52" width="8" height="6" rx="1" fill="#1a1208"/>
-              <rect x="30" y="50" width="8" height="6" rx="1" fill="#1a1208"/>
-              <rect x="-38" y="30" width="38" height="5" rx="1" fill="#111"/>
-              <rect x="-8" y="25" width="6" height="8" rx="1" fill="#1a1a1a"/>
-              <rect x="4" y="63" width="12" height="32" rx="2" fill="#2a3020"/>
-              <rect x="18" y="63" width="12" height="32" rx="2" fill="#2a3020"/>
-              <ellipse cx="10" cy="80" rx="6" ry="4" fill="#1a2010"/>
-              <ellipse cx="24" cy="80" rx="6" ry="4" fill="#1a2010"/>
-              <rect x="2" y="92" width="14" height="8" rx="1" fill="#111"/>
-              <rect x="16" y="92" width="14" height="8" rx="1" fill="#111"/>
-              <rect x="30" y="27" width="2" height="68" fill="rgba(212,175,55,0.12)" rx="1"/>
-            </g>
-          </g>
-
-          <!-- FOREGROUND soldiers (sharp, large) -->
-          <!-- Lead Soldier LEFT - detailed -->
-          <g transform="translate(460,300) scale(1.25)" id="soldier-fg-l">
-            <!-- PASGT Helmet - detailed -->
-            <path d="M 15 -2 Q 17 -15 19 -2" fill="#1a2010"/> <!-- camouflage bump -->
-            <ellipse cx="17" cy="2" rx="16" ry="12" fill="#2a3020"/>
-            <path d="M 1 8 Q 17 12 33 8" stroke="#1d2616" stroke-width="2" fill="none"/>
-            <rect x="3" y="6" width="28" height="6" rx="1" fill="#242c1a"/>
-            <!-- Face/balaclava -->
-            <rect x="8" y="12" width="18" height="16" rx="2" fill="#1a1410"/>
-            <rect x="10" y="14" width="14" height="8" rx="1" fill="#111"/> <!-- visor/goggles dark -->
-            <!-- IOTV chest -->
-            <rect x="0" y="28" width="34" height="42" rx="2" fill="#3d4a2a"/>
-            <!-- SAPI plates front -->
-            <rect x="4" y="30" width="26" height="22" rx="2" fill="#2d3820"/>
-            <!-- Collar -->
-            <rect x="8" y="27" width="18" height="6" rx="1" fill="#2a3020"/>
-            <!-- MOLLE pouches -->
-            <rect x="0" y="45" width="9" height="14" rx="1" fill="#2a3020"/>
-            <rect x="10" y="45" width="9" height="14" rx="1" fill="#333d24"/>
-            <rect x="20" y="45" width="9" height="14" rx="1" fill="#2a3020"/>
-            <!-- Side pouches -->
-            <rect x="-7" y="35" width="8" height="18" rx="1" fill="#2d3820"/>
-            <rect x="33" y="35" width="8" height="18" rx="1" fill="#2d3820"/>
-            <!-- Left arm -->
-            <rect x="-8" y="28" width="9" height="30" rx="3" fill="#3d4a2a"/>
-            <rect x="-8" y="50" width="9" height="10" rx="2" fill="#1a1208"/>
-            <!-- Right arm - forward with M4 -->
-            <rect x="33" y="28" width="9" height="26" rx="3" fill="#3d4a2a"/>
-            <rect x="33" y="50" width="9" height="8" rx="2" fill="#1a1208"/>
-            <!-- M4 Carbine - detailed -->
-            <rect x="40" y="26" width="3" height="30" rx="1" fill="#0d0d0d"/> <!-- pistol grip -->
-            <rect x="38" y="22" width="52" height="6" rx="1" fill="#111111"/> <!-- upper receiver -->
-            <rect x="42" y="18" width="6" height="9" rx="1" fill="#0a0a0a"/> <!-- magazine -->
-            <rect x="48" y="20" width="2" height="5" fill="#0d0d0d"/> <!-- mag release area -->
-            <rect x="38" y="22" width="20" height="6" rx="1" fill="#151515"/> <!-- handguard -->
-            <rect x="82" y="23" width="14" height="4" rx="1" fill="#0a0a0a"/> <!-- barrel -->
-            <rect x="45" y="19" width="8" height="3" rx="0.5" fill="#1a1a1a"/> <!-- carry handle/optic -->
-            <!-- Gold rim light left side -->
-            <rect x="-8" y="28" width="2" height="72" fill="rgba(212,175,55,0.25)" rx="1"/>
-            <rect x="-8" y="28" width="9" height="2" fill="rgba(212,175,55,0.15)" rx="1"/>
-            <!-- Legs -->
-            <rect x="2" y="70" width="14" height="38" rx="2" fill="#2a3020"/>
-            <rect x="18" y="70" width="14" height="38" rx="2" fill="#2a3020"/>
-            <!-- Cargo pockets -->
-            <rect x="3" y="78" width="12" height="10" rx="1" fill="#232e18"/>
-            <rect x="19" y="78" width="12" height="10" rx="1" fill="#232e18"/>
-            <!-- Knee pads -->
-            <ellipse cx="9" cy="90" rx="7" ry="5" fill="#1a2010"/>
-            <ellipse cx="25" cy="90" rx="7" ry="5" fill="#1a2010"/>
-            <!-- Boots -->
-            <rect x="1" y="105" width="16" height="10" rx="2" fill="#0d0d0d"/>
-            <rect x="17" y="105" width="16" height="10" rx="2" fill="#0d0d0d"/>
-            <!-- Boot laces -->
-            <line x1="5" y1="107" x2="14" y2="107" stroke="#1a1a1a" stroke-width="0.5"/>
-            <line x1="5" y1="110" x2="14" y2="110" stroke="#1a1a1a" stroke-width="0.5"/>
-          </g>
-
-          <!-- Lead Soldier RIGHT -->
-          <g transform="translate(860,295) scale(1.25)" id="soldier-fg-r">
-            <ellipse cx="17" cy="2" rx="16" ry="12" fill="#2a3020"/>
-            <rect x="3" y="6" width="28" height="6" rx="1" fill="#242c1a"/>
-            <rect x="8" y="12" width="18" height="16" rx="2" fill="#1a1410"/>
-            <rect x="10" y="14" width="14" height="8" rx="1" fill="#111"/>
-            <rect x="0" y="28" width="34" height="42" rx="2" fill="#3d4a2a"/>
-            <rect x="4" y="30" width="26" height="22" rx="2" fill="#2d3820"/>
-            <rect x="8" y="27" width="18" height="6" rx="1" fill="#2a3020"/>
-            <rect x="0" y="45" width="9" height="14" rx="1" fill="#2a3020"/>
-            <rect x="10" y="45" width="9" height="14" rx="1" fill="#333d24"/>
-            <rect x="20" y="45" width="9" height="14" rx="1" fill="#2a3020"/>
-            <rect x="-7" y="35" width="8" height="18" rx="1" fill="#2d3820"/>
-            <rect x="33" y="35" width="8" height="18" rx="1" fill="#2d3820"/>
-            <rect x="-8" y="28" width="9" height="30" rx="3" fill="#3d4a2a"/>
-            <rect x="-8" y="50" width="9" height="10" rx="2" fill="#1a1208"/>
-            <rect x="33" y="28" width="9" height="26" rx="3" fill="#3d4a2a"/>
-            <rect x="33" y="50" width="9" height="8" rx="2" fill="#1a1208"/>
-            <!-- M4 pointing left -->
-            <rect x="-48" y="26" width="52" height="6" rx="1" fill="#111111"/>
-            <rect x="-6" y="22" width="6" height="9" rx="1" fill="#0a0a0a"/>
-            <rect x="-48" y="23" width="14" height="4" rx="1" fill="#0a0a0a"/>
-            <!-- Gold rim right side -->
-            <rect x="33" y="28" width="2" height="72" fill="rgba(212,175,55,0.25)" rx="1"/>
-            <rect x="2" y="70" width="14" height="38" rx="2" fill="#2a3020"/>
-            <rect x="18" y="70" width="14" height="38" rx="2" fill="#2a3020"/>
-            <rect x="3" y="78" width="12" height="10" rx="1" fill="#232e18"/>
-            <rect x="19" y="78" width="12" height="10" rx="1" fill="#232e18"/>
-            <ellipse cx="9" cy="90" rx="7" ry="5" fill="#1a2010"/>
-            <ellipse cx="25" cy="90" rx="7" ry="5" fill="#1a2010"/>
-            <rect x="1" y="105" width="16" height="10" rx="2" fill="#0d0d0d"/>
-            <rect x="17" y="105" width="16" height="10" rx="2" fill="#0d0d0d"/>
-          </g>
-
-          <!-- Ground mist -->
-          <ellipse cx="720" cy="760" rx="900" ry="60" fill="rgba(212,175,55,0.03)"/>
-        </svg>
-      </div>
-      <!-- TEXT -->
-      <div class="text-overlay left" id="t2" style="top:20%;transform:none">
-        <div class="label">SCENE ONE · FORMATION</div>
-        <h1 class="scene-title">You have<br>ambition.<br>You lack<br><span class="gold">execution.</span></h1>
+  <!-- PLAIN ENGLISH EXPLAINER -->
+  <section id="howitworks">
+    <div class="container">
+      <div style="position:relative;">
+        <div class="ghost-num">03</div>
+        <div class="section-tag">EXACTLY WHAT HAPPENS</div>
+        <h2>
+          Here's what<br>
+          Vexilla actually<br>
+          <span class="gold">does.</span>
+        </h2>
         <div class="divider"></div>
-        <div class="scene-body">
-          <p>AI diagnoses your execution profile</p>
-          <p>Proof required. No partial credit.</p>
-          <p>Miss a day. Streak resets.</p>
+        <p style="font-size:11px; color:var(--white-40); letter-spacing:0.12em; line-height:2.2; max-width:520px; position:relative; z-index:1;">
+          No jargon. No military metaphors for a second. Just exactly what happens from the moment you open the app.
+        </p>
+      </div>
+      <div class="explainer-steps">
+        <div class="explainer-step">
+          <div class="explainer-step-num">01</div>
+          <div class="explainer-step-title">YOU ANSWER 17 QUESTIONS</div>
+          <div class="explainer-step-body">
+            About your goals, your habits, your past attempts, and your patterns. <em>Not a personality quiz.</em> Diagnostic inputs — the same ones a performance coach would ask in an intake session.
+          </div>
+        </div>
+        <div class="explainer-step">
+          <div class="explainer-step-num">02</div>
+          <div class="explainer-step-title">AI RUNS 4 ANALYSIS LAYERS</div>
+          <div class="explainer-step-body">
+            Four separate AI calls score your <em>consistency, path clarity, confidence,</em> and <em>system pressure.</em> Each generates a number and an explanation. Combined, they produce your Execution DNA.
+          </div>
+        </div>
+        <div class="explainer-step">
+          <div class="explainer-step-num">03</div>
+          <div class="explainer-step-title">YOU GET A PERSONALISED 7-DAY PLAN</div>
+          <div class="explainer-step-body">
+            Not a template. Your actual failure pattern is identified, your system fix is named, and 7 days of specific daily tasks are generated — <em>built around your diagnosis,</em> not a generic framework.
+          </div>
+        </div>
+        <div class="explainer-step">
+          <div class="explainer-step-num">04</div>
+          <div class="explainer-step-title">SUBMIT PROOF. OR START OVER.</div>
+          <div class="explainer-step-body">
+            Every day you complete your task and submit evidence. The AI verifies it. <em>No proof = no credit.</em> Miss one day and your streak resets to zero. Complete all 7 and your scores are recalculated. Phase 1 unlocks.
+          </div>
+        </div>
+      </div>
+      <div class="ai-mechanism-bar">
+        <div>
+          <div class="ai-mechanism-label">THE AI MECHANISM</div>
+          <div class="ai-mechanism-text">
+            <strong>4 OpenAI calls</strong> analyse your 17 diagnostic inputs across consistency, path clarity, confidence, and system pressure — then generate a personalised roadmap and verify your daily proof submissions.
+          </div>
+        </div>
+        <div class="ai-calls">
+          <div class="ai-call-chip">CONSISTENCY AI</div>
+          <div class="ai-call-chip">PATH CLARITY AI</div>
+          <div class="ai-call-chip">CONFIDENCE AI</div>
+          <div class="ai-call-chip">PRESSURE AI</div>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- ══ SCENE 3 — BULLET FIRES ══ -->
-    <div class="scene" id="s3">
-      <div class="svg-scene">
-        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <filter id="muzzleGlow"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            <filter id="bulletMotion"><feGaussianBlur stdDeviation="0 3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            <radialGradient id="muzzleFlash" cx="20%" cy="50%" r="30%">
-              <stop offset="0%" stop-color="#fff8e1" stop-opacity="0.9"/>
-              <stop offset="30%" stop-color="#D4AF37" stop-opacity="0.6"/>
-              <stop offset="100%" stop-color="transparent"/>
-            </radialGradient>
-            <linearGradient id="smokeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="rgba(180,180,160,0.3)"/>
-              <stop offset="100%" stop-color="transparent"/>
-            </linearGradient>
-          </defs>
-          <!-- Dark field -->
-          <rect width="1440" height="900" fill="#080c05"/>
-          <ellipse cx="720" cy="760" rx="1000" ry="100" fill="#0d1208"/>
-
-          <!-- SHOOTER - left side, foreground partial view -->
-          <g transform="translate(-40,280)">
-            <!-- just the arm/rifle coming from left edge -->
-            <rect x="0" y="180" width="90" height="12" rx="3" fill="#3d4a2a"/> <!-- arm -->
-            <rect x="0" y="178" width="90" height="16" rx="2" fill="rgba(212,175,55,0.08)"/> <!-- sleeve rim -->
-            <!-- M4 extending right -->
-            <rect x="80" y="172" width="220" height="8" rx="2" fill="#111"/>
-            <rect x="82" y="168" width="8" height="12" rx="1" fill="#0a0a0a"/> <!-- mag -->
-            <rect x="90" y="170" width="60" height="8" rx="1" fill="#1a1a1a"/> <!-- handguard -->
-            <rect x="290" y="174" width="20" height="4" rx="1" fill="#0a0a0a"/> <!-- barrel -->
-          </g>
-
-          <!-- MUZZLE FLASH -->
-          <g filter="url(#muzzleGlow)" transform="translate(240,442)">
-            <ellipse cx="0" cy="0" rx="40" ry="18" fill="#fff8e1" opacity="0.9"/>
-            <ellipse cx="20" cy="0" rx="25" ry="12" fill="#D4AF37" opacity="0.8"/>
-            <!-- Flash rays -->
-            <line x1="0" y1="0" x2="50" y2="-20" stroke="#fff8e1" stroke-width="1.5" opacity="0.6"/>
-            <line x1="0" y1="0" x2="50" y2="20" stroke="#fff8e1" stroke-width="1.5" opacity="0.6"/>
-            <line x1="0" y1="0" x2="60" y2="0" stroke="#fff8e1" stroke-width="2" opacity="0.7"/>
-          </g>
-
-          <!-- SMOKE -->
-          <ellipse cx="280" cy="442" rx="60" ry="20" fill="url(#smokeGrad)" opacity="0.5"/>
-
-          <!-- BULLET in flight -->
-          <g filter="url(#bulletMotion)" transform="translate(400,438)">
-            <ellipse cx="0" cy="0" rx="40" ry="3" fill="rgba(212,175,55,0.3)"/> <!-- motion trail -->
-            <ellipse cx="36" cy="0" rx="8" ry="3" fill="#D4AF37" opacity="0.9"/> <!-- bullet head -->
-            <!-- Shock cone around bullet tip -->
-            <path d="M 44 0 L 60 -8 L 60 8 Z" fill="rgba(255,255,255,0.15)"/>
-          </g>
-
-          <!-- Impact point glow (right side) -->
-          <g transform="translate(1100,440)">
-            <circle cx="0" cy="0" r="60" fill="rgba(212,175,55,0.05)"/>
-            <circle cx="0" cy="0" r="8" fill="rgba(212,175,55,0.2)"/>
-          </g>
-
-          <!-- Atmospheric smoke wisps -->
-          <ellipse cx="500" cy="400" rx="80" ry="20" fill="rgba(180,170,140,0.06)" transform="rotate(-5,500,400)"/>
-          <ellipse cx="700" cy="380" rx="60" ry="15" fill="rgba(180,170,140,0.04)" transform="rotate(3,700,380)"/>
-        </svg>
-      </div>
-      <!-- TEXT -->
-      <div class="text-overlay right" id="t3" style="top:20%;right:6%;transform:none">
-        <div class="label">OPERATIVE #001</div>
-        <h2 class="scene-title">TITAN-<span class="gold">0001</span></h2>
+  <!-- OUTCOME METRICS — WHAT CHANGES AFTER 7 DAYS -->
+  <section id="outcome">
+    <div class="container">
+      <div style="position:relative;">
+        <div class="ghost-num">04</div>
+        <div class="section-tag">AFTER 7 DAYS</div>
+        <h2>
+          Exactly what<br>
+          you get.<br>
+          <span class="gold">Measured.</span>
+        </h2>
         <div class="divider"></div>
-        <div class="stat-cards" id="stat-cards-3">
-          <div class="stat-card">
-            <div class="stat-card-label">CONSISTENCY</div>
-            <div class="stat-card-val">84</div>
-            <div class="stat-card-sub">HIGH EXECUTION</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-label">PATH CLARITY</div>
-            <div class="stat-card-val">71</div>
-            <div class="stat-card-sub">SIGNAL CLEAR</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-label">CONFIDENCE</div>
-            <div class="stat-card-val">79%</div>
-            <div class="stat-card-sub">SELF AWARE</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-label">PRESSURE</div>
-            <div class="stat-card-val" style="color:var(--red)">63</div>
-            <div class="stat-card-sub">ACTIVE</div>
-          </div>
+        <p style="font-size:11px; color:var(--white-40); letter-spacing:0.12em; line-height:2.2; max-width:520px; position:relative; z-index:1;">
+          Not motivation. Not a mindset shift. Concrete outputs — the same ones shown in Operative #001's file above.
+        </p>
+      </div>
+      <div class="outcome-grid">
+        <div class="outcome-card">
+          <div class="outcome-day">DAY 7 DELIVERABLE</div>
+          <div class="outcome-metric">7</div>
+          <div class="outcome-label">VERIFIED EXECUTION DAYS</div>
+          <div class="outcome-desc">Seven days of submitted, AI-verified proof. Not self-reported. Not on the honour system. Logged, timestamped, and confirmed. This is your first undeniable evidence of execution.</div>
         </div>
-        <div style="margin-top:14px;font-size:8px;letter-spacing:0.2em;color:rgba(212,175,55,0.5);display:flex;align-items:center;gap:8px">
-          <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite"></span>
-          LIVE DATA · DAY 14 · PHASE 1 UNLOCKED
+        <div class="outcome-card">
+          <div class="outcome-day">DAY 7 DELIVERABLE</div>
+          <div class="outcome-metric">↑</div>
+          <div class="outcome-label">CONSISTENCY SCORE RECALCULATED</div>
+          <div class="outcome-desc">Your AI consistency score is recalculated from your 7 days of real behaviour — not your answers to questions. Operative #001 moved +11 points. Your number will be different. It will be real.</div>
         </div>
+        <div class="outcome-card">
+          <div class="outcome-day">DAY 7 DELIVERABLE</div>
+          <div class="outcome-metric">→</div>
+          <div class="outcome-label">PHASE 1 UNLOCKED</div>
+          <div class="outcome-desc">Complete Phase 0 and Phase 1 opens. Harder tasks. Deeper capability. A new diagnosis layer. The rank system is not cosmetic — each phase requires proof that the last one actually changed your behaviour.</div>
+        </div>
+      </div>
+      <div class="outcome-guarantee">
+        <div class="outcome-guarantee-text">
+          <strong>THE ONLY GUARANTEE:</strong> Complete 7 days of verified proof and your execution score will move. If it doesn't, the system failed — and we want to know.
+        </div>
+        <div class="outcome-guarantee-badge">PROOF OR IT DIDN'T HAPPEN</div>
       </div>
     </div>
+  </section>
 
-    <!-- ══ SCENE 4 — TANK COLUMN ══ -->
-    <div class="scene" id="s4">
-      <div class="svg-scene">
-        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="mudSky" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#0d0a05"/>
-              <stop offset="50%" stop-color="#150f04"/>
-              <stop offset="100%" stop-color="#0a0705"/>
-            </linearGradient>
-            <filter id="tankBlur"><feGaussianBlur stdDeviation="1.5"/></filter>
-            <filter id="tankBlurHeavy"><feGaussianBlur stdDeviation="4"/></filter>
-            <linearGradient id="mudGround" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#1a1005"/>
-              <stop offset="100%" stop-color="#0a0703"/>
-            </linearGradient>
-          </defs>
-          <rect width="1440" height="900" fill="url(#mudSky)"/>
-          <!-- Mud ground -->
-          <rect x="0" y="680" width="1440" height="220" fill="url(#mudGround)"/>
-          <!-- Ground texture -->
-          <g opacity="0.3">
-            <ellipse cx="200" cy="720" rx="80" ry="8" fill="#2a1a06"/>
-            <ellipse cx="600" cy="740" rx="120" ry="10" fill="#1a1004"/>
-            <ellipse cx="1000" cy="710" rx="100" ry="8" fill="#2a1a06"/>
-            <ellipse cx="1300" cy="730" rx="90" ry="7" fill="#1a1004"/>
-          </g>
-          <!-- Mud puddles -->
-          <ellipse cx="350" cy="760" rx="60" ry="8" fill="rgba(100,80,40,0.2)"/>
-          <ellipse cx="900" cy="750" rx="80" ry="10" fill="rgba(100,80,40,0.15)"/>
-
-          <!-- Army camp background -->
-          <g filter="url(#tankBlurHeavy)" opacity="0.35">
-            <!-- Tents background -->
-            <path d="M 50 620 L 110 560 L 170 620 Z" fill="#2a3020"/>
-            <path d="M 160 625 L 220 565 L 280 625 Z" fill="#242c1a"/>
-            <path d="M 1200 615 L 1260 558 L 1320 615 Z" fill="#2a3020"/>
-            <path d="M 1290 620 L 1350 560 L 1410 620 Z" fill="#242c1a"/>
-            <!-- Flagpoles -->
-            <line x1="720" y1="480" x2="720" y2="640" stroke="#1a1a1a" stroke-width="2"/>
-            <rect x="721" y="490" width="30" height="18" fill="rgba(212,175,55,0.3)"/>
-          </g>
-
-          <!-- BACKGROUND tanks (blurred) -->
-          <g filter="url(#tankBlurHeavy)" opacity="0.4" transform="translate(0,20)">
-            <!-- Tank far left bg -->
-            <g transform="translate(80,580) scale(0.4)">
-              <rect x="0" y="30" width="160" height="40" rx="3" fill="#2a3020"/> <!-- hull -->
-              <rect x="20" y="10" width="120" height="30" rx="2" fill="#3d4a2a"/> <!-- turret -->
-              <rect x="80" y="5" width="80" height="8" rx="2" fill="#1a1a1a"/> <!-- barrel -->
-              <ellipse cx="30" cy="72" rx="20" ry="12" fill="#1a1a1a"/> <!-- wheel -->
-              <ellipse cx="80" cy="72" rx="20" ry="12" fill="#1a1a1a"/>
-              <ellipse cx="130" cy="72" rx="20" ry="12" fill="#1a1a1a"/>
-            </g>
-            <!-- Tank far right bg -->
-            <g transform="translate(1200,575) scale(0.4)">
-              <rect x="0" y="30" width="160" height="40" rx="3" fill="#2a3020"/>
-              <rect x="20" y="10" width="120" height="30" rx="2" fill="#3d4a2a"/>
-              <rect x="-60" y="5" width="80" height="8" rx="2" fill="#1a1a1a"/>
-              <ellipse cx="30" cy="72" rx="20" ry="12" fill="#1a1a1a"/>
-              <ellipse cx="80" cy="72" rx="20" ry="12" fill="#1a1a1a"/>
-              <ellipse cx="130" cy="72" rx="20" ry="12" fill="#1a1a1a"/>
-            </g>
-          </g>
-
-          <!-- MIDGROUND tanks -->
-          <g filter="url(#tankBlur)" opacity="0.7">
-            <!-- M1 Abrams tank left midground -->
-            <g transform="translate(150,530) scale(0.7)" id="tank-mid">
-              <!-- Track/hull base -->
-              <rect x="0" y="60" width="220" height="30" rx="2" fill="#1a2010"/>
-              <!-- Track links -->
-              <g opacity="0.4">
-                <rect x="5" y="62" width="10" height="26" rx="1" fill="#0d0d0d"/>
-                <rect x="20" y="62" width="10" height="26" rx="1" fill="#111"/>
-                <rect x="35" y="62" width="10" height="26" rx="1" fill="#0d0d0d"/>
-                <rect x="50" y="62" width="10" height="26" rx="1" fill="#111"/>
-                <rect x="65" y="62" width="10" height="26" rx="1" fill="#0d0d0d"/>
-                <rect x="80" y="62" width="10" height="26" rx="1" fill="#111"/>
-                <rect x="95" y="62" width="10" height="26" rx="1" fill="#0d0d0d"/>
-                <rect x="110" y="62" width="10" height="26" rx="1" fill="#111"/>
-                <rect x="125" y="62" width="10" height="26" rx="1" fill="#0d0d0d"/>
-                <rect x="140" y="62" width="10" height="26" rx="1" fill="#111"/>
-                <rect x="155" y="62" width="10" height="26" rx="1" fill="#0d0d0d"/>
-                <rect x="170" y="62" width="10" height="26" rx="1" fill="#111"/>
-                <rect x="185" y="62" width="10" height="26" rx="1" fill="#0d0d0d"/>
-                <rect x="200" y="62" width="10" height="26" rx="1" fill="#111"/>
-              </g>
-              <!-- Road wheels -->
-              <ellipse cx="20" cy="84" rx="14" ry="14" fill="#111"/><ellipse cx="55" cy="84" rx="14" ry="14" fill="#111"/><ellipse cx="90" cy="84" rx="14" ry="14" fill="#111"/><ellipse cx="125" cy="84" rx="14" ry="14" fill="#111"/><ellipse cx="160" cy="84" rx="14" ry="14" fill="#111"/><ellipse cx="195" cy="84" rx="14" ry="14" fill="#111"/>
-              <!-- Drive sprocket/idler -->
-              <circle cx="14" cy="72" r="12" fill="#0d0d0d"/><circle cx="206" cy="72" r="12" fill="#0d0d0d"/>
-              <!-- Hull -->
-              <path d="M 10 30 L 210 30 L 220 60 L 0 60 Z" fill="#2a3020"/>
-              <rect x="10" y="18" width="200" height="16" rx="1" fill="#333d24"/>
-              <!-- Skirts -->
-              <rect x="0" y="45" width="220" height="18" rx="1" fill="#232e18"/>
-              <!-- Turret -->
-              <path d="M 40 10 L 180 10 L 190 30 L 30 30 Z" fill="#3d4a2a"/>
-              <!-- Turret bustle -->
-              <rect x="140" y="8" width="50" height="24" rx="2" fill="#2d3820"/>
-              <!-- Commander's hatch -->
-              <circle cx="100" cy="16" r="12" fill="#2a3020"/>
-              <circle cx="100" cy="16" r="8" fill="#1d2616"/>
-              <!-- Main gun -->
-              <rect x="180" y="16" width="100" height="6" rx="2" fill="#111"/>
-              <rect x="200" y="15" width="3" height="8" fill="#1a1a1a"/> <!-- bore evacuator -->
-              <!-- Coaxial MG -->
-              <rect x="168" y="20" width="16" height="2" fill="#0a0a0a"/>
-              <!-- ERA blocks suggestion -->
-              <rect x="15" y="31" width="18" height="12" rx="0.5" fill="#2d3820" opacity="0.8"/>
-              <rect x="38" y="31" width="18" height="12" rx="0.5" fill="#252e1a" opacity="0.8"/>
-            </g>
-            <!-- Second tank right midground -->
-            <g transform="translate(950,520) scale(0.7)">
-              <rect x="0" y="60" width="220" height="30" rx="2" fill="#1a2010"/>
-              <path d="M 10 30 L 210 30 L 220 60 L 0 60 Z" fill="#2a3020"/>
-              <rect x="10" y="18" width="200" height="16" rx="1" fill="#333d24"/>
-              <rect x="0" y="45" width="220" height="18" rx="1" fill="#232e18"/>
-              <path d="M 40 10 L 180 10 L 190 30 L 30 30 Z" fill="#3d4a2a"/>
-              <rect x="140" y="8" width="50" height="24" rx="2" fill="#2d3820"/>
-              <circle cx="100" cy="16" r="12" fill="#2a3020"/>
-              <rect x="-80" y="16" width="100" height="6" rx="2" fill="#111"/> <!-- gun pointing left -->
-              <ellipse cx="20" cy="84" rx="14" ry="14" fill="#111"/><ellipse cx="55" cy="84" rx="14" ry="14" fill="#111"/><ellipse cx="90" cy="84" rx="14" ry="14" fill="#111"/><ellipse cx="125" cy="84" rx="14" ry="14" fill="#111"/><ellipse cx="160" cy="84" rx="14" ry="14" fill="#111"/><ellipse cx="195" cy="84" rx="14" ry="14" fill="#111"/>
-              <circle cx="14" cy="72" r="12" fill="#0d0d0d"/><circle cx="206" cy="72" r="12" fill="#0d0d0d"/>
-            </g>
-          </g>
-
-          <!-- LEAD TANK (sharp, large, foreground) -->
-          <g transform="translate(400,400) scale(1.4)" id="lead-tank">
-            <!-- Track system -->
-            <rect x="0" y="70" width="260" height="35" rx="2" fill="#111"/>
-            <g opacity="0.35">
-              <rect x="4" y="72" width="12" height="31" rx="1" fill="#0a0a0a"/>
-              <rect x="20" y="72" width="12" height="31" rx="1" fill="#111"/>
-              <rect x="36" y="72" width="12" height="31" rx="1" fill="#0a0a0a"/>
-              <rect x="52" y="72" width="12" height="31" rx="1" fill="#111"/>
-              <rect x="68" y="72" width="12" height="31" rx="1" fill="#0a0a0a"/>
-              <rect x="84" y="72" width="12" height="31" rx="1" fill="#111"/>
-              <rect x="100" y="72" width="12" height="31" rx="1" fill="#0a0a0a"/>
-              <rect x="116" y="72" width="12" height="31" rx="1" fill="#111"/>
-              <rect x="132" y="72" width="12" height="31" rx="1" fill="#0a0a0a"/>
-              <rect x="148" y="72" width="12" height="31" rx="1" fill="#111"/>
-              <rect x="164" y="72" width="12" height="31" rx="1" fill="#0a0a0a"/>
-              <rect x="180" y="72" width="12" height="31" rx="1" fill="#111"/>
-              <rect x="196" y="72" width="12" height="31" rx="1" fill="#0a0a0a"/>
-              <rect x="212" y="72" width="12" height="31" rx="1" fill="#111"/>
-              <rect x="228" y="72" width="12" height="31" rx="1" fill="#0a0a0a"/>
-              <rect x="244" y="72" width="12" height="31" rx="1" fill="#111"/>
-            </g>
-            <!-- Road wheels -->
-            <ellipse cx="22" cy="96" rx="17" ry="17" fill="#0d0d0d"/><ellipse cx="62" cy="96" rx="17" ry="17" fill="#0d0d0d"/><ellipse cx="102" cy="96" rx="17" ry="17" fill="#0d0d0d"/><ellipse cx="142" cy="96" rx="17" ry="17" fill="#0d0d0d"/><ellipse cx="182" cy="96" rx="17" ry="17" fill="#0d0d0d"/><ellipse cx="222" cy="96" rx="17" ry="17" fill="#0d0d0d"/>
-            <!-- Wheel centers -->
-            <circle cx="22" cy="96" r="6" fill="#1a1a1a"/><circle cx="62" cy="96" r="6" fill="#1a1a1a"/><circle cx="102" cy="96" r="6" fill="#1a1a1a"/><circle cx="142" cy="96" r="6" fill="#1a1a1a"/><circle cx="182" cy="96" r="6" fill="#1a1a1a"/><circle cx="222" cy="96" r="6" fill="#1a1a1a"/>
-            <!-- Drive/idler -->
-            <circle cx="14" cy="82" r="16" fill="#0a0a0a"/><circle cx="246" cy="82" r="16" fill="#0a0a0a"/>
-            <!-- Return rollers top -->
-            <circle cx="50" cy="72" r="5" fill="#111"/><circle cx="130" cy="72" r="5" fill="#111"/><circle cx="210" cy="72" r="5" fill="#111"/>
-            <!-- Hull lower -->
-            <path d="M 8 38 L 252 38 L 260 70 L 0 70 Z" fill="#2a3020"/>
-            <!-- Hull upper -->
-            <rect x="10" y="22" width="240" height="20" rx="1" fill="#333d24"/>
-            <!-- Side skirts -->
-            <rect x="0" y="52" width="260" height="22" rx="1" fill="#232e18"/>
-            <!-- Skirt detail -->
-            <g opacity="0.4">
-              <line x1="30" y1="52" x2="30" y2="74" stroke="#1a2010" stroke-width="1"/>
-              <line x1="80" y1="52" x2="80" y2="74" stroke="#1a2010" stroke-width="1"/>
-              <line x1="130" y1="52" x2="130" y2="74" stroke="#1a2010" stroke-width="1"/>
-              <line x1="180" y1="52" x2="180" y2="74" stroke="#1a2010" stroke-width="1"/>
-              <line x1="230" y1="52" x2="230" y2="74" stroke="#1a2010" stroke-width="1"/>
-            </g>
-            <!-- Turret -->
-            <path d="M 50 10 L 210 10 L 230 38 L 30 38 Z" fill="#3d4a2a"/>
-            <!-- Turret top face -->
-            <rect x="50" y="6" width="160" height="10" rx="1" fill="#2d3820"/>
-            <!-- Bustle rack -->
-            <rect x="165" y="8" width="65" height="32" rx="2" fill="#2a3020"/>
-            <rect x="168" y="10" width="60" height="28" rx="1" fill="#252e1a"/>
-            <!-- Bustle stowage -->
-            <rect x="170" y="14" width="20" height="8" rx="1" fill="#1d2616" opacity="0.6"/>
-            <rect x="194" y="14" width="20" height="8" rx="1" fill="#1d2616" opacity="0.6"/>
-            <!-- Commander hatch -->
-            <circle cx="130" cy="16" r="16" fill="#2a3020"/>
-            <circle cx="130" cy="16" r="10" fill="#1d2616"/>
-            <!-- Gunner sight -->
-            <rect x="100" y="10" width="18" height="10" rx="1" fill="#1a1a1a"/>
-            <!-- M256 Main gun -->
-            <rect x="230" y="18" width="130" height="8" rx="3" fill="#111"/>
-            <rect x="280" y="17" width="5" height="10" fill="#0d0d0d"/> <!-- bore evacuator -->
-            <rect x="350" y="19" width="12" height="6" rx="1" fill="#0a0a0a"/> <!-- muzzle brake -->
-            <!-- Coaxial -->
-            <rect x="214" y="22" width="18" height="3" fill="#0a0a0a"/>
-            <!-- Mud on lower hull -->
-            <rect x="0" y="60" width="260" height="12" rx="1" fill="rgba(42,26,6,0.7)"/>
-            <!-- Gold rim highlight -->
-            <rect x="0" y="38" width="2" height="40" fill="rgba(212,175,55,0.3)" rx="1"/>
-            <rect x="0" y="22" width="260" height="1.5" fill="rgba(212,175,55,0.12)"/>
-            <!-- Exhaust smoke -->
-            <ellipse cx="250" cy="36" rx="12" ry="8" fill="rgba(100,90,60,0.2)"/>
-          </g>
-
-          <!-- Mud splatter fx -->
-          <g opacity="0.3">
-            <ellipse cx="550" cy="700" rx="30" ry="5" fill="#2a1a06" transform="rotate(-10,550,700)"/>
-            <ellipse cx="650" cy="720" rx="20" ry="3" fill="#2a1a06" transform="rotate(5,650,720)"/>
-          </g>
-        </svg>
-      </div>
-      <!-- TEXT -->
-      <div class="text-overlay left" id="t4" style="top:12%;transform:none">
-        <div class="label">HOW IT WORKS</div>
-        <h2 class="scene-title">Exactly what<br>happens — <span class="gold">plain.</span></h2>
+  <!-- DIAGNOSIS -->
+  <section id="diagnosis">
+    <div class="container">
+      <div style="position:relative;">
+        <div class="ghost-num">05</div>
+        <div class="section-tag">THE DIAGNOSIS</div>
+        <h2>
+          A system that tells<br>
+          you exactly what<br>
+          <span class="gold">to do.</span>
+        </h2>
         <div class="divider"></div>
-        <div class="step-cards" id="step-cards-4">
-          <div class="step-card">
-            <div class="step-card-num">01</div>
-            <div class="step-card-title">YOU ANSWER 17 QUESTIONS</div>
-            <div class="step-card-body">Goals, habits, past attempts — diagnostic inputs, not a personality quiz.</div>
+        <div class="two-col">
+          <div>
+            <div class="rules-list">
+              <div class="rule-item">
+                <div class="rule-arrow">►</div>
+                <div>
+                  <span class="rule-strong">AI EXECUTION PROFILE</span>
+                  <span class="rule-body">4-layer AI analysis covers your consistency score, path clarity, confidence level, and system pressure. Every answer you give is used to build your classified operative dossier.</span>
+                </div>
+              </div>
+              <div class="rule-item">
+                <div class="rule-arrow">►</div>
+                <div>
+                  <span class="rule-strong">YOUR TITAN ID</span>
+                  <span class="rule-body">A unique operative ID generated from your execution DNA. Your archetype, war badges, AI vulnerability index, and trajectory gap — all classified and shareable.</span>
+                </div>
+              </div>
+              <div class="rule-item">
+                <div class="rule-arrow">►</div>
+                <div>
+                  <span class="rule-strong">PERSONALISED ROADMAP</span>
+                  <span class="rule-body">Phase 0 is a 7-day system built around your specific failure patterns — not generic advice. Your system fix. Your exact tasks. Your daily proof requirement.</span>
+                </div>
+              </div>
+              <div class="rule-item">
+                <div class="rule-arrow">►</div>
+                <div>
+                  <span class="rule-strong">TRAJECTORY ANALYSIS</span>
+                  <span class="rule-body">See the gap between your current path and your Vexilla path. Real projections. Real consequences. No sugarcoating.</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="step-card">
-            <div class="step-card-num">02</div>
-            <div class="step-card-title">4 AI CALLS ANALYSE YOUR DNA</div>
-            <div class="step-card-body">Consistency · Path Clarity · Confidence · System Pressure — four scores.</div>
-          </div>
-          <div class="step-card">
-            <div class="step-card-num">03</div>
-            <div class="step-card-title">YOU GET A 7-DAY PLAN</div>
-            <div class="step-card-body">Built for your failure pattern. Not a template. Your exact fix.</div>
-          </div>
-          <div class="step-card">
-            <div class="step-card-num">04</div>
-            <div class="step-card-title">SUBMIT PROOF. OR START OVER.</div>
-            <div class="step-card-body">AI verifies daily. No proof = no credit. Miss one = streak resets.</div>
+          <div style="display:flex; justify-content:center;">
+            <!-- DNA CARD PREVIEW -->
+            <div class="dna-card">
+              <div class="dna-watermark">V</div>
+              <div class="dna-corner-tl"></div>
+              <div class="dna-corner-br"></div>
+              <div class="eyes-stamp">EYES ONLY</div>
+              <div class="dna-top-row">
+                <span>VEXILLA AI</span>
+                <span>FILE REF: VX-2026-0416</span>
+              </div>
+              <div class="operative-label">OPERATIVE</div>
+              <div class="titan-id">TITAN-1479</div>
+              <div class="operative-label" style="margin-top:12px;">CLASSIFICATION</div>
+              <div class="archetype">THE DETERMINED INNOVATOR</div>
+              <div class="phase-badge">PHASE 0 OPERATIVE</div>
+              <div class="archetype-quote">The ambition shines, but the<br>temptations lurk in shadows.</div>
+              <div class="dna-stats">
+                <div class="dna-stat">
+                  <div class="dna-stat-label">CONSISTENCY</div>
+                  <div class="dna-stat-val c-green">90</div>
+                </div>
+                <div class="dna-stat">
+                  <div class="dna-stat-label">PATH CLARITY</div>
+                  <div class="dna-stat-val c-green">15</div>
+                </div>
+                <div class="dna-stat">
+                  <div class="dna-stat-label">CONFIDENCE</div>
+                  <div class="dna-stat-val c-green">85%</div>
+                </div>
+                <div class="dna-stat">
+                  <div class="dna-stat-label">PRESSURE</div>
+                  <div class="dna-stat-val c-red">70</div>
+                </div>
+              </div>
+              <div class="war-chips">
+                <div class="chip"><div class="chip-dot"></div>DOMINANT</div>
+                <div class="chip"><div class="chip-dot"></div>SIGNAL CLEAR</div>
+                <div class="chip"><div class="chip-dot"></div>PRESSURE TESTED</div>
+                <div class="chip"><div class="chip-dot"></div>SELF AWARE</div>
+              </div>
+              <div class="classified-bar">CONFIDENTIAL · EXECUTION INTELLIGENCE</div>
+              <div class="dna-date-row">
+                <span>DIAGNOSED 16 APR 2026</span>
+                <span>VEXILLA.AI</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- ══ SCENE 5 — ARMY TRUCKS / MARSH ══ -->
-    <div class="scene" id="s5">
-      <div class="svg-scene">
-        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="marshSky" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#080c0a"/>
-              <stop offset="60%" stop-color="#0d1208"/>
-              <stop offset="100%" stop-color="#060806"/>
-            </linearGradient>
-            <filter id="truckBlur"><feGaussianBlur stdDeviation="2"/></filter>
-            <filter id="truckBlurHeavy"><feGaussianBlur stdDeviation="5"/></filter>
-          </defs>
-          <rect width="1440" height="900" fill="url(#marshSky)"/>
-          <!-- Marsh/wet earth -->
-          <rect x="0" y="680" width="1440" height="220" fill="#0a0f06"/>
-          <!-- Water reflection strips -->
-          <g opacity="0.15">
-            <rect x="100" y="700" width="200" height="3" rx="1" fill="#D4AF37"/>
-            <rect x="800" y="720" width="150" height="2" rx="1" fill="#D4AF37"/>
-            <rect x="1100" y="710" width="180" height="2" rx="1" fill="#D4AF37"/>
-          </g>
-          <!-- Reeds/grass -->
-          <g opacity="0.4">
-            <line x1="50" y1="680" x2="55" y2="630" stroke="#3d4a2a" stroke-width="2"/>
-            <line x1="70" y1="680" x2="65" y2="625" stroke="#2a3020" stroke-width="1.5"/>
-            <line x1="1350" y1="680" x2="1345" y2="630" stroke="#3d4a2a" stroke-width="2"/>
-            <line x1="1380" y1="680" x2="1385" y2="628" stroke="#2a3020" stroke-width="1.5"/>
-          </g>
-
-          <!-- Far bg trucks blurred -->
-          <g filter="url(#truckBlurHeavy)" opacity="0.35">
-            <g transform="translate(60,560) scale(0.4)">
-              <!-- M35 truck silhouette -->
-              <rect x="20" y="40" width="160" height="60" rx="3" fill="#2a3020"/>
-              <rect x="20" y="20" width="60" height="40" rx="3" fill="#3d4a2a"/>
-              <rect x="80" y="30" width="100" height="20" rx="1" fill="#2a2a2a"/>
-              <ellipse cx="50" cy="105" rx="22" ry="22" fill="#111"/>
-              <ellipse cx="150" cy="105" rx="22" ry="22" fill="#111"/>
-            </g>
-            <g transform="translate(1180,555) scale(0.4)">
-              <rect x="20" y="40" width="160" height="60" rx="3" fill="#2a3020"/>
-              <rect x="20" y="20" width="60" height="40" rx="3" fill="#3d4a2a"/>
-              <rect x="80" y="30" width="100" height="20" rx="1" fill="#2a2a2a"/>
-              <ellipse cx="50" cy="105" rx="22" ry="22" fill="#111"/>
-              <ellipse cx="150" cy="105" rx="22" ry="22" fill="#111"/>
-            </g>
-          </g>
-
-          <!-- Mid truck right -->
-          <g filter="url(#truckBlur)" opacity="0.7">
-            <g transform="translate(950,480) scale(0.75)" id="truck-mid">
-              <!-- M35 2.5 ton truck -->
-              <rect x="0" y="80" width="240" height="70" rx="3" fill="#232e18"/> <!-- chassis -->
-              <!-- Cab -->
-              <rect x="0" y="40" width="90" height="60" rx="3" fill="#3d4a2a"/>
-              <!-- Cab roof -->
-              <rect x="5" y="35" width="80" height="12" rx="2" fill="#2d3820"/>
-              <!-- Windshield -->
-              <rect x="8" y="44" width="70" height="30" rx="1" fill="rgba(20,30,20,0.8)"/>
-              <line x1="43" y1="44" x2="43" y2="74" stroke="#1a2010" stroke-width="1.5"/> <!-- wiper divide -->
-              <!-- Hood -->
-              <rect x="0" y="65" width="90" height="20" rx="1" fill="#2a3820"/>
-              <!-- Grille -->
-              <rect x="5" y="68" width="50" height="14" rx="1" fill="#1a1a1a"/>
-              <g opacity="0.3"><line x1="10" y1="68" x2="10" y2="82" stroke="#333" stroke-width="1"/><line x1="18" y1="68" x2="18" y2="82" stroke="#333" stroke-width="1"/><line x1="26" y1="68" x2="26" y2="82" stroke="#333" stroke-width="1"/><line x1="34" y1="68" x2="34" y2="82" stroke="#333" stroke-width="1"/><line x1="42" y1="68" x2="42" y2="82" stroke="#333" stroke-width="1"/><line x1="50" y1="68" x2="50" y2="82" stroke="#333" stroke-width="1"/></g>
-              <!-- Cargo bed -->
-              <rect x="90" y="50" width="150" height="80" rx="2" fill="#2a3020"/>
-              <rect x="92" y="52" width="146" height="76" rx="1" fill="#232e18"/>
-              <!-- Canvas cover ribs -->
-              <g opacity="0.4">
-                <line x1="100" y1="50" x2="100" y2="130" stroke="#1a2010" stroke-width="1.5"/>
-                <line x1="130" y1="50" x2="130" y2="130" stroke="#1a2010" stroke-width="1.5"/>
-                <line x1="160" y1="50" x2="160" y2="130" stroke="#1a2010" stroke-width="1.5"/>
-                <line x1="190" y1="50" x2="190" y2="130" stroke="#1a2010" stroke-width="1.5"/>
-                <line x1="220" y1="50" x2="220" y2="130" stroke="#1a2010" stroke-width="1.5"/>
-              </g>
-              <!-- Wheels -->
-              <ellipse cx="40" cy="155" rx="28" ry="28" fill="#0d0d0d"/><ellipse cx="160" cy="155" rx="28" ry="28" fill="#0d0d0d"/><ellipse cx="200" cy="155" rx="28" ry="28" fill="#0d0d0d"/>
-              <!-- Wheel centers -->
-              <circle cx="40" cy="155" r="10" fill="#111"/><circle cx="160" cy="155" r="10" fill="#111"/><circle cx="200" cy="155" r="10" fill="#111"/>
-            </g>
-          </g>
-
-          <!-- LEAD TRUCK (foreground, sharp) -->
-          <g transform="translate(160,400) scale(1.2)" id="lead-truck">
-            <!-- M35 detailed -->
-            <rect x="0" y="100" width="300" height="80" rx="3" fill="#1a2010"/>
-            <!-- Cab -->
-            <rect x="0" y="50" width="110" height="80" rx="3" fill="#3d4a2a"/>
-            <rect x="5" y="44" width="100" height="14" rx="2" fill="#2d3820"/>
-            <!-- Windshield large -->
-            <rect x="8" y="56" width="90" height="38" rx="2" fill="rgba(15,25,15,0.85)"/>
-            <line x1="53" y1="56" x2="53" y2="94" stroke="#1a2010" stroke-width="2"/>
-            <!-- Hood detail -->
-            <rect x="0" y="88" width="110" height="22" rx="2" fill="#2d3820"/>
-            <!-- Grille -->
-            <rect x="5" y="90" width="65" height="18" rx="1" fill="#111"/>
-            <g opacity="0.25">
-              <line x1="12" y1="90" x2="12" y2="108" stroke="#333" stroke-width="1.5"/>
-              <line x1="22" y1="90" x2="22" y2="108" stroke="#333" stroke-width="1.5"/>
-              <line x1="32" y1="90" x2="32" y2="108" stroke="#333" stroke-width="1.5"/>
-              <line x1="42" y1="90" x2="42" y2="108" stroke="#333" stroke-width="1.5"/>
-              <line x1="52" y1="90" x2="52" y2="108" stroke="#333" stroke-width="1.5"/>
-              <line x1="62" y1="90" x2="62" y2="108" stroke="#333" stroke-width="1.5"/>
-            </g>
-            <!-- Headlights -->
-            <circle cx="75" cy="100" r="7" fill="rgba(212,175,55,0.15)"/>
-            <circle cx="100" cy="100" r="7" fill="rgba(212,175,55,0.15)"/>
-            <!-- Bumper -->
-            <rect x="0" y="108" width="112" height="8" rx="1" fill="#1a1a1a"/>
-            <!-- Cargo bed -->
-            <rect x="110" y="58" width="190" height="100" rx="2" fill="#2a3020"/>
-            <rect x="112" y="60" width="186" height="96" rx="1" fill="#232e18"/>
-            <!-- Canvas ribs -->
-            <g opacity="0.35">
-              <line x1="120" y1="58" x2="120" y2="158" stroke="#1a2010" stroke-width="2"/>
-              <line x1="158" y1="58" x2="158" y2="158" stroke="#1a2010" stroke-width="2"/>
-              <line x1="196" y1="58" x2="196" y2="158" stroke="#1a2010" stroke-width="2"/>
-              <line x1="234" y1="58" x2="234" y2="158" stroke="#1a2010" stroke-width="2"/>
-              <line x1="272" y1="58" x2="272" y2="158" stroke="#1a2010" stroke-width="2"/>
-            </g>
-            <!-- Tailgate -->
-            <rect x="298" y="60" width="5" height="100" fill="#1a2010"/>
-            <!-- Wheels - dual rear -->
-            <ellipse cx="52" cy="185" rx="34" ry="34" fill="#0d0d0d"/>
-            <ellipse cx="200" cy="185" rx="34" ry="34" fill="#0d0d0d"/>
-            <ellipse cx="242" cy="185" rx="34" ry="34" fill="#0d0d0d"/>
-            <!-- Hub -->
-            <circle cx="52" cy="185" r="12" fill="#111"/>
-            <circle cx="200" cy="185" r="12" fill="#111"/>
-            <circle cx="242" cy="185" r="12" fill="#111"/>
-            <!-- Gold rim light on cab -->
-            <rect x="0" y="50" width="2" height="100" fill="rgba(212,175,55,0.3)" rx="1"/>
-            <!-- Mud splash -->
-            <ellipse cx="52" cy="215" rx="40" ry="6" fill="rgba(42,26,6,0.5)"/>
-            <ellipse cx="220" cy="215" rx="50" ry="6" fill="rgba(42,26,6,0.5)"/>
-          </g>
-        </svg>
-      </div>
-      <!-- TEXT (right side — diagnosis section) -->
-      <div class="text-overlay right" id="t5" style="top:14%;right:6%;transform:none">
-        <div class="label">THE DIAGNOSIS</div>
-        <h2 class="scene-title">Your execution<br><span class="gold">DNA.</span></h2>
+  <!-- PHASE 0 -->
+  <section id="phase0">
+    <div class="container">
+      <div style="position:relative;">
+        <div class="ghost-num">06</div>
+        <div class="section-tag">PHASE ZERO</div>
+        <h2>
+          7 days.<br>
+          No excuses. No<br>
+          <span class="gold">shortcuts.</span>
+        </h2>
         <div class="divider"></div>
-        <!-- Mini DNA card preview -->
-        <div class="share-card" id="dna-preview-card" style="max-width:280px;margin-left:auto">
-          <div class="share-card-watermark">V</div>
-          <div class="share-card-corner-tl"></div>
-          <div class="share-card-corner-br"></div>
-          <div style="font-size:7px;letter-spacing:0.25em;color:var(--w20);margin-bottom:12px;display:flex;justify-content:space-between"><span>VEXILLA AI</span><span>FILE REF: VX-2026</span></div>
-          <div style="font-size:7px;letter-spacing:0.3em;color:var(--w20);margin-bottom:4px">OPERATIVE</div>
-          <div class="share-card-id">TITAN-0001</div>
-          <div class="share-card-arch">THE SYSTEMS ARCHITECT</div>
-          <div class="share-card-stats">
-            <div class="share-stat"><div class="share-stat-label">CONSISTENCY</div><div class="share-stat-val">84</div></div>
-            <div class="share-stat"><div class="share-stat-label">PATH CLARITY</div><div class="share-stat-val">71</div></div>
-            <div class="share-stat"><div class="share-stat-label">CONFIDENCE</div><div class="share-stat-val" style="color:#27ae60">79%</div></div>
-            <div class="share-stat"><div class="share-stat-label">PRESSURE</div><div class="share-stat-val" style="color:var(--red)">63</div></div>
+        <p style="font-size:11px; color:var(--white-40); letter-spacing:0.12em; line-height:2.2; max-width:480px; position:relative; z-index:1;">
+          Miss a day. Streak resets. Start over.<br>
+          This is where operators are made.
+        </p>
+        <div class="phase-strip">
+          <div class="phase-strip-text">
+            PHASE 0 <span>→</span> PHASE 1 <span>→</span> PHASE 2 <span>→</span> OPERATIVE STATUS
           </div>
-          <div class="share-card-bar">CONFIDENTIAL · EXECUTION INTELLIGENCE</div>
+          <div class="phase-strip-badge">EARN YOUR RANK</div>
+        </div>
+        <div class="rules-list" style="margin-top: 0;">
+          <div class="rule-item">
+            <div class="rule-arrow">►</div>
+            <div>
+              <span class="rule-strong">DAY 1–7: DAILY TASKS ASSIGNED</span>
+              <span class="rule-body">Each day you receive specific tasks tied to your execution diagnosis. Not general habits — targeted operations designed to patch your exact failure pattern.</span>
+            </div>
+          </div>
+          <div class="rule-item">
+            <div class="rule-arrow">►</div>
+            <div>
+              <span class="rule-strong">SUBMIT PROOF. OR RESET.</span>
+              <span class="rule-body">Every task requires proof of completion. No proof = day not counted. Miss a day = streak resets to zero. This is the entire point. The system has no sympathy.</span>
+            </div>
+          </div>
+          <div class="rule-item">
+            <div class="rule-arrow">►</div>
+            <div>
+              <span class="rule-strong">COMPLETE PHASE 0. UNLOCK PHASE 1.</span>
+              <span class="rule-body">7 consecutive days of proof unlocks Phase 1. Each phase unlocks deeper capability, harder tasks, and greater autonomy. You earn your rank. It is not given.</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- ══ SCENE 6 — B-2 OVERHEAD ══ -->
-    <div class="scene" id="s6">
-      <div class="god-ray" style="--angle:0deg;left:49%;opacity:0.8"></div>
-      <div class="god-ray" style="--angle:8deg;left:53%;opacity:0.4"></div>
-      <div class="svg-scene">
-        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="greySky" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#0a0c12"/>
-              <stop offset="50%" stop-color="#0d1018"/>
-              <stop offset="100%" stop-color="#080808"/>
-            </linearGradient>
-            <filter id="bomberGlow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            <radialGradient id="cloudLight" cx="50%" cy="30%" r="50%">
-              <stop offset="0%" stop-color="rgba(150,160,180,0.08)"/>
-              <stop offset="100%" stop-color="transparent"/>
-            </radialGradient>
-          </defs>
-          <rect width="1440" height="900" fill="url(#greySky)"/>
-          <!-- Cloud layer -->
-          <ellipse cx="400" cy="200" rx="300" ry="80" fill="url(#cloudLight)"/>
-          <ellipse cx="1000" cy="150" rx="250" ry="60" fill="url(#cloudLight)" opacity="0.6"/>
-          <!-- Cloud wisps -->
-          <g opacity="0.06" fill="rgba(180,190,210,1)">
-            <ellipse cx="200" cy="180" rx="150" ry="30"/>
-            <ellipse cx="500" cy="220" rx="120" ry="25"/>
-            <ellipse cx="900" cy="160" rx="200" ry="35"/>
-            <ellipse cx="1300" cy="200" rx="140" ry="28"/>
-          </g>
-
-          <!-- B-2 SPIRIT BOMBER — top view, centered overhead -->
-          <!-- The B-2 is a flying wing — 172ft wingspan, no tail -->
-          <g transform="translate(720,380) scale(1)" id="b2-bomber">
-            <!-- Main wing — flying wing shape (top view) -->
-            <path d="
-              M 0,-28
-              C 20,-28 80,-32 180,-55
-              C 260,-68 340,-80 380,-88
-              C 410,-92 430,-90 440,-85
-              C 445,-82 442,-75 435,-68
-              C 420,-52 380,-40 320,-30
-              C 260,-20 200,-14 140,-10
-              C 80,-6 40,-4 10,-3
-              L 0,0
-              L -10,-3
-              C -40,-4 -80,-6 -140,-10
-              C -200,-14 -260,-20 -320,-30
-              C -380,-40 -420,-52 -435,-68
-              C -442,-75 -445,-82 -440,-85
-              C -430,-90 -410,-92 -380,-88
-              C -340,-80 -260,-68 -180,-55
-              C -80,-32 -20,-28 0,-28
-              Z
-            " fill="#111218"/>
-            <!-- Wing center body -->
-            <path d="M 0,-28 C 8,-28 14,-18 16,-4 C 18,10 16,30 14,50 C 12,68 8,80 0,85 C -8,80 -12,68 -14,50 C -16,30 -18,10 -16,-4 C -14,-18 -8,-28 0,-28 Z" fill="#0d0e14"/>
-            <!-- Leading edge highlight (silver-grey) -->
-            <path d="M 0,-28 C 80,-32 180,-55 380,-88 C 420,-95 445,-85 440,-85" stroke="rgba(180,190,210,0.2)" stroke-width="1.5" fill="none"/>
-            <path d="M 0,-28 C -80,-32 -180,-55 -380,-88 C -420,-95 -445,-85 -440,-85" stroke="rgba(180,190,210,0.2)" stroke-width="1.5" fill="none"/>
-            <!-- Wing surface panel lines -->
-            <g opacity="0.15" stroke="rgba(180,190,210,0.5)" stroke-width="0.5" fill="none">
-              <path d="M 0,-15 C 60,-18 140,-35 260,-60"/>
-              <path d="M 0,10 C 50,-2 120,-20 220,-45"/>
-              <path d="M 0,-15 C -60,-18 -140,-35 -260,-60"/>
-              <path d="M 0,10 C -50,-2 -120,-20 -220,-45"/>
-            </g>
-            <!-- Exhaust ports (4 per side, recessed in wing) -->
-            <g fill="#1a1c24">
-              <!-- Right exhausts -->
-              <ellipse cx="60" cy="-8" rx="10" ry="4" transform="rotate(-15,60,-8)"/>
-              <ellipse cx="90" cy="-14" rx="10" ry="4" transform="rotate(-18,90,-14)"/>
-              <ellipse cx="120" cy="-20" rx="10" ry="4" transform="rotate(-20,120,-20)"/>
-              <ellipse cx="150" cy="-27" rx="10" ry="4" transform="rotate(-22,150,-27)"/>
-              <!-- Left exhausts -->
-              <ellipse cx="-60" cy="-8" rx="10" ry="4" transform="rotate(15,-60,-8)"/>
-              <ellipse cx="-90" cy="-14" rx="10" ry="4" transform="rotate(18,-90,-14)"/>
-              <ellipse cx="-120" cy="-20" rx="10" ry="4" transform="rotate(20,-120,-20)"/>
-              <ellipse cx="-150" cy="-27" rx="10" ry="4" transform="rotate(22,-150,-27)"/>
-            </g>
-            <!-- Heat shimmer from exhausts -->
-            <g opacity="0.12" filter="url(#bomberGlow)">
-              <line x1="60" y1="-4" x2="60" y2="40" stroke="#D4AF37" stroke-width="6"/>
-              <line x1="90" y1="-10" x2="90" y2="30" stroke="#D4AF37" stroke-width="5"/>
-              <line x1="-60" y1="-4" x2="-60" y2="40" stroke="#D4AF37" stroke-width="6"/>
-              <line x1="-90" y1="-10" x2="-90" y2="30" stroke="#D4AF37" stroke-width="5"/>
-            </g>
-            <!-- Bomb bay (centerline) -->
-            <rect x="-12" y="-10" width="24" height="40" rx="2" fill="#0a0a10"/>
-            <rect x="-10" y="-8" width="20" height="36" rx="1" fill="#080810"/>
-            <!-- Cockpit blister -->
-            <ellipse cx="0" cy="-20" rx="14" ry="7" fill="#0d0e18"/>
-            <ellipse cx="0" cy="-21" rx="10" ry="5" fill="rgba(20,30,50,0.9)"/>
-            <!-- Trailing edge saw-tooth (B-2 signature) -->
-            <path d="M -100,48 L -80,38 L -60,48 L -40,38 L -20,48 L 0,38 L 20,48 L 40,38 L 60,48 L 80,38 L 100,48" stroke="rgba(180,190,210,0.08)" stroke-width="1" fill="none"/>
-            <!-- Wing tip winglets subtle -->
-            <path d="M 438,-86 L 445,-78 L 435,-70" fill="#0f1018" stroke="rgba(180,190,210,0.1)" stroke-width="0.5"/>
-            <path d="M -438,-86 L -445,-78 L -435,-70" fill="#0f1018" stroke="rgba(180,190,210,0.1)" stroke-width="0.5"/>
-          </g>
-
-          <!-- Ground below (very dark, distant) -->
-          <rect x="0" y="780" width="1440" height="120" fill="#050505"/>
-          <!-- God ray glow on ground -->
-          <ellipse cx="720" cy="820" rx="200" ry="20" fill="rgba(212,175,55,0.04)"/>
-
-          <!-- Shadow on ground below bomber -->
-          <ellipse cx="720" cy="820" rx="420" ry="25" fill="rgba(0,0,0,0.5)" filter="url(#depthBlur)"/>
-        </svg>
+  <!-- SYSTEM -->
+  <section id="system">
+    <div class="container">
+      <div style="position:relative;">
+        <div class="ghost-num">07</div>
+        <div class="section-tag">THE SYSTEM</div>
+        <h2>Built different.<br><span class="gold">By design.</span></h2>
       </div>
-      <!-- TEXT -->
-      <div class="text-overlay left" id="t6" style="top:65%;transform:none">
-        <div class="label">THE SYSTEM</div>
-        <h2 class="scene-title">Built different.<br><span class="gold">By design.</span></h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feat-num">01 / DIAGNOSIS</div>
+          <div class="feat-title">AI EXECUTION PROFILE</div>
+          <div class="feat-desc">4-layer AI analysis of your consistency score, path clarity, confidence level, and system pressure. Your execution DNA classified in minutes — not months of journaling.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-num">02 / IDENTITY</div>
+          <div class="feat-title">YOUR TITAN ID</div>
+          <div class="feat-desc">A classified operative dossier. Your archetype, war badges, AI vulnerability index, and trajectory gap — all in a shareable card built for those who are serious about their goals.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-num">03 / ROADMAP</div>
+          <div class="feat-title">7-DAY PHASE 0 SYSTEM</div>
+          <div class="feat-desc">Not a to-do list. A military-grade daily system tailored to your exact failure patterns. Built to rebuild your execution habits from zero — one proof at a time.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-num">04 / ACCOUNTABILITY</div>
+          <div class="feat-title">PROOF OR RESET</div>
+          <div class="feat-desc">Submit your daily proof. No proof = streak breaks. Streak breaks = start over. The system has no mercy because your goals deserve no excuses and no participation trophies.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-num">05 / ANALYTICS</div>
+          <div class="feat-title">TRAJECTORY ANALYSIS</div>
+          <div class="feat-desc">See the gap between your current path and your Vexilla path. AI vulnerability index, system pressure breakdown, and projection data shown in real time. The gap is the mission.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feat-num">06 / PROGRESSION</div>
+          <div class="feat-title">RANK SYSTEM</div>
+          <div class="feat-desc">Phase 0 → Phase 1 → Phase 2 → Operative. Each phase unlocks only when your proof is undeniable. No shortcuts. No participation trophies. No one is coming to save you.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRAJECTORY -->
+  <section id="trajectory">
+    <div class="container">
+      <div style="position:relative;">
+        <div class="ghost-num">08</div>
+        <div class="section-tag">TRAJECTORY ANALYSIS</div>
+        <h2>
+          The gap between<br>where you are and<br>
+          <span class="gold">where you could be.</span>
+        </h2>
         <div class="divider"></div>
-        <div class="feat-pills" id="feat-pills-6">
-          <div class="feat-pill">AI EXECUTION PROFILE</div>
-          <div class="feat-pill">TITAN ID</div>
-          <div class="feat-pill">7-DAY ROADMAP</div>
-          <div class="feat-pill">PROOF OR RESET</div>
-          <div class="feat-pill">TRAJECTORY ANALYSIS</div>
-          <div class="feat-pill">RANK SYSTEM</div>
+        <p style="font-size:11px; color:var(--white-40); letter-spacing:0.1em; line-height:2.2; max-width:520px; position:relative; z-index:1;">
+          Vexilla AI maps your current execution trajectory against your potential. The gap is not motivational — it is a classified intelligence briefing on what you are leaving on the table.
+        </p>
+      </div>
+      <div class="traj-grid">
+        <div class="traj-card">
+          <div class="traj-label">PATH A</div>
+          <div class="traj-title">CURRENT PATH</div>
+          <div class="traj-desc">Where your habits, consistency, and pressure patterns lead if nothing changes. No judgment. Just data. Most people never see this clearly.</div>
+        </div>
+        <div class="traj-card highlighted">
+          <div class="traj-label">THE GAP</div>
+          <div class="traj-title">VEXILLA PATH</div>
+          <div class="traj-desc">Where the same ambition, redirected through a proven execution system, takes you. The gap is the number you need to see. This is why you're here.</div>
+        </div>
+        <div class="traj-card">
+          <div class="traj-label">THE MISSION</div>
+          <div class="traj-title">CLOSE THE GAP</div>
+          <div class="traj-desc">Phase 0 exists to close the gap — 7 days at a time. Every proof submitted. Every streak maintained. Every day you don't reset is a day you close the distance.</div>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- ══ SCENE 7 — BOMB DROPS / EXPLOSION ══ -->
-    <div class="scene" id="s7">
-      <div class="svg-scene">
-        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <radialGradient id="explosionCore" cx="50%" cy="65%" r="35%">
-              <stop offset="0%" stop-color="#fff8e1" stop-opacity="0.95"/>
-              <stop offset="15%" stop-color="#F5C842" stop-opacity="0.9"/>
-              <stop offset="35%" stop-color="#D4AF37" stop-opacity="0.7"/>
-              <stop offset="55%" stop-color="#c0392b" stop-opacity="0.5"/>
-              <stop offset="75%" stop-color="#7b1d1d" stop-opacity="0.3"/>
-              <stop offset="100%" stop-color="#050505" stop-opacity="0"/>
-            </radialGradient>
-            <radialGradient id="smokeCloud" cx="50%" cy="40%" r="50%">
-              <stop offset="0%" stop-color="rgba(60,50,30,0.8)"/>
-              <stop offset="50%" stop-color="rgba(30,25,10,0.5)"/>
-              <stop offset="100%" stop-color="transparent"/>
-            </radialGradient>
-            <filter id="blastGlow"><feGaussianBlur stdDeviation="12" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            <filter id="smokeBlur"><feGaussianBlur stdDeviation="20"/></filter>
-          </defs>
-          <rect width="1440" height="900" fill="#0a0503"/>
-          <!-- Ground -->
-          <rect x="0" y="700" width="1440" height="200" fill="#0f0703"/>
+  <!-- WAITLIST CTA -->
+  <section id="waitlist" style="border-bottom: none;">
+    <div class="container" style="text-align:center;">
+      <div style="position:relative;">
+        <div class="ghost-num" style="left:50%; transform:translateX(-50%);">09</div>
+        <div class="section-tag" style="justify-content:center;">EARLY ACCESS</div>
+        <h2>
+          To be a star,<br>
+          you must <span class="gold">burn.</span>
+        </h2>
+        <div class="divider divider-center"></div>
+        <p style="font-size:10px; color:var(--white-40); letter-spacing:0.15em; line-height:2; position:relative; z-index:1;">
+          LIMITED SLOTS. FIRST OPERATIVES ONLY.<br>
+          THE APP IS IN FINAL BUILD. JOIN THE LIST.
+        </p>
 
-          <!-- EXPLOSION CORE -->
-          <g filter="url(#blastGlow)">
-            <circle cx="720" cy="620" r="180" fill="url(#explosionCore)" opacity="0.9"/>
-          </g>
-          <!-- Explosion inner bright -->
-          <circle cx="720" cy="620" r="60" fill="#fff8e1" opacity="0.8" filter="url(#blastGlow)"/>
-          <circle cx="720" cy="620" r="30" fill="#fff" opacity="0.9"/>
-
-          <!-- Smoke clouds billowing up -->
-          <g filter="url(#smokeBlur)">
-            <ellipse cx="720" cy="420" rx="220" ry="160" fill="url(#smokeCloud)" opacity="0.8"/>
-            <ellipse cx="600" cy="380" rx="150" ry="120" fill="rgba(40,30,15,0.6)"/>
-            <ellipse cx="840" cy="360" rx="160" ry="130" fill="rgba(35,25,10,0.6)"/>
-            <ellipse cx="720" cy="280" rx="180" ry="100" fill="rgba(25,20,8,0.5)"/>
-          </g>
-          <!-- Smoke detail (sharper inner) -->
-          <ellipse cx="720" cy="500" rx="120" ry="80" fill="rgba(60,50,20,0.4)"/>
-
-          <!-- Debris shards -->
-          <g opacity="0.7">
-            <line x1="720" y1="620" x2="580" y2="480" stroke="#D4AF37" stroke-width="2" opacity="0.6"/>
-            <line x1="720" y1="620" x2="860" y2="470" stroke="#D4AF37" stroke-width="2" opacity="0.5"/>
-            <line x1="720" y1="620" x2="650" y2="440" stroke="#F5C842" stroke-width="1.5" opacity="0.4"/>
-            <line x1="720" y1="620" x2="790" y2="430" stroke="#F5C842" stroke-width="1.5" opacity="0.4"/>
-            <line x1="720" y1="620" x2="500" y2="550" stroke="#D4AF37" stroke-width="1" opacity="0.3"/>
-            <line x1="720" y1="620" x2="940" y2="540" stroke="#D4AF37" stroke-width="1" opacity="0.3"/>
-          </g>
-          <!-- Shrapnel pieces -->
-          <g fill="#D4AF37" opacity="0.5">
-            <polygon points="585,492 590,480 598,490"/>
-            <polygon points="858,475 863,462 870,472"/>
-            <polygon points="645,445 649,432 657,443"/>
-            <polygon points="792,438 797,425 805,436"/>
-          </g>
-          <!-- Shock wave ring -->
-          <circle cx="720" cy="620" r="200" fill="none" stroke="rgba(212,175,55,0.15)" stroke-width="3"/>
-          <circle cx="720" cy="620" r="260" fill="none" stroke="rgba(212,175,55,0.07)" stroke-width="2"/>
-          <!-- Ground scorch -->
-          <ellipse cx="720" cy="720" rx="150" ry="20" fill="rgba(0,0,0,0.7)"/>
-          <ellipse cx="720" cy="720" rx="80" ry="10" fill="rgba(40,20,0,0.5)"/>
-        </svg>
-      </div>
-      <!-- TEXT — Phase 0 word by word -->
-      <div class="text-overlay center" id="t7" style="top:12%;transform:translateX(-50%)">
-        <div class="label" style="justify-content:center">PHASE ZERO</div>
-        <h1 class="scene-title" style="font-size:clamp(40px,6vw,80px)">
-          <span class="word">PHASE</span>
-          <span class="word gold">0.</span><br>
-          <span class="word">7</span>
-          <span class="word">DAYS.</span><br>
-          <span class="word">NO</span>
-          <span class="word">EXCUSES.</span>
-        </h1>
-        <div class="divider" style="margin:20px auto"></div>
-        <div class="p0-rules" id="p0-rules-7" style="margin:0 auto;text-align:left">
-          <div class="p0-rule">
-            <div class="p0-rule-arrow">►</div>
-            <div><div class="p0-rule-title">MISS A DAY. STREAK RESETS.</div><div class="p0-rule-body">No partial credit. No sympathy. Start over.</div></div>
-          </div>
-          <div class="p0-rule">
-            <div class="p0-rule-arrow">►</div>
-            <div><div class="p0-rule-title">SUBMIT PROOF. OR IT DIDN'T HAPPEN.</div><div class="p0-rule-body">AI verifies every submission. No proof = day not counted.</div></div>
-          </div>
-          <div class="p0-rule">
-            <div class="p0-rule-arrow">►</div>
-            <div><div class="p0-rule-title">7 DAYS UNLOCKS PHASE 1.</div><div class="p0-rule-body">The rank is earned. It is not given.</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══ SCENE 8 — S-400 LAUNCHER ══ -->
-    <div class="scene" id="s8">
-      <div class="svg-scene">
-        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="launchSky" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#080c08"/>
-              <stop offset="100%" stop-color="#0d1008"/>
-            </linearGradient>
-            <filter id="launchGlow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            <radialGradient id="exhaustGrad" cx="50%" cy="100%" r="50%">
-              <stop offset="0%" stop-color="#fff8e1"/>
-              <stop offset="30%" stop-color="#D4AF37"/>
-              <stop offset="100%" stop-color="transparent"/>
-            </radialGradient>
-          </defs>
-          <rect width="1440" height="900" fill="url(#launchSky)"/>
-          <!-- Ground -->
-          <rect x="0" y="750" width="1440" height="150" fill="#0a0f06"/>
-
-          <!-- S-400 LAUNCHER TRUCK — 8x8 MZKT chassis -->
-          <g transform="translate(300,350)" id="s400">
-            <!-- Chassis/hull -->
-            <rect x="0" y="180" width="480" height="80" rx="4" fill="#2a3020"/>
-            <!-- Cab (forward right) -->
-            <rect x="360" y="120" width="120" height="100" rx="3" fill="#3d4a2a"/>
-            <rect x="365" y="115" width="110" height="14" rx="2" fill="#2d3820"/>
-            <!-- Cab windshield -->
-            <rect x="368" y="128" width="100" height="48" rx="2" fill="rgba(15,25,15,0.85)"/>
-            <line x1="418" y1="128" x2="418" y2="176" stroke="#1a2010" stroke-width="1.5"/>
-            <!-- Grille (front) -->
-            <rect x="470" y="176" width="8" height="50" rx="1" fill="#111"/>
-            <g opacity="0.25">
-              <line x1="470" y1="180" x2="478" y2="180" stroke="#333" stroke-width="1"/>
-              <line x1="470" y1="188" x2="478" y2="188" stroke="#333" stroke-width="1"/>
-              <line x1="470" y1="196" x2="478" y2="196" stroke="#333" stroke-width="1"/>
-              <line x1="470" y1="204" x2="478" y2="204" stroke="#333" stroke-width="1"/>
-              <line x1="470" y1="212" x2="478" y2="212" stroke="#333" stroke-width="1"/>
-              <line x1="470" y1="220" x2="478" y2="220" stroke="#333" stroke-width="1"/>
-            </g>
-
-            <!-- LAUNCH CANISTER ARRAY — 4 tubes elevated 70° -->
-            <!-- Elevation mount base -->
-            <rect x="30" y="140" width="320" height="50" rx="3" fill="#232e18"/>
-            <!-- Elevation hydraulic arms -->
-            <rect x="80" y="100" width="10" height="60" rx="2" fill="#1a1a1a" transform="rotate(-20,85,130)"/>
-            <rect x="240" y="100" width="10" height="60" rx="2" fill="#1a1a1a" transform="rotate(-20,245,130)"/>
-
-            <!-- 4 launch canisters -->
-            <g transform="translate(50,50) rotate(-68,160,100)">
-              <!-- Canister 1 -->
-              <rect x="10" y="0" width="36" height="180" rx="3" fill="#2d3820"/>
-              <rect x="12" y="2" width="32" height="176" rx="2" fill="#252e18"/>
-              <rect x="10" y="0" width="36" height="12" rx="3" fill="#1a2010"/>
-              <!-- Canister 2 -->
-              <rect x="56" y="0" width="36" height="180" rx="3" fill="#2d3820"/>
-              <rect x="58" y="2" width="32" height="176" rx="2" fill="#232c16"/>
-              <rect x="56" y="0" width="36" height="12" rx="3" fill="#1a2010"/>
-              <!-- Canister 3 (LAUNCHED — shorter, open) -->
-              <rect x="102" y="30" width="36" height="150" rx="3" fill="#2d3820"/>
-              <rect x="104" y="32" width="32" height="144" rx="2" fill="#232c16"/>
-              <!-- open end glow -->
-              <rect x="102" y="30" width="36" height="8" rx="2" fill="rgba(212,175,55,0.4)"/>
-              <!-- Canister 4 -->
-              <rect x="148" y="0" width="36" height="180" rx="3" fill="#2d3820"/>
-              <rect x="150" y="2" width="32" height="176" rx="2" fill="#252e18"/>
-              <rect x="148" y="0" width="36" height="12" rx="3" fill="#1a2010"/>
-              <!-- Weld/structure lines -->
-              <g opacity="0.3" stroke="#1a2010" stroke-width="0.5">
-                <line x1="10" y1="60" x2="46" y2="60"/>
-                <line x1="10" y1="120" x2="46" y2="120"/>
-                <line x1="56" y1="60" x2="92" y2="60"/>
-                <line x1="56" y1="120" x2="92" y2="120"/>
-                <line x1="148" y1="60" x2="184" y2="60"/>
-                <line x1="148" y1="120" x2="184" y2="120"/>
-              </g>
-            </g>
-
-            <!-- MISSILE IN FLIGHT (launched from canister 3) -->
-            <g transform="translate(195,0) rotate(-68,0,150)" filter="url(#launchGlow)">
-              <!-- Missile body -->
-              <rect x="-6" y="-200" width="12" height="80" rx="3" fill="#2a3020"/>
-              <!-- Missile nose cone -->
-              <path d="M -6,-200 L 0,-240 L 6,-200 Z" fill="#1a2010"/>
-              <!-- Fins -->
-              <path d="M -6,-130 L -18,-140 L -6,-120 Z" fill="#1a2010"/>
-              <path d="M 6,-130 L 18,-140 L 6,-120 Z" fill="#1a2010"/>
-              <!-- Engine exhaust -->
-              <ellipse cx="0" cy="-120" rx="6" ry="4" fill="rgba(212,175,55,0.8)"/>
-              <ellipse cx="0" cy="-115" rx="10" ry="8" fill="rgba(212,175,55,0.4)"/>
-              <!-- Exhaust plume -->
-              <path d="M -8,-120 C -15,-80 -5,-40 0,0 C 5,-40 15,-80 8,-120 Z" fill="url(#exhaustGrad)" opacity="0.6"/>
-              <!-- Shock cone -->
-              <ellipse cx="0" cy="-240" rx="5" ry="3" fill="rgba(255,255,255,0.3)"/>
-            </g>
-
-            <!-- 8 large wheels -->
-            <ellipse cx="50" cy="262" rx="32" ry="32" fill="#0d0d0d"/><ellipse cx="120" cy="262" rx="32" ry="32" fill="#0d0d0d"/>
-            <ellipse cx="190" cy="262" rx="32" ry="32" fill="#0d0d0d"/><ellipse cx="260" cy="262" rx="32" ry="32" fill="#0d0d0d"/>
-            <ellipse cx="330" cy="262" rx="32" ry="32" fill="#0d0d0d"/><ellipse cx="400" cy="262" rx="32" ry="32" fill="#0d0d0d"/>
-            <ellipse cx="430" cy="262" rx="32" ry="32" fill="#0d0d0d"/>
-            <!-- Wheel hubs -->
-            <circle cx="50" cy="262" r="10" fill="#111"/><circle cx="120" cy="262" r="10" fill="#111"/>
-            <circle cx="190" cy="262" r="10" fill="#111"/><circle cx="260" cy="262" r="10" fill="#111"/>
-            <circle cx="330" cy="262" r="10" fill="#111"/><circle cx="400" cy="262" r="10" fill="#111"/>
-            <circle cx="430" cy="262" r="10" fill="#111"/>
-
-            <!-- FLAGS — Indian + Russian on cab -->
-            <!-- Indian flag (simplified: saffron/white/green tricolor + Ashoka chakra) -->
-            <g transform="translate(355,115)">
-              <rect x="0" y="0" width="24" height="6" fill="#FF9933"/>
-              <rect x="0" y="6" width="24" height="6" fill="#fff"/>
-              <rect x="0" y="12" width="24" height="6" fill="#138808"/>
-              <circle cx="12" cy="9" r="3" fill="none" stroke="#000080" stroke-width="0.5"/>
-            </g>
-            <!-- Russian flag -->
-            <g transform="translate(386,115)">
-              <rect x="0" y="0" width="24" height="6" fill="#fff"/>
-              <rect x="0" y="6" width="24" height="6" fill="#0032A0"/>
-              <rect x="0" y="12" width="24" height="6" fill="#DA0000"/>
-            </g>
-
-            <!-- Gold rim on launcher -->
-            <rect x="30" y="140" width="2" height="50" fill="rgba(212,175,55,0.4)" rx="1"/>
-          </g>
-
-          <!-- Launch exhaust ground cloud -->
-          <ellipse cx="490" cy="750" rx="120" ry="30" fill="rgba(212,175,55,0.08)" filter="url(#launchGlow)"/>
-        </svg>
-      </div>
-      <!-- TEXT -->
-      <div class="text-overlay right" id="t8" style="top:14%;right:6%;transform:none">
-        <div class="label">TRAJECTORY ANALYSIS</div>
-        <h2 class="scene-title">The gap is<br>real. Close<br><span class="gold">it.</span></h2>
-        <div class="divider"></div>
-        <div class="traj-wrap" id="traj-wrap-8" style="flex-direction:column;max-width:340px;margin-left:auto">
-          <div class="traj-card">
-            <div class="traj-label">PATH A</div>
-            <div class="traj-title">CURRENT PATH</div>
-            <div class="traj-desc">Where your habits lead if nothing changes. No judgment. Just data.</div>
-          </div>
-          <div class="traj-card gold-border">
-            <div class="traj-label">THE GAP</div>
-            <div class="traj-title gold">VEXILLA PATH</div>
-            <div class="traj-desc">Same ambition, redirected through a proven system. The gap is the mission.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══ SCENE 9 — MID-AIR EXPLOSION / SHARE CARDS ══ -->
-    <div class="scene" id="s9">
-      <div class="svg-scene">
-        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <radialGradient id="airblast" cx="50%" cy="40%" r="40%">
-              <stop offset="0%" stop-color="#fff8e1" stop-opacity="0.6"/>
-              <stop offset="20%" stop-color="#D4AF37" stop-opacity="0.4"/>
-              <stop offset="50%" stop-color="#c0392b" stop-opacity="0.2"/>
-              <stop offset="100%" stop-color="transparent"/>
-            </radialGradient>
-            <filter id="airGlow"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-          </defs>
-          <rect width="1440" height="900" fill="#0a0a0c"/>
-          <!-- Air explosion -->
-          <circle cx="750" cy="320" r="140" fill="url(#airblast)" filter="url(#airGlow)"/>
-          <!-- Debris streaks -->
-          <g opacity="0.4">
-            <line x1="750" y1="320" x2="550" y2="180" stroke="#D4AF37" stroke-width="1.5"/>
-            <line x1="750" y1="320" x2="950" y2="200" stroke="#D4AF37" stroke-width="1.5"/>
-            <line x1="750" y1="320" x2="600" y2="500" stroke="#D4AF37" stroke-width="1"/>
-            <line x1="750" y1="320" x2="900" y2="480" stroke="#D4AF37" stroke-width="1"/>
-            <line x1="750" y1="320" x2="400" y2="350" stroke="#c0392b" stroke-width="1"/>
-            <line x1="750" y1="320" x2="1100" y2="380" stroke="#c0392b" stroke-width="1"/>
-          </g>
-          <!-- Jet fragments (simplified) -->
-          <g opacity="0.5">
-            <path d="M 580 190 L 540 170 L 560 200 Z" fill="#2a3040"/>
-            <path d="M 940 205 L 980 185 L 960 215 Z" fill="#2a3040"/>
-          </g>
-        </svg>
-      </div>
-      <!-- TEXT + SHARE CARDS -->
-      <div class="text-overlay left" id="t9" style="top:45%">
-        <div class="label">OPERATIVE PROFILE</div>
-        <h2 class="scene-title">Your card.<br><span class="gold">Share it.</span></h2>
-        <div class="divider"></div>
-        <div class="share-card" id="share-card-9" style="margin-top:0">
-          <div class="share-card-watermark">V</div>
-          <div class="share-card-corner-tl"></div>
-          <div class="share-card-corner-br"></div>
-          <div style="position:absolute;top:14px;right:-4px;font-size:7px;letter-spacing:0.2em;color:rgba(192,57,43,0.65);border:1px solid rgba(192,57,43,0.3);padding:2px 7px;transform:rotate(12deg);background:rgba(5,5,5,0.8)">EYES ONLY</div>
-          <div style="font-size:7px;letter-spacing:0.2em;color:var(--w20);margin-bottom:14px;display:flex;justify-content:space-between"><span>VEXILLA AI</span><span>VX-2026</span></div>
-          <div style="font-size:7px;letter-spacing:0.3em;color:var(--w20);margin-bottom:4px">OPERATIVE</div>
-          <div class="share-card-id">TITAN-0001</div>
-          <div style="font-size:9px;font-weight:700;letter-spacing:0.15em;color:#fff;margin-bottom:4px">THE SYSTEMS ARCHITECT</div>
-          <div style="font-size:7px;letter-spacing:0.15em;color:var(--red);border:1px solid rgba(192,57,43,0.4);display:inline-block;padding:3px 8px;margin-bottom:12px">PHASE 1 OPERATIVE</div>
-          <div class="share-card-stats">
-            <div class="share-stat"><div class="share-stat-label">CONSISTENCY</div><div class="share-stat-val">84</div></div>
-            <div class="share-stat"><div class="share-stat-label">PATH CLARITY</div><div class="share-stat-val">71</div></div>
-            <div class="share-stat"><div class="share-stat-label">CONFIDENCE</div><div class="share-stat-val" style="color:#27ae60">79%</div></div>
-            <div class="share-stat"><div class="share-stat-label">PRESSURE</div><div class="share-stat-val" style="color:var(--red)">63</div></div>
-          </div>
-          <div class="share-card-bar">CONFIDENTIAL · EXECUTION INTELLIGENCE</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══ SCENE 10 — GOGGINS / DESERT ══ -->
-    <div class="scene" id="s10">
-      <div class="svg-scene">
-        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="desertSky" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#100a03"/>
-              <stop offset="40%" stop-color="#1a1005"/>
-              <stop offset="100%" stop-color="#0a0703"/>
-            </linearGradient>
-            <linearGradient id="canyonGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#3a2010"/>
-              <stop offset="100%" stop-color="#1a0e05"/>
-            </linearGradient>
-            <filter id="heatHaze"><feGaussianBlur stdDeviation="2" in="SourceGraphic" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            <radialGradient id="sunBlast" cx="60%" cy="15%" r="25%">
-              <stop offset="0%" stop-color="rgba(245,200,66,0.15)"/>
-              <stop offset="100%" stop-color="transparent"/>
-            </radialGradient>
-          </defs>
-          <rect width="1440" height="900" fill="url(#desertSky)"/>
-          <!-- Sun glow top right -->
-          <circle cx="900" cy="120" r="60" fill="rgba(245,200,66,0.08)" filter="url(#heatHaze)"/>
-          <circle cx="900" cy="120" r="20" fill="rgba(245,200,66,0.15)"/>
-          <!-- Sky gradient -->
-          <rect width="1440" height="900" fill="url(#sunBlast)"/>
-
-          <!-- CANYON WALLS (Death Valley aesthetic) -->
-          <!-- Left canyon wall -->
-          <path d="M 0 0 L 0 900 L 320 900 L 340 720 L 280 580 L 350 420 L 290 280 L 360 150 L 300 0 Z" fill="url(#canyonGrad)"/>
-          <!-- Canyon wall detail layers -->
-          <path d="M 0 0 L 0 900 L 240 900 L 260 730 L 200 590 L 270 440 L 210 300 L 280 160 L 220 0 Z" fill="rgba(40,22,8,0.7)"/>
-          <path d="M 0 0 L 0 900 L 160 900 L 180 750 L 120 620 L 190 470 L 130 340 L 200 200 L 140 0 Z" fill="rgba(25,14,4,0.6)"/>
-          <!-- Right canyon wall -->
-          <path d="M 1440 0 L 1440 900 L 1100 900 L 1090 700 L 1150 540 L 1080 380 L 1140 220 L 1080 80 L 1140 0 Z" fill="url(#canyonGrad)"/>
-          <path d="M 1440 0 L 1440 900 L 1200 900 L 1195 720 L 1250 560 L 1180 400 L 1240 240 L 1180 100 L 1240 0 Z" fill="rgba(40,22,8,0.6)"/>
-
-          <!-- Desert floor -->
-          <rect x="280" y="750" width="900" height="150" fill="#1a0e05"/>
-          <!-- Sand texture -->
-          <g opacity="0.3">
-            <ellipse cx="400" cy="790" rx="60" ry="5" fill="#2a1a08"/>
-            <ellipse cx="700" cy="810" rx="80" ry="6" fill="#1e1406"/>
-            <ellipse cx="1000" cy="795" rx="70" ry="5" fill="#2a1a08"/>
-          </g>
-          <!-- Heat shimmer line -->
-          <rect x="280" y="750" width="900" height="3" fill="rgba(212,175,55,0.08)" filter="url(#heatHaze)"/>
-
-          <!-- THE RUNNER — Goggins-inspired bald figure, running shirtless -->
-          <g transform="translate(640,280)" id="goggins">
-            <!-- HEAD — shaved/bald -->
-            <ellipse cx="60" cy="20" rx="28" ry="30" fill="#2a1a10"/>
-            <!-- Ear -->
-            <ellipse cx="32" cy="22" rx="5" ry="7" fill="#241510"/>
-            <!-- Neck -->
-            <rect x="48" y="46" width="24" height="20" rx="4" fill="#2a1a10"/>
-            <!-- MUSCULAR TORSO - shirtless -->
-            <!-- Upper chest -->
-            <path d="M 20 66 C 20 58 30 52 60 52 C 90 52 100 58 100 66 L 104 130 L 16 130 Z" fill="#2a1a10"/>
-            <!-- Pec definition (left) -->
-            <path d="M 25 70 C 25 62 38 60 55 60 C 55 72 48 78 28 76 Z" fill="rgba(0,0,0,0.3)"/>
-            <!-- Pec definition (right) -->
-            <path d="M 95 70 C 95 62 82 60 65 60 C 65 72 72 78 92 76 Z" fill="rgba(0,0,0,0.3)"/>
-            <!-- Abs definition -->
-            <g opacity="0.25">
-              <ellipse cx="48" cy="92" rx="8" ry="6" fill="#000"/>
-              <ellipse cx="72" cy="92" rx="8" ry="6" fill="#000"/>
-              <ellipse cx="48" cy="110" rx="8" ry="6" fill="#000"/>
-              <ellipse cx="72" cy="110" rx="8" ry="6" fill="#000"/>
-              <ellipse cx="50" cy="126" rx="8" ry="5" fill="#000"/>
-              <ellipse cx="70" cy="126" rx="8" ry="5" fill="#000"/>
-            </g>
-            <!-- Shoulder definition -->
-            <ellipse cx="16" cy="68" rx="14" ry="18" fill="#241510"/>
-            <ellipse cx="104" cy="68" rx="14" ry="18" fill="#241510"/>
-            <!-- LEFT ARM — pumping forward and up -->
-            <path d="M 20 66 C 8 70 -10 80 -22 72 C -30 66 -28 54 -16 50 C -4 46 10 58 20 66 Z" fill="#2a1a10"/>
-            <!-- LEFT FOREARM -->
-            <path d="M -22 72 C -36 78 -48 88 -52 100 C -56 112 -50 120 -38 118 C -26 116 -18 104 -10 96 C -2 88 6 80 -22 72 Z" fill="#241510"/>
-            <!-- RIGHT ARM — pumping back -->
-            <path d="M 100 66 C 112 70 126 76 136 86 C 146 96 142 108 132 112 C 122 116 110 106 100 96 L 100 66 Z" fill="#2a1a10"/>
-            <!-- Running shorts -->
-            <rect x="22" y="128" width="76" height="40" rx="4" fill="#1a1a1a"/>
-            <!-- LEFT LEG — forward stride -->
-            <path d="M 22 168 C 18 200 12 240 8 280 C 4 320 10 350 20 360 L 36 360 C 42 350 42 320 44 280 C 46 240 46 200 46 168 Z" fill="#2a1a10"/>
-            <!-- LEFT FOOT (forward) -->
-            <path d="M 8 355 C 0 370 -10 380 -8 390 C -6 400 10 400 20 395 C 30 390 36 375 36 360 Z" fill="#111"/>
-            <!-- RIGHT LEG — back stride, lifted -->
-            <path d="M 74 168 C 78 200 82 230 88 258 C 94 286 98 310 98 330 L 82 330 C 78 310 70 286 62 258 C 54 230 52 200 54 168 Z" fill="#241510"/>
-            <!-- RIGHT FOOT -->
-            <path d="M 88 322 C 96 334 108 340 110 350 C 112 360 100 365 90 360 C 80 355 78 342 82 330 Z" fill="#111"/>
-            <!-- Sweat drops -->
-            <ellipse cx="30" cy="55" rx="2" ry="3" fill="rgba(212,175,55,0.3)"/>
-            <ellipse cx="85" cy="48" rx="2" ry="3" fill="rgba(212,175,55,0.3)"/>
-            <ellipse cx="15" cy="85" rx="1.5" ry="2.5" fill="rgba(212,175,55,0.2)"/>
-            <!-- Gold rim light (from desert sun right side) -->
-            <rect x="100" y="52" width="4" height="130" fill="rgba(212,175,55,0.35)" rx="2"/>
-          </g>
-
-          <!-- DUST behind runner -->
-          <ellipse cx="680" cy="780" rx="100" ry="15" fill="rgba(180,120,60,0.15)" filter="url(#heatHaze)"/>
-          <ellipse cx="650" cy="760" rx="60" ry="10" fill="rgba(180,120,60,0.1)"/>
-        </svg>
-      </div>
-      <!-- TEXT — PRICING -->
-      <div class="text-overlay right" id="t10" style="top:12%;right:6%;transform:none">
-        <div class="label">EARLY ACCESS</div>
-        <h2 class="scene-title">Pick your<br><span class="gold">rank.</span></h2>
-        <div class="divider"></div>
-        <div class="price-cards" id="price-cards-10">
-          <div class="price-card">
-            <div class="price-name">OPERATIVE</div>
-            <div class="price-val">Free<span> / 7 days</span></div>
-            <div class="price-desc">Full Phase 0 access. Full AI diagnosis. No credit card.</div>
-            <ul class="price-features">
-              <li>AI diagnosis (4 layers)</li>
-              <li>TITAN ID + DNA card</li>
-              <li>7-day Phase 0 roadmap</li>
-              <li>Proof verification</li>
-            </ul>
-          </div>
-          <div class="price-card featured">
-            <div class="price-name">COMMANDER</div>
-            <div class="price-val">$9<span>/mo</span></div>
-            <div class="price-desc">All phases unlocked. Priority diagnosis. Streak recovery.</div>
-            <ul class="price-features">
-              <li>All Operative features</li>
-              <li>Phase 1 + 2 + Operative</li>
-              <li>Advanced trajectory AI</li>
-              <li>Priority diagnosis</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══ SCENE 11 — STRONGMAN / DEADLIFT ══ -->
-    <div class="scene" id="s11">
-      <div class="svg-scene">
-        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <radialGradient id="gymLight" cx="50%" cy="20%" r="50%">
-              <stop offset="0%" stop-color="rgba(212,175,55,0.15)"/>
-              <stop offset="60%" stop-color="rgba(212,175,55,0.03)"/>
-              <stop offset="100%" stop-color="transparent"/>
-            </radialGradient>
-            <filter id="gymGlow"><feGaussianBlur stdDeviation="10" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            <radialGradient id="floorRef" cx="50%" cy="100%" r="50%">
-              <stop offset="0%" stop-color="rgba(212,175,55,0.08)"/>
-              <stop offset="100%" stop-color="transparent"/>
-            </radialGradient>
-          </defs>
-          <rect width="1440" height="900" fill="#070304"/>
-          <!-- Gym ceiling light source -->
-          <rect x="600" y="0" width="240" height="8" rx="2" fill="rgba(212,175,55,0.3)"/>
-          <ellipse cx="720" cy="50" rx="200" ry="100" fill="url(#gymLight)"/>
-          <!-- Floor -->
-          <rect x="0" y="720" width="1440" height="180" fill="#0a0404"/>
-          <!-- Floor reflection -->
-          <ellipse cx="720" cy="740" rx="400" ry="30" fill="url(#floorRef)"/>
-          <!-- Gym floor lines -->
-          <g opacity="0.08" stroke="rgba(212,175,55,0.5)" stroke-width="1">
-            <line x1="0" y1="720" x2="1440" y2="720"/>
-            <rect x="300" y="720" width="840" height="180" fill="none" stroke="rgba(255,255,255,0.05)"/>
-          </g>
-
-          <!-- CHALK DUST -->
-          <g filter="url(#gymGlow)" opacity="0.15">
-            <ellipse cx="720" cy="650" rx="200" ry="30" fill="white"/>
-          </g>
-
-          <!-- STRONGMAN FIGURE — deadlifting full stack -->
-          <g transform="translate(560,180)" id="strongman">
-            <!-- BARBELL -->
-            <!-- Left weight plates stack -->
-            <g transform="translate(-180,280)">
-              <!-- 45lb plates -->
-              <rect x="0" y="-55" width="28" height="110" rx="4" fill="#1a1a1a"/>
-              <rect x="4" y="-50" width="20" height="100" rx="3" fill="#111"/>
-              <rect x="32" y="-50" width="22" height="100" rx="3" fill="#1a1a1a"/>
-              <rect x="36" y="-45" width="14" height="90" rx="2" fill="#111"/>
-              <!-- 25lb plate -->
-              <rect x="58" y="-38" width="16" height="76" rx="2" fill="#D4AF37" opacity="0.7"/>
-              <!-- collar -->
-              <rect x="78" y="-12" width="12" height="24" rx="2" fill="#2a2a2a"/>
-            </g>
-            <!-- Right weight plates -->
-            <g transform="translate(390,280)">
-              <rect x="0" y="-12" width="12" height="24" rx="2" fill="#2a2a2a"/> <!-- collar -->
-              <rect x="16" y="-38" width="16" height="76" rx="2" fill="#D4AF37" opacity="0.7"/>
-              <rect x="36" y="-50" width="22" height="100" rx="3" fill="#1a1a1a"/>
-              <rect x="40" y="-45" width="14" height="90" rx="2" fill="#111"/>
-              <rect x="62" y="-55" width="28" height="110" rx="4" fill="#1a1a1a"/>
-              <rect x="66" y="-50" width="20" height="100" rx="3" fill="#111"/>
-            </g>
-            <!-- Barbell shaft -->
-            <rect x="-100" y="272" width="560" height="18" rx="4" fill="#1a1a1a"/>
-            <rect x="-98" y="274" width="556" height="14" rx="3" fill="#222"/>
-            <!-- Knurling marks -->
-            <g opacity="0.3">
-              <rect x="130" y="274" width="4" height="14" fill="#333"/>
-              <rect x="140" y="274" width="4" height="14" fill="#333"/>
-              <rect x="150" y="274" width="4" height="14" fill="#333"/>
-              <rect x="220" y="274" width="4" height="14" fill="#333"/>
-              <rect x="230" y="274" width="4" height="14" fill="#333"/>
-              <rect x="240" y="274" width="4" height="14" fill="#333"/>
-            </g>
-
-            <!-- ATHLETE BODY -->
-            <!-- Legs in deadlift lockout — standing straight -->
-            <!-- Right leg -->
-            <rect x="150" y="360" width="60" height="220" rx="8" fill="#1a1208"/>
-            <!-- Left leg -->
-            <rect x="240" y="360" width="60" height="220" rx="8" fill="#1a1208"/>
-            <!-- Shorts -->
-            <rect x="130" y="340" width="200" height="60" rx="4" fill="#1a0000"/>
-            <!-- Belt -->
-            <rect x="120" y="330" width="220" height="24" rx="3" fill="#D4AF37" opacity="0.6"/>
-            <rect x="122" y="332" width="216" height="20" rx="2" fill="#c09a28" opacity="0.4"/>
-            <!-- TORSO — massive, standing -->
-            <path d="M 90 140 C 80 160 75 200 80 250 C 85 300 100 340 130 360 L 330 360 C 360 340 375 300 380 250 C 385 200 380 160 370 140 Z" fill="#1a1208"/>
-            <!-- Lat spread (wide) -->
-            <path d="M 90 140 C 60 150 30 170 20 210 C 10 250 30 290 60 300 C 90 310 110 290 130 270 L 130 360 C 100 340 80 300 80 250 C 75 200 80 160 90 140 Z" fill="#1a1208"/>
-            <path d="M 370 140 C 400 150 430 170 440 210 C 450 250 430 290 400 300 C 370 310 350 290 330 270 L 330 360 C 360 340 380 300 380 250 C 385 200 380 160 370 140 Z" fill="#1a1208"/>
-            <!-- Back muscle definition -->
-            <path d="M 160 180 C 155 200 155 240 160 280 C 165 320 170 345 175 360" stroke="rgba(0,0,0,0.4)" stroke-width="3" fill="none"/>
-            <path d="M 300 180 C 305 200 305 240 300 280 C 295 320 290 345 285 360" stroke="rgba(0,0,0,0.4)" stroke-width="3" fill="none"/>
-            <!-- Spine line -->
-            <line x1="230" y1="155" x2="230" y2="360" stroke="rgba(0,0,0,0.3)" stroke-width="2"/>
-            <!-- Trap definition at top -->
-            <path d="M 160 140 C 180 120 210 110 230 108 C 250 110 280 120 300 140" stroke="rgba(0,0,0,0.3)" stroke-width="2" fill="none"/>
-
-            <!-- ARMS — gripping bar, elbows locked out -->
-            <!-- Left arm -->
-            <path d="M 80 250 C 60 265 30 278 -20 281 C -50 283 -70 278 -80 270 C -90 262 -88 250 -76 246 C -64 242 -40 250 -10 258 C 20 266 50 268 80 260 Z" fill="#1a1208"/>
-            <!-- Left hand gripping -->
-            <path d="M -80 268 C -90 272 -100 276 -105 280 C -108 284 -105 290 -98 292 C -88 294 -76 288 -68 280 C -60 272 -62 262 -70 260 Z" fill="#1e1510"/>
-            <!-- Fingers over bar -->
-            <g fill="#1a1208">
-              <rect x="-108" y="270" width="8" height="16" rx="2" transform="rotate(-5,-104,278)"/>
-              <rect x="-98" y="268" width="8" height="16" rx="2"/>
-              <rect x="-88" y="267" width="8" height="16" rx="2"/>
-              <rect x="-78" y="268" width="8" height="16" rx="2"/>
-            </g>
-            <!-- Right arm -->
-            <path d="M 380 250 C 400 265 430 278 480 281 C 510 283 530 278 540 270 C 550 262 548 250 536 246 C 524 242 500 250 470 258 C 440 266 410 268 380 260 Z" fill="#1a1208"/>
-            <!-- Right hand -->
-            <path d="M 540 268 C 550 272 560 276 565 280 C 568 284 565 290 558 292 C 548 294 536 288 528 280 C 520 272 522 262 530 260 Z" fill="#1e1510"/>
-            <g fill="#1a1208">
-              <rect x="552" y="270" width="8" height="16" rx="2" transform="rotate(5,556,278)"/>
-              <rect x="542" y="268" width="8" height="16" rx="2"/>
-              <rect x="532" y="267" width="8" height="16" rx="2"/>
-              <rect x="522" y="268" width="8" height="16" rx="2"/>
-            </g>
-            <!-- HEAD — tilted back, looking up -->
-            <ellipse cx="230" cy="110" rx="52" ry="58" fill="#1a1208"/>
-            <!-- Neck -->
-            <rect x="196" y="108" width="68" height="36" rx="8" fill="#1a1208"/>
-            <!-- Face features minimal -->
-            <ellipse cx="210" cy="100" rx="7" ry="9" fill="#0d0d0d" opacity="0.5"/> <!-- eyes -->
-            <ellipse cx="250" cy="100" rx="7" ry="9" fill="#0d0d0d" opacity="0.5"/>
-            <path d="M 210 118 C 220 124 240 124 250 118" stroke="#111" stroke-width="2" fill="none"/> <!-- grim expression -->
-
-            <!-- KNEE WRAPS -->
-            <rect x="145" y="445" width="70" height="40" rx="3" fill="#1a1a1a"/>
-            <rect x="235" y="445" width="70" height="40" rx="3" fill="#1a1a1a"/>
-            <!-- Knee wrap stripes -->
-            <g opacity="0.3">
-              <rect x="147" y="452" width="66" height="4" fill="#D4AF37"/>
-              <rect x="147" y="462" width="66" height="4" fill="#D4AF37"/>
-              <rect x="237" y="452" width="66" height="4" fill="#D4AF37"/>
-              <rect x="237" y="462" width="66" height="4" fill="#D4AF37"/>
-            </g>
-            <!-- Boots/shoes -->
-            <rect x="138" y="565" width="74" height="30" rx="4" fill="#0d0d0d"/>
-            <rect x="228" y="565" width="74" height="30" rx="4" fill="#0d0d0d"/>
-
-            <!-- GOLD RIM LIGHT from overhead -->
-            <rect x="85" y="108" width="3" height="260" fill="rgba(212,175,55,0.35)" rx="2"/>
-            <rect x="90" y="108" width="290" height="3" fill="rgba(212,175,55,0.2)" rx="1"/>
-            <!-- Sweat flying off -->
-            <ellipse cx="40" cy="200" rx="3" ry="2" fill="rgba(212,175,55,0.3)" transform="rotate(-30,40,200)"/>
-            <ellipse cx="420" cy="180" rx="3" ry="2" fill="rgba(212,175,55,0.3)" transform="rotate(20,420,180)"/>
-            <ellipse cx="30" cy="240" rx="2" ry="1.5" fill="rgba(212,175,55,0.2)"/>
-          </g>
-
-          <!-- Chalk cloud at impact -->
-          <ellipse cx="720" cy="660" rx="180" ry="20" fill="rgba(220,215,200,0.06)" filter="url(#gymGlow)"/>
-        </svg>
-      </div>
-      <!-- TEXT — FINAL CTA PRE-WAITLIST -->
-      <div class="text-overlay left" id="t11" style="top:12%;transform:none">
-        <div class="label">FINAL REP</div>
-        <h2 class="scene-title">You know<br>what you<br>need to do.</h2>
-        <div class="divider"></div>
-        <div class="scene-body">
-          <p>7 days. Real proof. No excuses.</p>
-          <p>The gap closes one day at a time.</p>
-          <p>First operatives. Limited slots.</p>
-        </div>
-        <a href="#waitlist-section" style="display:inline-block;margin-top:24px;background:var(--gold);color:#000;font-size:10px;font-weight:700;letter-spacing:0.2em;padding:14px 32px;text-decoration:none;transition:opacity 0.2s" onmouseover="this.style.opacity=0.85" onmouseout="this.style.opacity=1">JOIN THE WAITLIST</a>
-      </div>
-    </div>
-
-    <!-- ══ SCENE 12 — WEIGHT PLATE / WAITLIST ══ -->
-    <div class="scene" id="s12">
-      <div class="svg-scene">
-        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <radialGradient id="voidLight" cx="50%" cy="50%" r="40%">
-              <stop offset="0%" stop-color="rgba(212,175,55,0.06)"/>
-              <stop offset="100%" stop-color="transparent"/>
-            </radialGradient>
-            <filter id="plateGlow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-          </defs>
-          <rect width="1440" height="900" fill="#000"/>
-          <!-- Void center light -->
-          <circle cx="720" cy="450" r="300" fill="url(#voidLight)"/>
-          <!-- Single gold point -->
-          <circle cx="720" cy="450" r="3" fill="var(--gold)" filter="url(#plateGlow)" opacity="0.8"/>
-          <!-- Iron plate extreme close-up rings (very dark, textured) -->
-          <circle cx="720" cy="450" r="280" fill="none" stroke="rgba(30,28,25,0.8)" stroke-width="40"/>
-          <circle cx="720" cy="450" r="240" fill="none" stroke="rgba(20,18,16,0.9)" stroke-width="20"/>
-          <circle cx="720" cy="450" r="220" fill="none" stroke="rgba(25,23,20,0.7)" stroke-width="10"/>
-          <circle cx="720" cy="450" r="180" fill="rgba(8,8,8,0.8)" stroke="rgba(212,175,55,0.06)" stroke-width="1"/>
-          <!-- Iron grain texture suggestion -->
-          <g opacity="0.04" fill="rgba(212,175,55,0.5)">
-            <circle cx="680" cy="380" r="2"/><circle cx="760" cy="390" r="1.5"/>
-            <circle cx="640" cy="450" r="2"/><circle cx="800" cy="450" r="2"/>
-            <circle cx="680" cy="520" r="1.5"/><circle cx="760" cy="510" r="2"/>
-          </g>
-          <!-- Plate label (45 LB) -->
-          <text x="720" y="458" text-anchor="middle" dominant-baseline="middle" font-family="Space Mono, monospace" font-size="24" font-weight="700" fill="rgba(212,175,55,0.15)" letter-spacing="4">45 LB</text>
-        </svg>
-      </div>
-      <!-- WAITLIST FORM -->
-      <div class="text-overlay center" id="t12" style="top:50%;transform:translate(-50%,-50%);z-index:101" id="waitlist-section">
-        <div class="label" style="justify-content:center">EARLY ACCESS</div>
-        <h1 class="scene-title" style="font-size:clamp(32px,5vw,64px)">
-          To be a star,<br>you must <span class="gold">burn.</span>
-        </h1>
-        <div class="divider" style="margin:20px auto"></div>
-        <p style="font-size:9px;letter-spacing:0.2em;color:var(--w40);line-height:2;margin-bottom:4px">LIMITED SLOTS. FIRST OPERATIVES ONLY.<br>THE APP IS IN FINAL BUILD. JOIN THE LIST.</p>
-        <form id="waitlist-form" style="position:relative;z-index:1">
-          <div data-fs-error style="font-size:8px;color:var(--red);min-height:14px;margin-bottom:8px;letter-spacing:0.15em"></div>
-          <div class="email-row">
-            <input class="email-input" type="email" name="email" placeholder="ENTER YOUR EMAIL" autocomplete="email" required data-fs-field/>
+        <!--
+          FORMSPREE FORM
+          - Submits to your Formspree endpoint via Ajax (no page reload)
+          - data-fs-success: shown on success
+          - data-fs-error:   shows field/form-level errors
+          - data-fs-submit-btn: auto-disabled during submission
+        -->
+        <form id="waitlist-form" style="position:relative; z-index:1;">
+          <div data-fs-error style="font-size:8px; letter-spacing:0.15em; color:var(--red); margin-top:8px; min-height:14px;"></div>
+          <div class="email-wrap">
+            <input
+              class="email-input"
+              type="email"
+              name="email"
+              id="emailInput"
+              placeholder="ENTER YOUR EMAIL"
+              autocomplete="email"
+              required
+              data-fs-field
+            />
             <button class="email-btn" type="submit" data-fs-submit-btn>NOTIFY ME</button>
           </div>
-          <p class="email-note">NO SPAM. NO EXCUSES. JUST THE SYSTEM.</p>
+          <p class="email-note" id="emailNote">NO SPAM. NO EXCUSES. JUST THE SYSTEM.</p>
         </form>
-        <div data-fs-success style="font-size:9px;letter-spacing:0.25em;color:var(--gold);margin-top:16px">
+
+        <div data-fs-success style="font-size:9px; letter-spacing:0.25em; color:var(--gold); margin-top:20px; position:relative; z-index:1;">
           ► YOU'RE ON THE LIST. STANDBY FOR DEPLOYMENT.
         </div>
+
       </div>
     </div>
+  </section>
 
-  </div><!-- /canvas-wrap -->
-</div><!-- /scroll-container -->
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">GETVEXILLA.COM &nbsp;·&nbsp; © 2026 VEXILLA AI</div>
+    <ul class="footer-links">
+      <li><a href="https://instagram.com/vexilla.ai" target="_blank" rel="noopener">INSTAGRAM</a></li>
+      <li><a href="https://x.com/Vexilla_AI" target="_blank" rel="noopener">TWITTER / X</a></li>
+    </ul>
+  </footer>
 
-<!-- FOOTER (below scroll journey) -->
-<footer style="background:#000;border-top:1px solid rgba(255,255,255,0.04);padding:28px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;position:relative;z-index:1">
-  <div style="font-size:8px;letter-spacing:0.25em;color:rgba(255,255,255,0.15)">GETVEXILLA.COM · © 2026 VEXILLA AI</div>
-  <div style="display:flex;gap:24px">
-    <a href="https://instagram.com/vexilla.ai" target="_blank" rel="noopener" style="font-size:8px;letter-spacing:0.2em;color:rgba(255,255,255,0.15);text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#D4AF37'" onmouseout="this.style.color='rgba(255,255,255,0.15)'">INSTAGRAM</a>
-    <a href="https://x.com/Vexilla_AI" target="_blank" rel="noopener" style="font-size:8px;letter-spacing:0.2em;color:rgba(255,255,255,0.15);text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#D4AF37'" onmouseout="this.style.color='rgba(255,255,255,0.15)'">TWITTER / X</a>
-  </div>
-</footer>
+  <script>
+    // ── FORMSPREE INIT ──
+    window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+    formspree('initForm', { formElement: '#waitlist-form', formId: 'meevgjgv' });
 
-<script>
-gsap.registerPlugin(ScrollTrigger);
-
-// ── PROGRESS BAR ──
-gsap.to('#progress', {
-  width: '100%',
-  ease: 'none',
-  scrollTrigger: { trigger: '#scroll-container', start: 'top top', end: 'bottom bottom', scrub: 0.1 }
-});
-
-// ── NAV ──
-ScrollTrigger.create({
-  trigger: '#scroll-container',
-  start: '50px top',
-  onEnter: () => document.getElementById('nav').classList.add('scrolled'),
-  onLeaveBack: () => document.getElementById('nav').classList.remove('scrolled')
-});
-
-// ── SCROLL HINT ──
-ScrollTrigger.create({
-  trigger: '#scroll-container',
-  start: '200px top',
-  onEnter: () => gsap.to('#scroll-hint', { opacity: 0, duration: 0.5 }),
-  onLeaveBack: () => gsap.to('#scroll-hint', { opacity: 1, duration: 0.5 })
-});
-
-// ── PARTICLE SYSTEM ──
-(function() {
-  const canvas = document.getElementById('particle-canvas');
-  const ctx = canvas.getContext('2d');
-  let W, H, particles = [], animId;
-  function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-  for (let i = 0; i < 120; i++) {
-    particles.push({
-      x: Math.random() * 1440,
-      y: Math.random() * 900,
-      r: Math.random() * 1.5 + 0.3,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: -Math.random() * 0.4 - 0.1,
-      o: Math.random() * 0.6 + 0.1,
-      do: (Math.random() - 0.5) * 0.005
+    // ── SMOOTH ACTIVE NAV HIGHLIGHT ──
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 120) current = s.id;
+      });
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + current ? '#D4AF37' : '';
+      });
     });
-  }
-  function drawParticles() {
-    ctx.clearRect(0, 0, W, H);
-    particles.forEach(p => {
-      ctx.beginPath();
-      ctx.arc(p.x / 1440 * W, p.y / 900 * H, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(212,175,55,${Math.max(0, Math.min(1, p.o))})`;
-      ctx.fill();
-      p.x += p.vx; p.y += p.vy;
-      p.o += p.do;
-      if (p.o < 0.05 || p.o > 0.7) p.do *= -1;
-      if (p.y < -10) p.y = 910;
-      if (p.x < -10) p.x = 1450;
-      if (p.x > 1450) p.x = -10;
-    });
-    animId = requestAnimationFrame(drawParticles);
-  }
-  drawParticles();
-})();
-
-// ── SCENE DEFINITIONS ──
-// Each scene occupies ~1/12 of the total scroll
-const TOTAL = 12;
-
-function sceneProgress(idx, scrollFrac) {
-  const size = 1 / TOTAL;
-  const start = (idx - 1) * size;
-  const end = idx * size;
-  const fade = size * 0.15;
-  if (scrollFrac < start - fade || scrollFrac > end + fade) return -1; // hidden
-  if (scrollFrac >= start && scrollFrac <= end) {
-    const p = (scrollFrac - start) / (end - start);
-    return p; // 0-1 within scene
-  }
-  if (scrollFrac < start) return 0; // fading in
-  return 1; // fading out
-}
-
-function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
-
-function lerp(a, b, t) { return a + (b - a) * t; }
-
-// ── MAIN SCROLL DRIVER ──
-ScrollTrigger.create({
-  trigger: '#scroll-container',
-  start: 'top top',
-  end: 'bottom bottom',
-  scrub: 0.8,
-  onUpdate: (self) => {
-    const frac = self.progress;
-    updateScenes(frac);
-  }
-});
-
-let prevFrac = -1;
-const scenes = [null, ...Array.from({length:12}, (_,i) => document.getElementById(`s${i+1}`))]
-
-const textPairs = [null,
-  {el: document.getElementById('t1'), side:'center'},
-  {el: document.getElementById('t2'), side:'left'},
-  {el: document.getElementById('t3'), side:'right'},
-  {el: document.getElementById('t4'), side:'left'},
-  {el: document.getElementById('t5'), side:'right'},
-  {el: document.getElementById('t6'), side:'left'},
-  {el: document.getElementById('t7'), side:'center'},
-  {el: document.getElementById('t8'), side:'right'},
-  {el: document.getElementById('t9'), side:'left'},
-  {el: document.getElementById('t10'), side:'right'},
-  {el: document.getElementById('t11'), side:'left'},
-  {el: document.getElementById('t12'), side:'center'},
-];
-
-function updateScenes(frac) {
-  const size = 1 / TOTAL;
-  const currentScene = Math.min(TOTAL, Math.floor(frac / size) + 1);
-  const sceneFrac = (frac % size) / size;
-
-  for (let i = 1; i <= TOTAL; i++) {
-    const s = scenes[i];
-    if (!s) continue;
-    const start = (i-1) * size;
-    const end = i * size;
-    const fadeZone = size * 0.18;
-
-    let opacity = 0;
-    if (frac >= start - fadeZone && frac <= end + fadeZone) {
-      if (frac < start) opacity = (frac - (start - fadeZone)) / fadeZone;
-      else if (frac > end) opacity = 1 - (frac - end) / fadeZone;
-      else opacity = 1;
-    }
-    opacity = clamp(opacity, 0, 1);
-
-    s.style.opacity = opacity;
-    s.style.visibility = opacity > 0.01 ? 'visible' : 'hidden';
-    s.classList.toggle('active', opacity > 0.5);
-
-    // Zoom effect on scenes
-    const p = clamp((frac - start) / (end - start), 0, 1);
-    const scale = lerp(1, 1.08, p);
-    s.style.transform = `scale(${scale})`;
-
-    // Text reveal
-    const t = textPairs[i];
-    if (t && t.el) {
-      const textStart = start + size * 0.15;
-      const textEnd = end - size * 0.1;
-      let textOpacity = 0;
-      let textY = 0;
-
-      if (frac >= textStart && frac <= textEnd) {
-        const tp = (frac - textStart) / (textEnd - textStart);
-        if (tp < 0.2) {
-          textOpacity = tp / 0.2;
-          textY = lerp(30, 0, tp / 0.2);
-        } else if (tp > 0.8) {
-          textOpacity = 1 - (tp - 0.8) / 0.2;
-          textY = lerp(0, -20, (tp - 0.8) / 0.2);
-        } else {
-          textOpacity = 1;
-          textY = 0;
-        }
-      }
-
-      t.el.style.opacity = textOpacity;
-      const side = t.side;
-      if (side === 'center') {
-        t.el.style.transform = `translate(-50%, calc(-50% + ${textY}px))`;
-      } else if (side === 'left') {
-        const base = t.el.style.top === '50%' ? '-50%' : '0';
-        t.el.style.transform = `translateY(${textY}px)`;
-      } else {
-        t.el.style.transform = `translateY(${textY}px)`;
-      }
-    }
-  }
-
-  // ── SCENE-SPECIFIC ANIMATIONS ──
-
-  // Scene 1: gold vein pulse
-  if (currentScene === 1) {
-    const godRays = document.querySelectorAll('#s1 .god-ray');
-    godRays.forEach(g => { g.style.opacity = sceneFrac * 0.8; });
-  }
-
-  // Scene 3: stat cards stagger in
-  if (currentScene === 3 && sceneFrac > 0.3) {
-    const cards = document.querySelectorAll('#stat-cards-3 .stat-card');
-    cards.forEach((c, i) => {
-      const delay = i * 0.08;
-      const p = clamp((sceneFrac - 0.3 - delay) / 0.2, 0, 1);
-      c.style.opacity = p;
-      c.style.transform = `translateY(${lerp(20, 0, p)}px)`;
-    });
-  }
-
-  // Scene 4: step cards stagger in
-  if (currentScene === 4 && sceneFrac > 0.2) {
-    const cards = document.querySelectorAll('#step-cards-4 .step-card');
-    cards.forEach((c, i) => {
-      const delay = i * 0.1;
-      const p = clamp((sceneFrac - 0.2 - delay) / 0.25, 0, 1);
-      c.style.opacity = p;
-      c.style.transform = `translateX(${lerp(-20, 0, p)}px)`;
-    });
-  }
-
-  // Scene 5: DNA card float in
-  if (currentScene === 5 && sceneFrac > 0.25) {
-    const card = document.getElementById('dna-preview-card');
-    if (card) {
-      const p = clamp((sceneFrac - 0.25) / 0.3, 0, 1);
-      card.style.opacity = p;
-      card.style.transform = `translateY(${lerp(30, 0, p)}px)`;
-    }
-  }
-
-  // Scene 6: feat pills stagger
-  if (currentScene === 6 && sceneFrac > 0.25) {
-    const pills = document.querySelectorAll('#feat-pills-6 .feat-pill');
-    pills.forEach((p, i) => {
-      const delay = i * 0.06;
-      const prog = clamp((sceneFrac - 0.25 - delay) / 0.2, 0, 1);
-      p.style.opacity = prog;
-      p.style.transform = `translateY(${lerp(10, 0, prog)}px)`;
-    });
-  }
-
-  // Scene 6: god rays
-  if (currentScene === 6) {
-    const godRays = document.querySelectorAll('#s6 .god-ray');
-    godRays.forEach(g => { g.style.opacity = 0.8; });
-  }
-
-  // Scene 7: word by word
-  if (currentScene === 7 && sceneFrac > 0.15) {
-    const words = document.querySelectorAll('#t7 .word');
-    words.forEach((w, i) => {
-      const delay = i * 0.06;
-      const p = clamp((sceneFrac - 0.15 - delay) / 0.12, 0, 1);
-      w.style.opacity = p;
-      w.style.transform = `translateY(${lerp(20, 0, p)}px)`;
-    });
-    const rules = document.querySelectorAll('#p0-rules-7 .p0-rule');
-    rules.forEach((r, i) => {
-      const delay = 0.5 + i * 0.1;
-      const p = clamp((sceneFrac - delay) / 0.2, 0, 1);
-      r.style.opacity = p;
-      r.style.transform = `translateY(${lerp(12, 0, p)}px)`;
-    });
-  }
-
-  // Scene 8: trajectory cards
-  if (currentScene === 8 && sceneFrac > 0.2) {
-    const cards = document.querySelectorAll('#traj-wrap-8 .traj-card');
-    cards.forEach((c, i) => {
-      const delay = i * 0.12;
-      const p = clamp((sceneFrac - 0.2 - delay) / 0.25, 0, 1);
-      c.style.opacity = p;
-      c.style.transform = `translateY(${lerp(16, 0, p)}px)`;
-    });
-  }
-
-  // Scene 9: share card
-  if (currentScene === 9 && sceneFrac > 0.2) {
-    const card = document.getElementById('share-card-9');
-    if (card) {
-      const p = clamp((sceneFrac - 0.2) / 0.3, 0, 1);
-      card.style.opacity = p;
-      card.style.transform = `translateY(${lerp(20, 0, p)}px)`;
-    }
-  }
-
-  // Scene 10: price cards
-  if (currentScene === 10 && sceneFrac > 0.2) {
-    const cards = document.querySelectorAll('#price-cards-10 .price-card');
-    cards.forEach((c, i) => {
-      const delay = i * 0.12;
-      const p = clamp((sceneFrac - 0.2 - delay) / 0.25, 0, 1);
-      c.style.opacity = p;
-      c.style.transform = `translateY(${lerp(16, 0, p)}px)`;
-    });
-  }
-
-  // Particle opacity by scene
-  const particleCanvas = document.getElementById('particle-canvas');
-  const showParticles = currentScene >= 6 && currentScene <= 10;
-  particleCanvas.style.opacity = showParticles ? '0.6' : '0';
-
-  prevFrac = frac;
-}
-
-// ── FORMSPREE ──
-window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
-formspree('initForm', { formElement: '#waitlist-form', formId: 'meevgjgv' });
-
-// ── INITIAL STATE ──
-updateScenes(0);
-gsap.set('#s1', { opacity: 1, visibility: 'visible' });
-gsap.to('#t1', { opacity: 1, y: 0, duration: 1.2, ease: 'power2.out', delay: 0.4 });
-
-// ── RESIZE ──
-window.addEventListener('resize', () => ScrollTrigger.refresh());
-
-// Anchor link for #waitlist-anchor
-document.querySelectorAll('[href="#waitlist-anchor"], [href="#waitlist-section"]').forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    window.scrollTo({ top: document.getElementById('scroll-container').scrollHeight - window.innerHeight, behavior: 'smooth' });
-  });
-});
-</script>
+  </script>
 </body>
 </html>
