@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support — Vexilla AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #B8860B;
+      --gold-light: #D4A017;
+      --gold-dim: #7a5a08;
+      --bg: #050505;
+      --bg2: #0d0d0d;
+      --red: #8B1A1A;
+      --text: #e8e8e8;
+      --text-dim: #777;
+      --border: rgba(184,134,11,0.2);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Noise overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    header {
+      padding: 48px 0 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .logo-v {
+      width: 36px;
+      height: 36px;
+      background: var(--gold);
+      clip-path: polygon(50% 0%, 100% 30%, 75% 100%, 50% 75%, 25% 100%, 0% 30%);
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 4px;
+      color: var(--gold);
+    }
+
+    .classified-badge {
+      margin-left: auto;
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 3px;
+      color: var(--red);
+      border: 1px solid var(--red);
+      padding: 3px 8px;
+      opacity: 0.7;
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(42px, 8vw, 64px);
+      letter-spacing: 6px;
+      line-height: 1;
+      color: #fff;
+    }
+
+    h1 span {
+      color: var(--gold);
+    }
+
+    .subtitle {
+      margin-top: 12px;
+      font-size: 13px;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      font-family: 'Space Mono', monospace;
+      text-transform: uppercase;
+    }
+
+    /* Contact section */
+    .section {
+      padding: 48px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 4px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .contact-block {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-block::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--gold);
+    }
+
+    .contact-block h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+
+    .contact-block p {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .email-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--gold);
+      color: #000;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 12px 20px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .email-link:hover { background: var(--gold-light); }
+
+    .response-time {
+      margin-top: 16px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--text-dim);
+      letter-spacing: 2px;
+    }
+
+    /* FAQ */
+    .faq-item {
+      border: 1px solid var(--border);
+      margin-bottom: 12px;
+      background: var(--bg2);
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .faq-item:hover { border-color: var(--gold-dim); }
+
+    .faq-q {
+      padding: 20px 24px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      user-select: none;
+    }
+
+    .faq-q span {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .faq-icon {
+      font-family: 'Space Mono', monospace;
+      font-size: 16px;
+      color: var(--gold);
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .faq-item.open .faq-a { max-height: 300px; }
+
+    .faq-a-inner {
+      padding: 0 24px 20px;
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.8;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+
+    /* App info */
+    .app-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 24px;
+    }
+
+    .app-info-cell {
+      background: var(--bg2);
+      padding: 16px 20px;
+    }
+
+    .cell-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 3px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .cell-value {
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    /* Privacy link */
+    .privacy-row {
+      padding: 32px 0;
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .privacy-row a {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      text-decoration: none;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .privacy-row a:hover { color: var(--gold); border-color: var(--gold); }
+
+    /* Footer */
+    footer {
+      padding: 24px 0 48px;
+    }
+
+    .footer-text {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 3px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    .gold-line {
+      width: 40px;
+      height: 2px;
+      background: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 480px) {
+      .app-info-grid { grid-template-columns: 1fr; }
+      .classified-badge { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo-row">
+        <div class="logo-v"></div>
+        <div class="logo-text">VEXILLA AI</div>
+        <div class="classified-badge">SUPPORT CHANNEL</div>
+      </div>
+      <h1>SUPPORT<br /><span>COMMAND.</span></h1>
+      <p class="subtitle">Mission-critical assistance — getvexilla.com</p>
+    </header>
+
+    <!-- Contact -->
+    <div class="section">
+      <div class="section-label">// Direct Contact</div>
+      <div class="contact-block">
+        <h2>REACH COMMAND</h2>
+        <p>For bugs, account issues, subscription problems, or any questions about Vexilla AI — contact us directly. We respond to every message.</p>
+        <a class="email-link" href="mailto:ceo.vexilla.ai@gmail.com">
+          ✉ ceo.vexilla.ai@gmail.com
+        </a>
+        <div class="response-time">// TYPICAL RESPONSE TIME: 24–48 HRS</div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="section">
+      <div class="section-label">// Frequently Asked</div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggle(this)">
+          <span>What is Vexilla AI?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-inner">Vexilla AI is an AI-powered life execution system for ambitious individuals aged 15–22. It diagnoses your execution profile, builds a personalised 7-day Phase 0 plan, and holds you accountable through daily proof verification. No partial credit. Miss a day — streak resets.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggle(this)">
+          <span>How do I cancel my subscription?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            On iOS: Go to Settings → Apple ID → Subscriptions → Vexilla AI → Cancel.<br /><br />
+            On Android: Go to Google Play Store → Profile → Payments & Subscriptions → Subscriptions → Vexilla AI → Cancel.<br /><br />
+            You will retain access until the end of your billing period.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggle(this)">
+          <span>I'm having trouble logging in. What do I do?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-inner">Try signing out and signing back in. If using Google Sign-In, ensure you have a stable internet connection and try again. If the issue persists, email us at ceo.vexilla.ai@gmail.com with your device model and OS version.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggle(this)">
+          <span>What is Phase 0 and what comes after?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-inner">Phase 0 is a 7-day foundation building period personalised to your goals and available hours. The AI builds your roadmap based on your execution diagnosis. Completing Phase 0 unlocks Phase 1 and beyond — a full progression system built around your specific domain, whether that's JEE, fitness, freelancing, coding, or anything else.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggle(this)">
+          <span>What data does Vexilla AI collect?</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-inner">We collect your name, email, onboarding responses, and daily task proof submissions. This data is used solely to power your personalised execution system. We do not sell your data to third parties. See our Privacy Policy for full details.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggle(this)">
+          <span>I was charged but can't access Operator Mode.</span>
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">
+          <div class="faq-a-inner">Try logging out and logging back in — this refreshes your subscription status. If the issue persists within 24 hours of purchase, email us at ceo.vexilla.ai@gmail.com with your order ID and we'll resolve it immediately.</div>
+        </div>
+      </div>
+
+      <!-- App Info -->
+      <div class="app-info-grid">
+        <div class="app-info-cell">
+          <div class="cell-label">App Name</div>
+          <div class="cell-value">Vexilla AI</div>
+        </div>
+        <div class="app-info-cell">
+          <div class="cell-label">Developer</div>
+          <div class="cell-value">Akshit Aditya</div>
+        </div>
+        <div class="app-info-cell">
+          <div class="cell-label">iOS Bundle ID</div>
+          <div class="cell-value">com.vexilla.app</div>
+        </div>
+        <div class="app-info-cell">
+          <div class="cell-label">Version</div>
+          <div class="cell-value">1.0</div>
+        </div>
+        <div class="app-info-cell">
+          <div class="cell-label">Platform</div>
+          <div class="cell-value">iOS & Android</div>
+        </div>
+        <div class="app-info-cell">
+          <div class="cell-label">Contact</div>
+          <div class="cell-value">ceo.vexilla.ai@gmail.com</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="privacy-row">
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms of Service</a>
+      <a href="https://getvexilla.com">Back to Home</a>
+    </div>
+
+    <footer>
+      <div class="gold-line"></div>
+      <div class="footer-text">© 2026 Vexilla AI — Execute or Fall Behind</div>
+    </footer>
+  </div>
+
+  <script>
+    function toggle(el) {
+      const item = el.closest('.faq-item');
+      item.classList.toggle('open');
+    }
+  </script>
+</body>
+</html>
