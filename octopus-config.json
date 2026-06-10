@@ -1,6 +1,8 @@
+
 {
   "active_teams": ["Mexico", "South Africa", "Korea Republic", "Czechia", "Canada", "Bosnia and Herzegovina", "USA", "Paraguay", "Qatar", "Switzerland", "Brazil", "Morocco", "Haiti", "Scotland", "Australia", "Türkiye", "Germany", "Curaçao", "Netherlands", "Japan", "Côte d'Ivoire", "Ecuador", "Sweden", "Tunisia", "Spain", "Cabo Verde", "Belgium", "Egypt", "Saudi Arabia", "Uruguay", "IR Iran", "New Zealand", "France", "Senegal", "Iraq", "Norway", "Argentina", "Algeria", "Austria", "Jordan", "Portugal", "Congo DR", "England", "Croatia", "Ghana", "Panama", "Uzbekistan", "Colombia"],
   "eliminated_teams": [],
+  "knockout_matches": [],
   "tournament_active": true,
   "last_updated": "2026-06-10"
 }
