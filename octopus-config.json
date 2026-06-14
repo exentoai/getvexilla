@@ -18,7 +18,7 @@
     { "team1": "USA", "team2": "Paraguay", "score": "4-1", "date": "2026-06-12" },
     { "team1": "Qatar", "team2": "Switzerland", "score": "1-1", "date": "2026-06-12" }
   ],
-  "knockout_matches": [
+  "knockout_matches": []
     {
       "round": "Round of 32",
       "team1": "TBD (Group A Winner)",
