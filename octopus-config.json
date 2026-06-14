@@ -8,102 +8,21 @@
     "Saudi Arabia", "Iran", "South Africa", "Czechia", "Bosnia and Herzegovina",
     "Qatar", "Paraguay", "Turkey", "Serbia", "Denmark", "Poland",
     "Norway", "Sweden", "Scotland", "Austria", "Ukraine", "Romania",
-    "Hungary"
+    "Hungary", "Haiti", "Curacao", "Ivory Coast", "New Zealand", "IR Iran",
+    "Uzbekistan", "Jordan", "Cabo Verde", "DR Congo"
   ],
   "eliminated_teams": [],
   "results": [
-    { "team1": "Mexico", "team2": "South Africa", "score": "2-0", "date": "2026-06-11" },
-    { "team1": "South Korea", "team2": "Czechia", "score": "2-1", "date": "2026-06-11" },
-    { "team1": "Canada", "team2": "Bosnia and Herzegovina", "score": "1-1", "date": "2026-06-12" },
-    { "team1": "USA", "team2": "Paraguay", "score": "4-1", "date": "2026-06-12" },
-    { "team1": "Qatar", "team2": "Switzerland", "score": "1-1", "date": "2026-06-12" }
+    { "team1": "Mexico", "team2": "South Africa", "score": "2-0", "winner": "Mexico", "date": "2026-06-11" },
+    { "team1": "South Korea", "team2": "Czechia", "score": "2-1", "winner": "South Korea", "date": "2026-06-11" },
+    { "team1": "Canada", "team2": "Bosnia and Herzegovina", "score": "1-1", "winner": "Draw", "date": "2026-06-12" },
+    { "team1": "USA", "team2": "Paraguay", "score": "4-1", "winner": "USA", "date": "2026-06-12" },
+    { "team1": "Qatar", "team2": "Switzerland", "score": "1-1", "winner": "Draw", "date": "2026-06-12" },
+    { "team1": "Brazil", "team2": "Morocco", "score": "1-1", "winner": "Draw", "date": "2026-06-13" },
+    { "team1": "Scotland", "team2": "Haiti", "score": "1-0", "winner": "Scotland", "date": "2026-06-13" },
+    { "team1": "Australia", "team2": "Turkey", "score": "2-0", "winner": "Australia", "date": "2026-06-13" }
   ],
-  "knockout_matches": []
-    {
-      "round": "Round of 32",
-      "team1": "TBD (Group A Winner)",
-      "team2": "TBD (Best 3rd Place)",
-      "date": "2026-06-28",
-      "venue": "Kansas City Stadium, Kansas City"
-    },
-    {
-      "round": "Round of 32",
-      "team1": "TBD (Group B Winner)",
-      "team2": "TBD (Best 3rd Place)",
-      "date": "2026-06-28",
-      "venue": "Miami Stadium, Miami"
-    },
-    {
-      "round": "Round of 32",
-      "team1": "TBD (Group C Winner)",
-      "team2": "TBD (Group D Runner-up)",
-      "date": "2026-06-29",
-      "venue": "Los Angeles Stadium, Los Angeles"
-    },
-    {
-      "round": "Round of 32",
-      "team1": "TBD (Group D Winner)",
-      "team2": "TBD (Best 3rd Place)",
-      "date": "2026-06-29",
-      "venue": "Seattle Stadium, Seattle"
-    },
-    {
-      "round": "Round of 32",
-      "team1": "TBD (Group E Winner)",
-      "team2": "TBD (Best 3rd Place)",
-      "date": "2026-06-30",
-      "venue": "Dallas Stadium, Dallas"
-    },
-    {
-      "round": "Round of 32",
-      "team1": "TBD (Group F Winner)",
-      "team2": "TBD (Best 3rd Place)",
-      "date": "2026-06-30",
-      "venue": "Boston Stadium, Boston"
-    },
-    {
-      "round": "Round of 32",
-      "team1": "TBD (Group G Winner)",
-      "team2": "TBD (Best 3rd Place)",
-      "date": "2026-07-01",
-      "venue": "New York Stadium, New York"
-    },
-    {
-      "round": "Round of 32",
-      "team1": "TBD (Group H Winner)",
-      "team2": "TBD (Best 3rd Place)",
-      "date": "2026-07-01",
-      "venue": "Philadelphia Stadium, Philadelphia"
-    },
-    {
-      "round": "Round of 32",
-      "team1": "TBD (Group I Winner)",
-      "team2": "TBD (Best 3rd Place)",
-      "date": "2026-07-02",
-      "venue": "Atlanta Stadium, Atlanta"
-    },
-    {
-      "round": "Round of 32",
-      "team1": "TBD (Group J Winner)",
-      "team2": "TBD (Best 3rd Place)",
-      "date": "2026-07-02",
-      "venue": "Houston Stadium, Houston"
-    },
-    {
-      "round": "Round of 32",
-      "team1": "TBD (Group K Winner)",
-      "team2": "TBD (Best 3rd Place)",
-      "date": "2026-07-03",
-      "venue": "Vancouver Stadium, Vancouver"
-    },
-    {
-      "round": "Round of 32",
-      "team1": "TBD (Group L Winner)",
-      "team2": "TBD (Best 3rd Place)",
-      "date": "2026-07-03",
-      "venue": "Toronto Stadium, Toronto"
-    }
-  ],
+  "knockout_matches": [],
   "tournament_active": true,
   "tournament_stage": "Group Stage",
   "last_updated": "2026-06-14"
