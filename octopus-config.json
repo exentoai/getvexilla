@@ -170,8 +170,12 @@
       "group": "C",
       "venue": "Boston Stadium",
       "city": "Boston",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 0,
+        "scoreB": 1,
+        "winner": "Scotland"
+      }
     },
     {
       "home": "Australia",
@@ -220,8 +224,12 @@
       "group": "F",
       "venue": "Dallas Stadium",
       "city": "Dallas",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 2,
+        "scoreB": 2,
+        "winner": "draw"
+      }
     },
     {
       "home": "Ivory Coast",
@@ -252,8 +260,12 @@
       "group": "F",
       "venue": "Estadio Monterrey",
       "city": "Monterrey",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 5,
+        "scoreB": 1,
+        "winner": "Sweden"
+      }
     },
     {
       "home": "Spain",
@@ -320,8 +332,12 @@
       "group": "G",
       "venue": "Los Angeles Stadium",
       "city": "Los Angeles",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 2,
+        "scoreB": 2,
+        "winner": "draw"
+      }
     },
     {
       "home": "France",
@@ -370,8 +386,12 @@
       "group": "J",
       "venue": "Kansas City Stadium",
       "city": "Kansas City",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 3,
+        "scoreB": 0,
+        "winner": "Argentina"
+      }
     },
     {
       "home": "Austria",
@@ -402,8 +422,12 @@
       "group": "K",
       "venue": "Houston Stadium",
       "city": "Houston",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 1,
+        "scoreB": 1,
+        "winner": "draw"
+      }
     },
     {
       "home": "England",
@@ -416,8 +440,12 @@
       "group": "L",
       "venue": "Dallas Stadium",
       "city": "Dallas",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 4,
+        "scoreB": 2,
+        "winner": "England"
+      }
     },
     {
       "home": "Ghana",
@@ -430,8 +458,12 @@
       "group": "L",
       "venue": "Toronto Stadium",
       "city": "Toronto",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 1,
+        "scoreB": 0,
+        "winner": "Ghana"
+      }
     },
     {
       "home": "Uzbekistan",
@@ -444,8 +476,12 @@
       "group": "K",
       "venue": "Mexico City Stadium",
       "city": "Mexico City",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 1,
+        "scoreB": 3,
+        "winner": "Colombia"
+      }
     },
     {
       "home": "Czechia",
