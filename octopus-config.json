@@ -494,8 +494,12 @@
       "group": "A",
       "venue": "Atlanta Stadium",
       "city": "Atlanta",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 1,
+        "scoreB": 1,
+        "winner": "draw"
+      }
     },
     {
       "home": "Switzerland",
@@ -508,8 +512,12 @@
       "group": "B",
       "venue": "Los Angeles Stadium",
       "city": "Los Angeles",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 4,
+        "scoreB": 1,
+        "winner": "Switzerland"
+      }
     },
     {
       "home": "Canada",
@@ -522,8 +530,12 @@
       "group": "B",
       "venue": "BC Place",
       "city": "Vancouver",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 6,
+        "scoreB": 0,
+        "winner": "Canada"
+      }
     },
     {
       "home": "Mexico",
@@ -536,8 +548,12 @@
       "group": "A",
       "venue": "Guadalajara Stadium",
       "city": "Guadalajara",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 1,
+        "scoreB": 0,
+        "winner": "Mexico"
+      }
     },
     {
       "home": "United States",
@@ -550,8 +566,12 @@
       "group": "D",
       "venue": "Seattle Stadium",
       "city": "Seattle",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 2,
+        "scoreB": 0,
+        "winner": "United States"
+      }
     },
     {
       "home": "Scotland",
@@ -564,8 +584,12 @@
       "group": "C",
       "venue": "Boston Stadium",
       "city": "Boston",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 0,
+        "scoreB": 1,
+        "winner": "Morocco"
+      }
     },
     {
       "home": "Brazil",
@@ -578,8 +602,12 @@
       "group": "C",
       "venue": "Philadelphia Stadium",
       "city": "Philadelphia",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 3,
+        "scoreB": 0,
+        "winner": "Brazil"
+      }
     },
     {
       "home": "Turkey",
@@ -1159,5 +1187,5 @@
   "knockout_matches": [],
   "tournament_active": true,
   "tournament_stage": "Group Stage",
-  "last_updated": "2026-06-18"
+  "last_updated": "2026-06-19"
 }
