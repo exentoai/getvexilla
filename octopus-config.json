@@ -12,10 +12,8 @@
     "Switzerland",
     "Brazil",
     "Morocco",
-    "Haiti",
     "Scotland",
     "Australia",
-    "Turkey",
     "Germany",
     "Curacao",
     "Netherlands",
@@ -23,7 +21,6 @@
     "Ivory Coast",
     "Ecuador",
     "Sweden",
-    "Tunisia",
     "Spain",
     "Cabo Verde",
     "Belgium",
@@ -39,7 +36,6 @@
     "Argentina",
     "Algeria",
     "Austria",
-    "Jordan",
     "Portugal",
     "DR Congo",
     "England",
@@ -50,6 +46,9 @@
     "Colombia"
   ],
   "eliminated_teams": [
+    "Haiti",
+    "Jordan",
+    "Tunisia",
     "Turkey"
   ],
   "group_stage_matches": [
@@ -640,8 +639,12 @@
       "group": "F",
       "venue": "Houston Stadium",
       "city": "Houston",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 5,
+        "scoreB": 1,
+        "winner": "Netherlands"
+      }
     },
     {
       "home": "Germany",
@@ -654,8 +657,12 @@
       "group": "E",
       "venue": "Toronto Stadium",
       "city": "Toronto",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 2,
+        "scoreB": 1,
+        "winner": "Germany"
+      }
     },
     {
       "home": "Ecuador",
@@ -668,8 +675,12 @@
       "group": "E",
       "venue": "Kansas City Stadium",
       "city": "Kansas City",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 0,
+        "scoreB": 0,
+        "winner": "draw"
+      }
     },
     {
       "home": "Tunisia",
@@ -682,8 +693,12 @@
       "group": "F",
       "venue": "Estadio Monterrey",
       "city": "Monterrey",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 0,
+        "scoreB": 4,
+        "winner": "Japan"
+      }
     },
     {
       "home": "Spain",
@@ -696,8 +711,12 @@
       "group": "H",
       "venue": "Atlanta Stadium",
       "city": "Atlanta",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 4,
+        "scoreB": 0,
+        "winner": "Spain"
+      }
     },
     {
       "home": "Belgium",
@@ -710,8 +729,12 @@
       "group": "G",
       "venue": "Los Angeles Stadium",
       "city": "Los Angeles",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 0,
+        "scoreB": 0,
+        "winner": "draw"
+      }
     },
     {
       "home": "Uruguay",
@@ -724,8 +747,12 @@
       "group": "H",
       "venue": "Miami Stadium",
       "city": "Miami",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 2,
+        "scoreB": 2,
+        "winner": "draw"
+      }
     },
     {
       "home": "New Zealand",
@@ -738,8 +765,12 @@
       "group": "G",
       "venue": "BC Place",
       "city": "Vancouver",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 1,
+        "scoreB": 3,
+        "winner": "Egypt"
+      }
     },
     {
       "home": "Argentina",
@@ -752,8 +783,12 @@
       "group": "J",
       "venue": "Dallas Stadium",
       "city": "Dallas",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 2,
+        "scoreB": 0,
+        "winner": "Argentina"
+      }
     },
     {
       "home": "France",
@@ -766,8 +801,12 @@
       "group": "I",
       "venue": "Philadelphia Stadium",
       "city": "Philadelphia",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 3,
+        "scoreB": 0,
+        "winner": "France"
+      }
     },
     {
       "home": "Norway",
@@ -780,8 +819,12 @@
       "group": "I",
       "venue": "New York New Jersey Stadium",
       "city": "New York/New Jersey",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 3,
+        "scoreB": 2,
+        "winner": "Norway"
+      }
     },
     {
       "home": "Jordan",
@@ -794,8 +837,12 @@
       "group": "J",
       "venue": "San Francisco Bay Area Stadium",
       "city": "San Francisco Bay Area",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 1,
+        "scoreB": 2,
+        "winner": "Algeria"
+      }
     },
     {
       "home": "Portugal",
@@ -808,8 +855,12 @@
       "group": "K",
       "venue": "Houston Stadium",
       "city": "Houston",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 5,
+        "scoreB": 0,
+        "winner": "Portugal"
+      }
     },
     {
       "home": "England",
@@ -1193,5 +1244,5 @@
   "knockout_matches": [],
   "tournament_active": true,
   "tournament_stage": "Group Stage",
-  "last_updated": "2026-06-20"
+  "last_updated": "2026-06-24"
 }
