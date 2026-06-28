@@ -1,55 +1,55 @@
 {
   "active_teams": [
-    "Mexico",
-    "South Africa",
-    "South Korea",
-    "Canada",
-    "Bosnia and Herzegovina",
-    "United States",
-    "Paraguay",
-    "Switzerland",
-    "Brazil",
-    "Morocco",
-    "Scotland",
-    "Australia",
-    "Germany",
-    "Netherlands",
-    "Japan",
-    "Ivory Coast",
-    "Ecuador",
-    "Sweden",
-    "Spain",
-    "Cabo Verde",
-    "Belgium",
-    "Egypt",
-    "Saudi Arabia",
-    "Uruguay",
-    "Iran",
-    "New Zealand",
-    "France",
-    "Senegal",
-    "Iraq",
-    "Norway",
-    "Argentina",
     "Algeria",
-    "Jordan",
+    "Argentina",
+    "Australia",
     "Austria",
-    "Portugal",
-    "DR Congo",
-    "England",
+    "Belgium",
+    "Bosnia and Herzegovina",
+    "Brazil",
+    "Cabo Verde",
+    "Canada",
+    "Colombia",
     "Croatia",
+    "DR Congo",
+    "Ecuador",
+    "Egypt",
+    "England",
+    "France",
+    "Germany",
     "Ghana",
-    "Panama",
-    "Uzbekistan",
-    "Colombia"
+    "Ivory Coast",
+    "Japan",
+    "Mexico",
+    "Morocco",
+    "Netherlands",
+    "Norway",
+    "Paraguay",
+    "Portugal",
+    "Senegal",
+    "South Africa",
+    "Spain",
+    "Sweden",
+    "Switzerland",
+    "United States"
   ],
   "eliminated_teams": [
+    "Curacao",
+    "Czechia",
     "Haiti",
+    "Iran",
+    "Iraq",
+    "Jordan",
+    "New Zealand",
+    "Panama",
+    "Qatar",
+    "Saudi Arabia",
+    "Scotland",
+    "South Korea",
     "Tunisia",
     "Turkey",
-    "Qatar",
-    "Curacao",
-    "Czechia"
+    "Uruguay",
+    "Uzbekistan"
   ],
   "group_stage_matches": [
     {
@@ -1143,8 +1143,12 @@
       "group": "I",
       "venue": "Boston Stadium",
       "city": "Boston",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 1,
+        "scoreB": 4,
+        "winner": "France"
+      }
     },
     {
       "home": "Senegal",
@@ -1157,8 +1161,12 @@
       "group": "I",
       "venue": "Toronto Stadium",
       "city": "Toronto",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 5,
+        "scoreB": 0,
+        "winner": "Senegal"
+      }
     },
     {
       "home": "Cabo Verde",
@@ -1171,8 +1179,12 @@
       "group": "H",
       "venue": "Houston Stadium",
       "city": "Houston",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 0,
+        "scoreB": 0,
+        "winner": "draw"
+      }
     },
     {
       "home": "Uruguay",
@@ -1185,8 +1197,12 @@
       "group": "H",
       "venue": "Guadalajara Stadium",
       "city": "Guadalajara",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 0,
+        "scoreB": 1,
+        "winner": "Spain"
+      }
     },
     {
       "home": "Egypt",
@@ -1199,8 +1215,12 @@
       "group": "G",
       "venue": "Seattle Stadium",
       "city": "Seattle",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 1,
+        "scoreB": 1,
+        "winner": "draw"
+      }
     },
     {
       "home": "New Zealand",
@@ -1213,8 +1233,12 @@
       "group": "G",
       "venue": "BC Place",
       "city": "Vancouver",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 1,
+        "scoreB": 5,
+        "winner": "Belgium"
+      }
     },
     {
       "home": "Panama",
@@ -1227,8 +1251,12 @@
       "group": "L",
       "venue": "New York New Jersey Stadium",
       "city": "New York/New Jersey",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 0,
+        "scoreB": 2,
+        "winner": "England"
+      }
     },
     {
       "home": "Croatia",
@@ -1241,8 +1269,12 @@
       "group": "L",
       "venue": "Philadelphia Stadium",
       "city": "Philadelphia",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 2,
+        "scoreB": 1,
+        "winner": "Croatia"
+      }
     },
     {
       "home": "Colombia",
@@ -1255,8 +1287,12 @@
       "group": "K",
       "venue": "Miami Stadium",
       "city": "Miami",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 0,
+        "scoreB": 0,
+        "winner": "draw"
+      }
     },
     {
       "home": "DR Congo",
@@ -1269,8 +1305,12 @@
       "group": "K",
       "venue": "Atlanta Stadium",
       "city": "Atlanta",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 3,
+        "scoreB": 1,
+        "winner": "DR Congo"
+      }
     },
     {
       "home": "Algeria",
@@ -1283,8 +1323,12 @@
       "group": "J",
       "venue": "Kansas City Stadium",
       "city": "Kansas City",
-      "status": "upcoming",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 3,
+        "scoreB": 3,
+        "winner": "draw"
+      }
     },
     {
       "home": "Jordan",
@@ -1297,12 +1341,241 @@
       "group": "J",
       "venue": "Dallas Stadium",
       "city": "Dallas",
-      "status": "upcoming",
+      "status": "completed",
+      "result": {
+        "scoreA": 1,
+        "scoreB": 3,
+        "winner": "Argentina"
+      }
+    }
+  ],
+  "knockout_matches": [
+    {
+      "home": "South Africa",
+      "away": "Canada",
+      "year": 2026,
+      "month": 6,
+      "day": 28,
+      "hour": 15,
+      "minute": 0,
+      "venue": "Los Angeles Stadium",
+      "city": "Los Angeles",
+      "round": "Round of 32",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "home": "Brazil",
+      "away": "Japan",
+      "year": 2026,
+      "month": 6,
+      "day": 29,
+      "hour": 13,
+      "minute": 0,
+      "venue": "Houston Stadium",
+      "city": "Houston",
+      "round": "Round of 32",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "home": "Germany",
+      "away": "Paraguay",
+      "year": 2026,
+      "month": 6,
+      "day": 29,
+      "hour": 16,
+      "minute": 30,
+      "venue": "Boston Stadium",
+      "city": "Boston",
+      "round": "Round of 32",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "home": "Netherlands",
+      "away": "Morocco",
+      "year": 2026,
+      "month": 6,
+      "day": 29,
+      "hour": 21,
+      "minute": 0,
+      "venue": "Estadio Monterrey",
+      "city": "Monterrey",
+      "round": "Round of 32",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "home": "Ivory Coast",
+      "away": "Norway",
+      "year": 2026,
+      "month": 6,
+      "day": 30,
+      "hour": 13,
+      "minute": 0,
+      "venue": "Dallas Stadium",
+      "city": "Dallas",
+      "round": "Round of 32",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "home": "France",
+      "away": "Sweden",
+      "year": 2026,
+      "month": 6,
+      "day": 30,
+      "hour": 17,
+      "minute": 0,
+      "venue": "New York New Jersey Stadium",
+      "city": "New York/New Jersey",
+      "round": "Round of 32",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "home": "Mexico",
+      "away": "Ecuador",
+      "year": 2026,
+      "month": 6,
+      "day": 30,
+      "hour": 21,
+      "minute": 0,
+      "venue": "Mexico City Stadium",
+      "city": "Mexico City",
+      "round": "Round of 32",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "home": "England",
+      "away": "DR Congo",
+      "year": 2026,
+      "month": 7,
+      "day": 1,
+      "hour": 13,
+      "minute": 0,
+      "venue": "Atlanta Stadium",
+      "city": "Atlanta",
+      "round": "Round of 32",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "home": "United States",
+      "away": "Bosnia and Herzegovina",
+      "year": 2026,
+      "month": 7,
+      "day": 1,
+      "hour": 16,
+      "minute": 30,
+      "venue": "San Francisco Bay Area Stadium",
+      "city": "San Francisco Bay Area",
+      "round": "Round of 32",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "home": "Belgium",
+      "away": "Senegal",
+      "year": 2026,
+      "month": 7,
+      "day": 1,
+      "hour": 21,
+      "minute": 0,
+      "venue": "Seattle Stadium",
+      "city": "Seattle",
+      "round": "Round of 32",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "home": "Spain",
+      "away": "Austria",
+      "year": 2026,
+      "month": 7,
+      "day": 2,
+      "hour": 15,
+      "minute": 0,
+      "venue": "Los Angeles Stadium",
+      "city": "Los Angeles",
+      "round": "Round of 32",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "home": "Algeria",
+      "away": "Switzerland",
+      "year": 2026,
+      "month": 7,
+      "day": 2,
+      "hour": 13,
+      "minute": 0,
+      "venue": "BC Place",
+      "city": "Vancouver",
+      "round": "Round of 32",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "home": "Portugal",
+      "away": "Croatia",
+      "year": 2026,
+      "month": 7,
+      "day": 2,
+      "hour": 21,
+      "minute": 0,
+      "venue": "Toronto Stadium",
+      "city": "Toronto",
+      "round": "Round of 32",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "home": "Argentina",
+      "away": "Cabo Verde",
+      "year": 2026,
+      "month": 7,
+      "day": 3,
+      "hour": 13,
+      "minute": 0,
+      "venue": "Miami Stadium",
+      "city": "Miami",
+      "round": "Round of 32",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "home": "Colombia",
+      "away": "Ghana",
+      "year": 2026,
+      "month": 7,
+      "day": 3,
+      "hour": 16,
+      "minute": 30,
+      "venue": "Kansas City Stadium",
+      "city": "Kansas City",
+      "round": "Round of 32",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "home": "Egypt",
+      "away": "Australia",
+      "year": 2026,
+      "month": 7,
+      "day": 3,
+      "hour": 21,
+      "minute": 0,
+      "venue": "Dallas Stadium",
+      "city": "Dallas",
+      "round": "Round of 32",
+      "status": "scheduled",
       "result": null
     }
   ],
-  "knockout_matches": [],
   "tournament_active": true,
-  "tournament_stage": "Group Stage",
-  "last_updated": "2026-06-26"
+  "tournament_stage": "Round of 32",
+  "last_updated": "2026-06-28T06:45:14Z"
 }
