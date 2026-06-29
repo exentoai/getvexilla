@@ -27,7 +27,6 @@
     "Paraguay",
     "Portugal",
     "Senegal",
-    "South Africa",
     "Spain",
     "Sweden",
     "Switzerland",
@@ -45,6 +44,7 @@
     "Qatar",
     "Saudi Arabia",
     "Scotland",
+    "South Africa",
     "South Korea",
     "Tunisia",
     "Turkey",
@@ -1362,8 +1362,12 @@
       "venue": "Los Angeles Stadium",
       "city": "Los Angeles",
       "round": "Round of 32",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 0,
+        "scoreB": 1,
+        "winner": "Canada"
+      }
     },
     {
       "home": "Brazil",
@@ -1593,5 +1597,5 @@
   ],
   "tournament_active": true,
   "tournament_stage": "Round of 32",
-  "last_updated": "2026-06-28T06:45:14Z"
+  "last_updated": "2026-06-29T18:00:00Z"
 }
