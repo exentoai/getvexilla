@@ -12,33 +12,32 @@
     "Colombia",
     "Croatia",
     "DR Congo",
-    "Ecuador",
     "Egypt",
     "England",
     "France",
-    "Germany",
     "Ghana",
-    "Ivory Coast",
-    "Japan",
     "Mexico",
     "Morocco",
-    "Netherlands",
     "Norway",
     "Paraguay",
     "Portugal",
     "Senegal",
     "Spain",
-    "Sweden",
     "Switzerland",
     "United States"
   ],
   "eliminated_teams": [
     "Curacao",
     "Czechia",
+    "Ecuador",
+    "Germany",
     "Haiti",
     "Iran",
     "Iraq",
+    "Ivory Coast",
+    "Japan",
     "Jordan",
+    "Netherlands",
     "New Zealand",
     "Panama",
     "Qatar",
@@ -46,6 +45,7 @@
     "Scotland",
     "South Africa",
     "South Korea",
+    "Sweden",
     "Tunisia",
     "Turkey",
     "Uruguay",
@@ -1381,8 +1381,12 @@
       "venue": "Houston Stadium",
       "city": "Houston",
       "round": "Round of 32",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 2,
+        "scoreB": 1,
+        "winner": "Brazil"
+      }
     },
     {
       "home": "Germany",
@@ -1396,8 +1400,12 @@
       "venue": "Boston Stadium",
       "city": "Boston",
       "round": "Round of 32",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 1,
+        "scoreB": 1,
+        "winner": "Paraguay"
+      }
     },
     {
       "home": "Netherlands",
@@ -1411,8 +1419,12 @@
       "venue": "Estadio Monterrey",
       "city": "Monterrey",
       "round": "Round of 32",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 1,
+        "scoreB": 1,
+        "winner": "Morocco"
+      }
     },
     {
       "home": "Ivory Coast",
@@ -1426,8 +1438,12 @@
       "venue": "Dallas Stadium",
       "city": "Dallas",
       "round": "Round of 32",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 1,
+        "scoreB": 2,
+        "winner": "Norway"
+      }
     },
     {
       "home": "France",
@@ -1441,8 +1457,12 @@
       "venue": "New York New Jersey Stadium",
       "city": "New York/New Jersey",
       "round": "Round of 32",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 3,
+        "scoreB": 0,
+        "winner": "France"
+      }
     },
     {
       "home": "Mexico",
@@ -1456,8 +1476,12 @@
       "venue": "Mexico City Stadium",
       "city": "Mexico City",
       "round": "Round of 32",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 2,
+        "scoreB": 0,
+        "winner": "Mexico"
+      }
     },
     {
       "home": "England",
@@ -1597,5 +1621,5 @@
   ],
   "tournament_active": true,
   "tournament_stage": "Round of 32",
-  "last_updated": "2026-06-29T18:00:00Z"
+  "last_updated": "2026-07-01T18:00:00Z"
 }
