@@ -1,36 +1,35 @@
 {
   "active_teams": [
-    "Algeria",
     "Argentina",
-    "Australia",
-    "Austria",
     "Belgium",
-    "Bosnia and Herzegovina",
     "Brazil",
-    "Cabo Verde",
     "Canada",
     "Colombia",
-    "Croatia",
-    "DR Congo",
     "Egypt",
     "England",
     "France",
-    "Ghana",
     "Mexico",
     "Morocco",
     "Norway",
     "Paraguay",
     "Portugal",
-    "Senegal",
     "Spain",
     "Switzerland",
     "United States"
   ],
   "eliminated_teams": [
+    "Algeria",
+    "Australia",
+    "Austria",
+    "Bosnia and Herzegovina",
+    "Cabo Verde",
+    "Croatia",
     "Curacao",
     "Czechia",
+    "DR Congo",
     "Ecuador",
     "Germany",
+    "Ghana",
     "Haiti",
     "Iran",
     "Iraq",
@@ -43,6 +42,7 @@
     "Qatar",
     "Saudi Arabia",
     "Scotland",
+    "Senegal",
     "South Africa",
     "South Korea",
     "Sweden",
@@ -1495,8 +1495,12 @@
       "venue": "Mercedes-Benz Stadium",
       "city": "Atlanta",
       "round": "Round of 32",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 2,
+        "scoreB": 1,
+        "winner": "England"
+      }
     },
     {
       "home": "United States",
@@ -1510,8 +1514,12 @@
       "venue": "Levi's Stadium",
       "city": "San Francisco Bay Area",
       "round": "Round of 32",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 2,
+        "scoreB": 0,
+        "winner": "United States"
+      }
     },
     {
       "home": "Belgium",
@@ -1525,8 +1533,12 @@
       "venue": "Lumen Field",
       "city": "Seattle",
       "round": "Round of 32",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 3,
+        "scoreB": 2,
+        "winner": "Belgium"
+      }
     },
     {
       "home": "Spain",
@@ -1540,8 +1552,12 @@
       "venue": "Los Angeles Stadium",
       "city": "Los Angeles",
       "round": "Round of 32",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 3,
+        "scoreB": 0,
+        "winner": "Spain"
+      }
     },
     {
       "home": "Switzerland",
@@ -1555,8 +1571,12 @@
       "venue": "BC Place",
       "city": "Vancouver",
       "round": "Round of 32",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 2,
+        "scoreB": 0,
+        "winner": "Switzerland"
+      }
     },
     {
       "home": "Portugal",
@@ -1570,8 +1590,12 @@
       "venue": "BMO Field",
       "city": "Toronto",
       "round": "Round of 32",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 2,
+        "scoreB": 1,
+        "winner": "Portugal"
+      }
     },
     {
       "home": "Argentina",
@@ -1585,8 +1609,12 @@
       "venue": "Hard Rock Stadium",
       "city": "Miami Gardens",
       "round": "Round of 32",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 3,
+        "scoreB": 2,
+        "winner": "Argentina"
+      }
     },
     {
       "home": "Colombia",
@@ -1600,8 +1628,12 @@
       "venue": "Arrowhead Stadium",
       "city": "Kansas City",
       "round": "Round of 32",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 1,
+        "scoreB": 0,
+        "winner": "Colombia"
+      }
     },
     {
       "home": "Australia",
@@ -1615,11 +1647,135 @@
       "venue": "AT&T Stadium",
       "city": "Dallas",
       "round": "Round of 32",
+      "status": "completed",
+      "result": {
+        "scoreA": 1,
+        "scoreB": 1,
+        "winner": "Egypt"
+      }
+    },
+    {
+      "home": "Paraguay",
+      "away": "France",
+      "year": 2026,
+      "month": 7,
+      "day": 4,
+      "hour": 17,
+      "minute": 0,
+      "date": "Jul 4, 2026 · 5:00 PM",
+      "venue": "Philadelphia Stadium",
+      "city": "Philadelphia",
+      "round": "Round of 16",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "home": "Canada",
+      "away": "Morocco",
+      "year": 2026,
+      "month": 7,
+      "day": 4,
+      "hour": 13,
+      "minute": 0,
+      "date": "Jul 4, 2026 · 1:00 PM",
+      "venue": "NRG Stadium",
+      "city": "Houston",
+      "round": "Round of 16",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "home": "Brazil",
+      "away": "Norway",
+      "year": 2026,
+      "month": 7,
+      "day": 5,
+      "hour": 16,
+      "minute": 0,
+      "date": "Jul 5, 2026 · 4:00 PM",
+      "venue": "New York New Jersey Stadium",
+      "city": "New York/New Jersey",
+      "round": "Round of 16",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "home": "Mexico",
+      "away": "England",
+      "year": 2026,
+      "month": 7,
+      "day": 5,
+      "hour": 21,
+      "minute": 0,
+      "date": "Jul 5, 2026 · 9:00 PM",
+      "venue": "Mexico City Stadium",
+      "city": "Mexico City",
+      "round": "Round of 16",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "home": "Spain",
+      "away": "Portugal",
+      "year": 2026,
+      "month": 7,
+      "day": 6,
+      "hour": 15,
+      "minute": 0,
+      "date": "Jul 6, 2026 · 3:00 PM",
+      "venue": "AT&T Stadium",
+      "city": "Dallas",
+      "round": "Round of 16",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "home": "United States",
+      "away": "Belgium",
+      "year": 2026,
+      "month": 7,
+      "day": 6,
+      "hour": 16,
+      "minute": 0,
+      "date": "Jul 6, 2026 · 4:00 PM",
+      "venue": "Lumen Field",
+      "city": "Seattle",
+      "round": "Round of 16",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "home": "Argentina",
+      "away": "Egypt",
+      "year": 2026,
+      "month": 7,
+      "day": 7,
+      "hour": 12,
+      "minute": 0,
+      "date": "Jul 7, 2026 · 12:00 PM",
+      "venue": "Mercedes-Benz Stadium",
+      "city": "Atlanta",
+      "round": "Round of 16",
+      "status": "scheduled",
+      "result": null
+    },
+    {
+      "home": "Switzerland",
+      "away": "Colombia",
+      "year": 2026,
+      "month": 7,
+      "day": 7,
+      "hour": 20,
+      "minute": 0,
+      "date": "Jul 7, 2026 · 8:00 PM",
+      "venue": "BC Place",
+      "city": "Vancouver",
+      "round": "Round of 16",
       "status": "scheduled",
       "result": null
     }
   ],
   "tournament_active": true,
-  "tournament_stage": "Round of 32",
-  "last_updated": "2026-07-01T18:00:00Z"
+  "tournament_stage": "Round of 16",
+  "last_updated": "2026-07-04T09:00:00Z"
 }
