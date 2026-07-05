@@ -2,24 +2,21 @@
   "active_teams": [
     "Argentina",
     "Belgium",
-    "Brazil",
     "Colombia",
     "Egypt",
     "England",
     "France",
-    "Mexico",
     "Morocco",
     "Norway",
-    "Portugal",
     "Spain",
-    "Switzerland",
-    "United States"
+    "Switzerland"
   ],
   "eliminated_teams": [
     "Algeria",
     "Australia",
     "Austria",
     "Bosnia and Herzegovina",
+    "Brazil",
     "Cabo Verde",
     "Canada",
     "Croatia",
@@ -35,10 +32,12 @@
     "Ivory Coast",
     "Japan",
     "Jordan",
+    "Mexico",
     "Netherlands",
     "New Zealand",
     "Panama",
     "Paraguay",
+    "Portugal",
     "Qatar",
     "Saudi Arabia",
     "Scotland",
@@ -48,6 +47,7 @@
     "Sweden",
     "Tunisia",
     "Turkey",
+    "United States",
     "Uruguay",
     "Uzbekistan"
   ],
@@ -1704,8 +1704,12 @@
       "venue": "New York New Jersey Stadium",
       "city": "New York/New Jersey",
       "round": "Round of 16",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 1,
+        "scoreB": 2,
+        "winner": "Norway"
+      }
     },
     {
       "home": "Mexico",
@@ -1719,8 +1723,12 @@
       "venue": "Mexico City Stadium",
       "city": "Mexico City",
       "round": "Round of 16",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 0,
+        "scoreB": 2,
+        "winner": "England"
+      }
     },
     {
       "home": "Spain",
@@ -1734,8 +1742,12 @@
       "venue": "AT&T Stadium",
       "city": "Dallas",
       "round": "Round of 16",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 3,
+        "scoreB": 1,
+        "winner": "Spain"
+      }
     },
     {
       "home": "United States",
@@ -1749,8 +1761,12 @@
       "venue": "Lumen Field",
       "city": "Seattle",
       "round": "Round of 16",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 2,
+        "scoreB": 3,
+        "winner": "Belgium"
+      }
     },
     {
       "home": "Argentina",
@@ -1785,6 +1801,9 @@
   ],
   "tournament_active": true,
   "tournament_stage": "Round of 16",
-  "accuracy": { "correct": 74, "total": 90 },
-  "last_updated": "2026-07-05T00:00:00Z"
+  "accuracy": {
+    "correct": 77,
+    "total": 94
+  },
+  "last_updated": "2026-07-06T15:19:00Z"
 }
