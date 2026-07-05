@@ -3,7 +3,6 @@
     "Argentina",
     "Belgium",
     "Brazil",
-    "Canada",
     "Colombia",
     "Egypt",
     "England",
@@ -11,7 +10,6 @@
     "Mexico",
     "Morocco",
     "Norway",
-    "Paraguay",
     "Portugal",
     "Spain",
     "Switzerland",
@@ -23,6 +21,7 @@
     "Austria",
     "Bosnia and Herzegovina",
     "Cabo Verde",
+    "Canada",
     "Croatia",
     "Curacao",
     "Czechia",
@@ -39,6 +38,7 @@
     "Netherlands",
     "New Zealand",
     "Panama",
+    "Paraguay",
     "Qatar",
     "Saudi Arabia",
     "Scotland",
@@ -1655,21 +1655,6 @@
       }
     },
     {
-      "home": "Paraguay",
-      "away": "France",
-      "year": 2026,
-      "month": 7,
-      "day": 4,
-      "hour": 17,
-      "minute": 0,
-      "date": "Jul 4, 2026 · 5:00 PM",
-      "venue": "Philadelphia Stadium",
-      "city": "Philadelphia",
-      "round": "Round of 16",
-      "status": "scheduled",
-      "result": null
-    },
-    {
       "home": "Canada",
       "away": "Morocco",
       "year": 2026,
@@ -1681,8 +1666,31 @@
       "venue": "NRG Stadium",
       "city": "Houston",
       "round": "Round of 16",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 0,
+        "scoreB": 3,
+        "winner": "Morocco"
+      }
+    },
+    {
+      "home": "Paraguay",
+      "away": "France",
+      "year": 2026,
+      "month": 7,
+      "day": 4,
+      "hour": 17,
+      "minute": 0,
+      "date": "Jul 4, 2026 · 5:00 PM",
+      "venue": "Philadelphia Stadium",
+      "city": "Philadelphia",
+      "round": "Round of 16",
+      "status": "completed",
+      "result": {
+        "scoreA": 0,
+        "scoreB": 1,
+        "winner": "France"
+      }
     },
     {
       "home": "Brazil",
@@ -1777,5 +1785,5 @@
   ],
   "tournament_active": true,
   "tournament_stage": "Round of 16",
-  "last_updated": "2026-07-04T09:00:00Z"
+  "last_updated": "2026-07-05T00:00:00Z"
 }
