@@ -2,10 +2,12 @@
   "active_teams": [
     "Argentina",
     "Belgium",
+    "Brazil",
     "Colombia",
     "Egypt",
     "England",
     "France",
+    "Mexico",
     "Morocco",
     "Norway",
     "Portugal",
@@ -18,7 +20,6 @@
     "Australia",
     "Austria",
     "Bosnia and Herzegovina",
-    "Brazil",
     "Cabo Verde",
     "Canada",
     "Croatia",
@@ -34,7 +35,6 @@
     "Ivory Coast",
     "Japan",
     "Jordan",
-    "Mexico",
     "Netherlands",
     "New Zealand",
     "Panama",
@@ -1704,12 +1704,8 @@
       "venue": "New York New Jersey Stadium",
       "city": "New York/New Jersey",
       "round": "Round of 16",
-      "status": "completed",
-      "result": {
-        "scoreA": 1,
-        "scoreB": 2,
-        "winner": "Norway"
-      }
+      "status": "scheduled",
+      "result": null
     },
     {
       "home": "Mexico",
@@ -1723,12 +1719,8 @@
       "venue": "Mexico City Stadium",
       "city": "Mexico City",
       "round": "Round of 16",
-      "status": "completed",
-      "result": {
-        "scoreA": 0,
-        "scoreB": 2,
-        "winner": "England"
-      }
+      "status": "scheduled",
+      "result": null
     },
     {
       "home": "Spain",
@@ -1793,7 +1785,7 @@
   ],
   "tournament_active": true,
   "tournament_stage": "Round of 16",
-  "last_updated": "2026-07-05T18:00:00Z",
+  "last_updated": "2026-07-05T17:00:00Z",
   "accuracy": {
     "correct": 74,
     "total": 90
