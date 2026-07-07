@@ -2,24 +2,21 @@
   "active_teams": [
     "Argentina",
     "Belgium",
-    "Brazil",
     "Colombia",
     "Egypt",
     "England",
     "France",
-    "Mexico",
     "Morocco",
     "Norway",
-    "Portugal",
     "Spain",
-    "Switzerland",
-    "United States"
+    "Switzerland"
   ],
   "eliminated_teams": [
     "Algeria",
     "Australia",
     "Austria",
     "Bosnia and Herzegovina",
+    "Brazil",
     "Cabo Verde",
     "Canada",
     "Croatia",
@@ -35,10 +32,12 @@
     "Ivory Coast",
     "Japan",
     "Jordan",
+    "Mexico",
     "Netherlands",
     "New Zealand",
     "Panama",
     "Paraguay",
+    "Portugal",
     "Qatar",
     "Saudi Arabia",
     "Scotland",
@@ -48,6 +47,7 @@
     "Sweden",
     "Tunisia",
     "Turkey",
+    "United States",
     "Uruguay",
     "Uzbekistan"
   ],
@@ -1704,8 +1704,12 @@
       "venue": "New York New Jersey Stadium",
       "city": "New York/New Jersey",
       "round": "Round of 16",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 1,
+        "scoreB": 2,
+        "winner": "Norway"
+      }
     },
     {
       "home": "Mexico",
@@ -1713,29 +1717,37 @@
       "year": 2026,
       "month": 7,
       "day": 5,
-      "hour": 21,
+      "hour": 19,
       "minute": 0,
-      "date": "Jul 5, 2026 · 9:00 PM",
+      "date": "Jul 5, 2026 · 7:00 PM",
       "venue": "Mexico City Stadium",
       "city": "Mexico City",
       "round": "Round of 16",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 2,
+        "scoreB": 3,
+        "winner": "England"
+      }
     },
     {
-      "home": "Spain",
-      "away": "Portugal",
+      "home": "Portugal",
+      "away": "Spain",
       "year": 2026,
       "month": 7,
       "day": 6,
-      "hour": 15,
+      "hour": 14,
       "minute": 0,
-      "date": "Jul 6, 2026 · 3:00 PM",
-      "venue": "AT&T Stadium",
+      "date": "Jul 6, 2026 · 2:00 PM",
+      "venue": "Dallas Stadium",
       "city": "Dallas",
       "round": "Round of 16",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 0,
+        "scoreB": 1,
+        "winner": "Spain"
+      }
     },
     {
       "home": "United States",
@@ -1743,14 +1755,18 @@
       "year": 2026,
       "month": 7,
       "day": 6,
-      "hour": 16,
+      "hour": 17,
       "minute": 0,
-      "date": "Jul 6, 2026 · 4:00 PM",
-      "venue": "Lumen Field",
+      "date": "Jul 6, 2026 · 5:00 PM",
+      "venue": "Seattle Stadium",
       "city": "Seattle",
       "round": "Round of 16",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 1,
+        "scoreB": 4,
+        "winner": "Belgium"
+      }
     },
     {
       "home": "Argentina",
@@ -1773,9 +1789,9 @@
       "year": 2026,
       "month": 7,
       "day": 7,
-      "hour": 20,
+      "hour": 13,
       "minute": 0,
-      "date": "Jul 7, 2026 · 8:00 PM",
+      "date": "Jul 7, 2026 · 1:00 PM",
       "venue": "BC Place",
       "city": "Vancouver",
       "round": "Round of 16",
@@ -1783,8 +1799,8 @@
       "result": null
     },
     {
-      "home": "Morocco",
-      "away": "France",
+      "home": "France",
+      "away": "Morocco",
       "year": 2026,
       "month": 7,
       "day": 9,
@@ -1798,15 +1814,14 @@
       "result": null
     },
     {
-      "home": "TBD",
-      "away": "TBD",
-      "placeholder_label": "Winner: USA vs Belgium — Winner: Spain vs Portugal",
+      "home": "Belgium",
+      "away": "Spain",
       "year": 2026,
       "month": 7,
       "day": 10,
-      "hour": 15,
+      "hour": 12,
       "minute": 0,
-      "date": "Jul 10, 2026 · 3:00 PM",
+      "date": "Jul 10, 2026 · 12:00 PM",
       "venue": "Los Angeles Stadium",
       "city": "Los Angeles",
       "round": "Quarterfinal",
@@ -1814,9 +1829,8 @@
       "result": null
     },
     {
-      "home": "TBD",
-      "away": "TBD",
-      "placeholder_label": "Winner: Brazil vs Norway — Winner: Mexico vs England",
+      "home": "Norway",
+      "away": "England",
       "year": 2026,
       "month": 7,
       "day": 11,
@@ -1836,9 +1850,9 @@
       "year": 2026,
       "month": 7,
       "day": 11,
-      "hour": 21,
+      "hour": 20,
       "minute": 0,
-      "date": "Jul 11, 2026 · 9:00 PM",
+      "date": "Jul 11, 2026 · 8:00 PM",
       "venue": "Kansas City Stadium",
       "city": "Kansas City",
       "round": "Quarterfinal",
@@ -1848,13 +1862,13 @@
     {
       "home": "TBD",
       "away": "TBD",
-      "placeholder_label": "Winner: Morocco vs France — Winner: USA vs Belgium / Spain vs Portugal",
+      "placeholder_label": "Winner: France vs Morocco — Winner: USA vs Belgium / Portugal vs Spain",
       "year": 2026,
       "month": 7,
       "day": 14,
-      "hour": 15,
+      "hour": 14,
       "minute": 0,
-      "date": "Jul 14, 2026 · 3:00 PM",
+      "date": "Jul 14, 2026 · 2:00 PM",
       "venue": "Dallas Stadium",
       "city": "Dallas",
       "round": "Semifinal",
@@ -1864,13 +1878,13 @@
     {
       "home": "TBD",
       "away": "TBD",
-      "placeholder_label": "Winner: Brazil vs Norway / Mexico vs England — Winner: Argentina vs Egypt / Switzerland vs Colombia",
+      "placeholder_label": "Winner: Norway vs England — Winner: Argentina vs Egypt / Switzerland vs Colombia",
       "year": 2026,
       "month": 7,
       "day": 15,
-      "hour": 19,
+      "hour": 15,
       "minute": 0,
-      "date": "Jul 15, 2026 · 7:00 PM",
+      "date": "Jul 15, 2026 · 3:00 PM",
       "venue": "Atlanta Stadium",
       "city": "Atlanta",
       "round": "Semifinal",
@@ -1912,9 +1926,9 @@
   ],
   "tournament_active": true,
   "tournament_stage": "Round of 16",
-  "last_updated": "2026-07-05T18:00:00Z",
+  "last_updated": "2026-07-07T05:25:25Z",
   "accuracy": {
-    "correct": 74,
-    "total": 90
+    "correct": 75,
+    "total": 94
   }
 }
