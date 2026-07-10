@@ -4,7 +4,6 @@
     "Belgium",
     "England",
     "France",
-    "Morocco",
     "Norway",
     "Spain",
     "Switzerland"
@@ -33,6 +32,7 @@
     "Japan",
     "Jordan",
     "Mexico",
+    "Morocco",
     "Netherlands",
     "New Zealand",
     "Panama",
@@ -1818,8 +1818,12 @@
       "venue": "Boston Stadium",
       "city": "Boston",
       "round": "Quarterfinal",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 2,
+        "scoreB": 0,
+        "winner": "France"
+      }
     },
     {
       "home": "Belgium",
@@ -1867,9 +1871,9 @@
       "result": null
     },
     {
-      "home": "TBD",
+      "home": "France",
       "away": "TBD",
-      "placeholder_label": "Winner: France vs Morocco — Winner: Belgium vs Spain",
+      "placeholder_label": "Winner: Belgium vs Spain",
       "year": 2026,
       "month": 7,
       "day": 14,
@@ -1933,7 +1937,7 @@
   ],
   "tournament_active": true,
   "tournament_stage": "Quarterfinal",
-  "last_updated": "2026-07-08T02:55:35Z",
+  "last_updated": "2026-07-10T11:06:55Z",
   "accuracy": {
     "correct": 77,
     "total": 96
