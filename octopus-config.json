@@ -1,7 +1,6 @@
 {
   "active_teams": [
     "Argentina",
-    "Belgium",
     "England",
     "France",
     "Norway",
@@ -12,6 +11,7 @@
     "Algeria",
     "Australia",
     "Austria",
+    "Belgium",
     "Bosnia and Herzegovina",
     "Brazil",
     "Cabo Verde",
@@ -1837,8 +1837,12 @@
       "venue": "Los Angeles Stadium",
       "city": "Los Angeles",
       "round": "Quarterfinal",
-      "status": "scheduled",
-      "result": null
+      "status": "completed",
+      "result": {
+        "scoreA": 1,
+        "scoreB": 2,
+        "winner": "Spain"
+      }
     },
     {
       "home": "Norway",
@@ -1872,8 +1876,7 @@
     },
     {
       "home": "France",
-      "away": "TBD",
-      "placeholder_label": "Winner: Belgium vs Spain",
+      "away": "Spain",
       "year": 2026,
       "month": 7,
       "day": 14,
@@ -1937,9 +1940,9 @@
   ],
   "tournament_active": true,
   "tournament_stage": "Quarterfinal",
-  "last_updated": "2026-07-10T11:06:55Z",
+  "last_updated": "2026-07-11T01:13:26Z",
   "accuracy": {
-    "correct": 77,
-    "total": 96
+    "correct": 85,
+    "total": 98
   }
 }
