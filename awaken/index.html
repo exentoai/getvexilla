@@ -207,8 +207,9 @@
     }
     .hero-collage img {
       position: absolute;
-      object-fit: cover;
-      object-position: center top;
+      object-fit: contain;
+      object-position: center bottom;
+      background: #0a0a10;
       border-radius: 24px;
       border: 1px solid rgba(255, 255, 255, 0.1);
       box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
@@ -252,20 +253,11 @@
     }
     .outcomes span { color: var(--dim); font-size: 14px; line-height: 1.45; }
 
-    .band { position: relative; margin: 0 0 20px; }
+    .band { position: relative; margin: 0 0 8px; }
     .band img {
       width: 100%;
-      height: min(70vh, 720px);
-      object-fit: cover;
-      object-position: center 42%;
+      height: auto;
       display: block;
-    }
-    .band::after {
-      content: "";
-      position: absolute;
-      left: 0; right: 0; bottom: 0;
-      height: 140px;
-      background: linear-gradient(transparent, var(--bg));
     }
 
     section.block { padding: 88px 0; }
@@ -338,9 +330,10 @@
     }
     .form img {
       width: 100%;
-      height: 280px;
-      object-fit: cover;
-      object-position: center 15%;
+      height: 300px;
+      object-fit: contain;
+      object-position: center bottom;
+      background: #0a0a10;
       display: block;
     }
     .form span {
@@ -422,12 +415,16 @@
       max-width: 62ch;
     }
 
+    .closer {
+      display: flex;
+      justify-content: center;
+      padding: 8px 24px 0;
+    }
     .closer img {
-      width: 100%;
-      height: min(82vh, 860px);
-      object-fit: cover;
-      object-position: center 30%;
+      width: min(640px, 100%);
+      height: auto;
       display: block;
+      border-radius: 28px;
     }
     .final {
       text-align: center;
@@ -638,11 +635,13 @@
         </div>
         <div class="rail" style="margin-top: 36px" aria-label="Physiques you can train for">
           <article class="form"><img src="media/forms/vtaper.jpg" alt="" width="603" height="900" loading="lazy" /><span>V-Taper</span></article>
+          <article class="form"><img src="media/forms/heroine.jpg" alt="" width="550" height="558" loading="lazy" /><span>Heroine</span></article>
           <article class="form"><img src="media/forms/athletic.jpg" alt="" width="603" height="900" loading="lazy" /><span>Athletic</span></article>
+          <article class="form"><img src="media/forms/sculpted.jpg" alt="" width="370" height="506" loading="lazy" /><span>Sculpted</span></article>
           <article class="form"><img src="media/forms/mass.jpg" alt="" width="603" height="900" loading="lazy" /><span>Mass</span></article>
+          <article class="form"><img src="media/forms/tomboy.jpg" alt="" width="530" height="558" loading="lazy" /><span>Muscle Mommy</span></article>
           <article class="form"><img src="media/forms/protagonist.jpg" alt="" width="603" height="900" loading="lazy" /><span>Protagonist</span></article>
           <article class="form"><img src="media/forms/healthier.jpg" alt="" width="603" height="900" loading="lazy" /><span>Just Healthier</span></article>
-          <article class="form"><img src="media/forms/tomboy.jpg" alt="" width="900" height="490" loading="lazy" /><span>Muscle Mommy</span></article>
         </div>
       </section>
     </div>
