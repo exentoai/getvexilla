@@ -457,6 +457,73 @@
       display: none;
     }
 
+    .nav-early {
+      display: inline-flex;
+      align-items: center;
+      height: 40px;
+      padding: 0 14px;
+      border-radius: 8px;
+      background: var(--red);
+      color: #fff;
+      text-decoration: none;
+      font-family: var(--title);
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .nav-early:hover { background: var(--red-deep); }
+    .early { margin-top: 28px; max-width: 460px; }
+    .early-lead { margin: 0 0 14px; color: var(--muted); font-size: 16px; max-width: 42ch; }
+    .early-row { display: flex; gap: 8px; }
+    .early input[type="email"] {
+      flex: 1;
+      min-width: 0;
+      height: 48px;
+      padding: 0 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: #000;
+      color: var(--ink);
+      font: inherit;
+      font-size: 15px;
+    }
+    .early input[type="email"]:focus-visible {
+      outline: 2px solid var(--red);
+      outline-offset: 2px;
+    }
+    .early button {
+      height: 48px;
+      padding: 0 16px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--red);
+      color: #fff;
+      font-family: var(--title);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      font-size: 14px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .early button:hover { background: var(--red-deep); }
+    .early button:disabled { opacity: 0.7; cursor: default; }
+    .early-note { margin: 10px 0 0; color: var(--dim); font-size: 13px; }
+    .early-status { margin: 10px 0 0; min-height: 1.2em; font-size: 14px; }
+    .early-status.ok { color: #b6f5c4; }
+    .early-status.err { color: #ff9b9b; }
+    .final .early { margin-left: auto; margin-right: auto; text-align: left; }
+    .early-dock { display: none; }
+
+    body:not(.stores-live) .nav-stores,
+    body:not(.stores-live) .hero-stores,
+    body:not(.stores-live) .final .stores,
+    body:not(.stores-live) .foot-stores,
+    body:not(.stores-live) .dock { display: none; }
+    body.stores-live .early,
+    body.stores-live .nav-early,
+    body.stores-live .early-dock { display: none; }
+
     .js .reveal { animation: rise 0.7s ease both; }
     @keyframes rise {
       from { opacity: 0; transform: translateY(16px); }
@@ -493,6 +560,27 @@
       .store svg { width: 14px; height: 14px; }
       .store strong { font-size: 11.5px; }
       .store small { font-size: 6.5px; }
+      .nav-early { display: none; }
+      .early-row { flex-direction: column; }
+      .early button { width: 100%; }
+      body:not(.stores-live) .early-dock {
+        display: flex;
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        bottom: calc(10px + env(safe-area-inset-bottom));
+        z-index: 60;
+        height: 48px;
+        align-items: center;
+        justify-content: center;
+        background: var(--red);
+        color: #fff;
+        text-decoration: none;
+        font-family: var(--title);
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        border-radius: 10px;
+      }
       .wrap { padding: 0 16px; }
       .dock {
         display: flex;
@@ -541,6 +629,7 @@
       <a href="#rank">The rank</a>
       <a href="#questions">Questions</a>
     </nav>
+    <a class="nav-early" href="#early">Get the link</a>
     <div class="nav-stores">
       <a class="store ios" data-store="ios" href="#">
         <svg viewBox="0 0 16 18" aria-hidden="true"><path fill="#fff" d="M13.2 9.5c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.2-2.8.8-3.5.8-.8 0-1.9-.8-3.1-.8-1.6 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.1 0 1.6-.7 3-.7s1.8.7 3 .7 2-1.1 2.8-2.3c.9-1.2 1.2-2.4 1.2-2.5-.1 0-2.3-.9-2.3-3.8zM10.7 2.9c.6-.8 1.1-1.8.9-2.9-1 .1-2.1.7-2.8 1.5-.6.7-1.1 1.8-.9 2.8 1.1.1 2.1-.5 2.8-1.4z"/></svg>
@@ -566,6 +655,15 @@
           <h1>The physique<br>you want.</h1>
           <p class="hero-line">From the body you have.</p>
           <p class="lead">See where you stand. Train at home or in a gym. Every seven days, the work changes with what you actually did.</p>
+          <form class="early" id="early" novalidate>
+            <p class="early-lead">Leave your email. The day Awaken hits the App Store or Google Play, that link lands in your inbox.</p>
+            <div class="early-row">
+              <input name="email" type="email" autocomplete="email" inputmode="email" required maxlength="200" placeholder="Email address" aria-label="Email address" />
+              <button type="submit">Send me the link</button>
+            </div>
+            <p class="early-note">One email. The store link. Nothing else.</p>
+            <p class="early-status" role="status"></p>
+          </form>
           <div class="hero-stores">
             <a class="store ios" data-store="ios" href="#">
               <svg viewBox="0 0 16 18" aria-hidden="true"><path fill="#fff" d="M13.2 9.5c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.2-2.8.8-3.5.8-.8 0-1.9-.8-3.1-.8-1.6 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.1 0 1.6-.7 3-.7s1.8.7 3 .7 2-1.1 2.8-2.3c.9-1.2 1.2-2.4 1.2-2.5-.1 0-2.3-.9-2.3-3.8zM10.7 2.9c.6-.8 1.1-1.8.9-2.9-1 .1-2.1.7-2.8 1.5-.6.7-1.1 1.8-.9 2.8 1.1.1 2.1-.5 2.8-1.4z"/></svg>
@@ -737,6 +835,10 @@
         <h2>Straight answers.</h2>
         <div class="faq-list">
           <details>
+            <summary>When can I download it?</summary>
+            <p>Leave your email on this page. The day Awaken is on the App Store or Google Play, we send that link. One email.</p>
+          </details>
+          <details>
             <summary>Do I need a gym?</summary>
             <p>No. Say you train at home and list what you have. The sessions change. The physique you’re chasing doesn’t.</p>
           </details>
@@ -767,6 +869,15 @@
     <section class="final">
       <h2>You were ready to train.</h2>
       <p>You needed the week to match the body you want. That’s Awaken.</p>
+      <form class="early" novalidate>
+        <p class="early-lead">Leave your email. The day Awaken hits the App Store or Google Play, that link lands in your inbox.</p>
+        <div class="early-row">
+          <input name="email" type="email" autocomplete="email" inputmode="email" required maxlength="200" placeholder="Email address" aria-label="Email address" />
+          <button type="submit">Send me the link</button>
+        </div>
+        <p class="early-note">One email. The store link. Nothing else.</p>
+        <p class="early-status" role="status"></p>
+      </form>
       <div class="stores">
         <a class="store ios" data-store="ios" href="#">
           <svg viewBox="0 0 16 18" aria-hidden="true"><path fill="#fff" d="M13.2 9.5c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.2-2.8.8-3.5.8-.8 0-1.9-.8-3.1-.8-1.6 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.1 0 1.6-.7 3-.7s1.8.7 3 .7 2-1.1 2.8-2.3c.9-1.2 1.2-2.4 1.2-2.5-.1 0-2.3-.9-2.3-3.8zM10.7 2.9c.6-.8 1.1-1.8.9-2.9-1 .1-2.1.7-2.8 1.5-.6.7-1.1 1.8-.9 2.8 1.1.1 2.1-.5 2.8-1.4z"/></svg>
@@ -817,6 +928,7 @@
     </div>
   </footer>
 
+  <a class="early-dock" href="#early">Get the link</a>
   <div class="dock" aria-label="Download">
     <a class="store ios" data-store="ios" href="#">
       <svg viewBox="0 0 16 18" aria-hidden="true"><path fill="#fff" d="M13.2 9.5c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.2-2.8.8-3.5.8-.8 0-1.9-.8-3.1-.8-1.6 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.1 0 1.6-.7 3-.7s1.8.7 3 .7 2-1.1 2.8-2.3c.9-1.2 1.2-2.4 1.2-2.5-.1 0-2.3-.9-2.3-3.8zM10.7 2.9c.6-.8 1.1-1.8.9-2.9-1 .1-2.1.7-2.8 1.5-.6.7-1.1 1.8-.9 2.8 1.1.1 2.1-.5 2.8-1.4z"/></svg>
@@ -842,6 +954,9 @@
       android: ""
     };
 
+    const live = Boolean(STORE_URLS.ios || STORE_URLS.android);
+    if (live) document.body.classList.add("stores-live");
+
     document.querySelectorAll("[data-store]").forEach((el) => {
       const url = STORE_URLS[el.dataset.store];
       if (url) {
@@ -851,6 +966,51 @@
       } else {
         el.addEventListener("click", (event) => event.preventDefault());
       }
+    });
+
+    const SUPABASE_URL = "https://pmmalxoygktnafpoddok.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_sL7Wvi2Xp5r8BkWju-jOLw_u9TnqasV";
+
+    document.querySelectorAll(".early").forEach((form) => {
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const status = form.querySelector(".early-status");
+        const input = form.querySelector('input[name="email"]');
+        const button = form.querySelector("button");
+        const email = input.value.trim().toLowerCase();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          status.textContent = "Enter a real email address.";
+          status.className = "early-status err";
+          return;
+        }
+        button.disabled = true;
+        status.textContent = "";
+        status.className = "early-status";
+        try {
+          const res = await fetch(SUPABASE_URL + "/rest/v1/launch_signups", {
+            method: "POST",
+            headers: {
+              apikey: SUPABASE_ANON_KEY,
+              Authorization: "Bearer " + SUPABASE_ANON_KEY,
+              "Content-Type": "application/json",
+              Prefer: "return=minimal",
+            },
+            body: JSON.stringify({ email }),
+          });
+          if (!res.ok && res.status !== 409) throw new Error("save");
+          document.querySelectorAll(".early").forEach((other) => {
+            const note = other.querySelector(".early-status");
+            note.textContent = "You’re on the list. We’ll email the download link the day Awaken is live.";
+            note.className = "early-status ok";
+            other.querySelector("button").disabled = true;
+            other.querySelector('input[name="email"]').value = email;
+          });
+        } catch (_) {
+          status.textContent = "Couldn’t save that. Try again in a minute.";
+          status.className = "early-status err";
+          button.disabled = false;
+        }
+      });
     });
 
     const nav = document.querySelector(".nav");
