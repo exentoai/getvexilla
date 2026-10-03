@@ -61,7 +61,7 @@
   <div class="container">
     <div class="brand">Awaken · Exento AI</div>
     <h1>Privacy Policy</h1>
-    <p class="updated">LAST UPDATED: SEPTEMBER 30, 2026</p>
+    <p class="updated">LAST UPDATED: OCTOBER 3, 2026</p>
 
     <h2>1. Introduction</h2>
     <p>Exento AI (“we”, “our”, “us”) operates the Awaken mobile application on iOS and Android. This Privacy Policy explains how we collect, use, and protect information when you use Awaken. By using the app, you agree to this policy.</p>
@@ -73,7 +73,7 @@
       <li><strong>Account identifier.</strong> Awaken uses anonymous sign-in. We do not require your name or email to train. If you later set a display name, nickname, or hunter bio, we store those.</li>
       <li><strong>Onboarding profile.</strong> Age, sex, height, weight, training experience, location (gym vs home), equipment, habits, limitations, supplements, session length, and goal physique. Used to build your weekly plan and calorie targets.</li>
       <li><strong>Training data.</strong> Weekly plans, workout logs (sets, reps, load), rest days, streak, XP, ranks, and badges.</li>
-      <li><strong>Physique photos (optional).</strong> If you take or upload a body scan, the image is sent to our servers to generate a private rank report (including estimated body-fat range and muscle notes). Photos are stored so you can review history. Physique scans are never shown on the public hunter board.</li>
+      <li><strong>Physique photos (optional).</strong> If you take or upload a body scan, and only after you tap Allow in the app, the image is uploaded to our servers and sent to OpenAI to generate a private rank report (including estimated body-fat range and muscle notes). Photos are stored so you can review history. Physique scans are never shown on the public hunter board. If you tap Don’t Allow, the photo is not uploaded and is not sent to OpenAI.</li>
       <li><strong>Profile photo (optional).</strong> A separate avatar you choose for the leaderboard. This is not your scan photo.</li>
       <li><strong>Public hunter card.</strong> Nickname, optional avatar, XP, streak, and rank may be visible to other Awaken users on the board. Workouts, body stats, and scan photos are not.</li>
       <li><strong>Device data.</strong> App version, crash/performance signals, and (if analytics is enabled) coarse usage events such as screens viewed and feature taps. We do not sell this.</li>
@@ -84,7 +84,7 @@
     <h2>3. How We Use Information</h2>
     <ul>
       <li>Create and restore your anonymous session on this device</li>
-      <li>Generate weekly training plans and physique reports with AI</li>
+      <li>Generate weekly training plans and physique reports with OpenAI, only after you tap Allow in the app</li>
       <li>Log workouts, streaks, XP, and badges</li>
       <li>Unlock Awaken Premium according to your App Store or Google Play subscription</li>
       <li>Send optional local reminders you enable in the app (workout, streak, weekly plan)</li>
@@ -96,15 +96,24 @@
 
     <h2>4. Permissions</h2>
     <ul>
-      <li><strong>Camera / photo library.</strong> Only to capture or pick a physique scan or profile photo. You can skip the body scan and still train.</li>
+      <li><strong>Camera / photo library.</strong> Only to capture or pick a physique scan or profile photo. You can skip the body scan and still train. Camera access is separate from permission to send a photo to OpenAI. Awaken asks for that sharing permission in the app before any photo or profile is transmitted.</li>
       <li><strong>Notifications.</strong> Optional. Used for reminders you turn on. We do not send marketing push from a third-party ESP as a condition of using Awaken.</li>
     </ul>
 
     <h2>5. Third-Party Services</h2>
+    <p>Before Awaken sends personal data to OpenAI, the app tells you what is sent, names OpenAI as the recipient, and asks you to tap Allow. Nothing is sent to OpenAI if you tap Don’t Allow. In that case Awaken does not generate an AI physique report or an AI weekly plan.</p>
+    <p>What is sent to OpenAI, only after you allow it:</p>
+    <ul>
+      <li>Your physique photo, if you take or choose one</li>
+      <li>Profile you entered: age range, sex, height, weight, goals, training experience, schedule, equipment, limitations, sleep, steps, and supplements</li>
+      <li>Notes from an earlier physique report, when you do a check-in</li>
+      <li>Workout logs (exercises, sets, reps, and loads) when a later training week is built</li>
+    </ul>
+    <p>OpenAI (openai.com) uses that data to generate your physique report and weekly training plan. OpenAI provides the same or equal protection of this data. OpenAI’s API terms say inputs are not used to train their models. We do not sell this data, and we do not use physique photos for advertising. See <a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener">OpenAI’s privacy policy</a>.</p>
     <p>These processors help us run Awaken. They receive only what is needed for their role:</p>
     <ul>
-      <li><a href="https://supabase.com/privacy" target="_blank" rel="noopener">Supabase</a> — authentication, database, and file storage (including scan and avatar images).</li>
-      <li><a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener">OpenAI</a> — physique photo analysis and weekly plan generation. Scan images and profile context are sent for that purpose.</li>
+      <li><a href="https://supabase.com/privacy" target="_blank" rel="noopener">Supabase</a> — authentication, database, and file storage (including scan and avatar images, after you allow a scan).</li>
+      <li><a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener">OpenAI</a> — physique photo analysis and weekly plan generation, only after you tap Allow. Scan images, the profile fields listed above, and workout logs are sent for that purpose. OpenAI provides the same or equal protection of this data.</li>
       <li><a href="https://www.revenuecat.com/privacy" target="_blank" rel="noopener">RevenueCat</a> — subscription status. We never see your full card number.</li>
       <li>Apple App Store and Google Play — payment processing and restore purchases.</li>
       <li><a href="https://posthog.com/privacy" target="_blank" rel="noopener">PostHog</a> — product analytics when configured. Events are usage signals, not your workout numbers or photos.</li>
