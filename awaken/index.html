@@ -901,7 +901,7 @@
       <div>
         <strong style="color: var(--ink); font-family: var(--title); letter-spacing: 0.16em; font-size: 12px;">AWAKEN</strong>
         <p class="fine">A training app by Exento AI. Not medical advice.</p>
-        <p class="fine">© 2026 Exento AI. <a href="mailto:exento.ai@gmail.com">exento.ai@gmail.com</a></p>
+        <p class="fine">© 2026 Exento AI. <a href="https://play.google.com/store/apps/details?id=com.exentoai.awaken">Google Play</a></p>
       </div>
       <div>
         <div class="foot-stores" style="margin-bottom: 14px">
@@ -948,10 +948,9 @@
   <script>
     // Paste store URLs when the apps are live. Every badge on the page uses these.
     // ios:     https://apps.apple.com/app/idXXXXXXXX
-    // android: https://play.google.com/store/apps/details?id=com.exentoai.awaken
     const STORE_URLS = {
       ios: "",
-      android: ""
+      android: "https://play.google.com/store/apps/details?id=com.exentoai.awaken"
     };
 
     const live = Boolean(STORE_URLS.ios || STORE_URLS.android);
@@ -964,6 +963,7 @@
         el.target = "_blank";
         el.rel = "noopener noreferrer";
       } else {
+        el.hidden = true;
         el.addEventListener("click", (event) => event.preventDefault());
       }
     });
